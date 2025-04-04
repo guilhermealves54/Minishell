@@ -1,0 +1,9 @@
+# System files
+.DS_Store
+.vscode
+
+# Executables
+*.out
+
+# Temp files
+*.swp
