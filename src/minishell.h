@@ -37,7 +37,7 @@ typedef struct s_env
 	struct s_env	*prev;
 }	t_env;
 
-// Var Struct
+// Var Structs
 typedef struct s_iter
 {
 	int		i;
@@ -45,6 +45,16 @@ typedef struct s_iter
 	int		start;
 	char	**av;
 }	t_iter;
+
+//	Used in expand.c
+typedef struct s_exp
+{
+	char	*first;
+	char	*last;
+	char	*var;
+	int		start;
+	char	*content;
+}	t_exp;
 
 // Main Struct
 typedef struct s_mini
@@ -55,23 +65,38 @@ typedef struct s_mini
 	char	**av;
 	int		ppid;
 	t_env	*export;
+	t_exp	expand;
 	int		exit_status;
 }	t_mini;
 
-// Funcs -----
+//	Funcs
 
-// Printf_fd
+//	Printf_fd
 int		ft_printf_fd(const char *format, ...);
 
-// Initialization
+//	Initialization
 t_mini	init(char **envp);
 int		ft_getpid(void);
 char	*get_input(char *prompt);
 
-// Signal functions
+//	Signals
 void	setup_signals(void);
 
-// Memory Clean
+//	Expand
+char	*expand(char *s, t_mini *ms);
+
+//	Parsing
+int		parsing(t_mini *mini);
+
+//	Builtins
+void	print_echo(char **av);
+
+//	Helper functions
+char	**ft_split_quotes(char *s, char c, int option);
+char	*get_str(char *s, int start, int end, int option);
+void	update_i(char *s, int *i, char c);
+
+//	Memory Clean
 void	clean_list(t_mini *ms);
 
 #endif
