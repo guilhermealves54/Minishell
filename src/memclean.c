@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/05 13:46:23 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:04:50 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,10 @@ void	clean_list(t_mini *ms)
 		free(ms->export);
 		ms->export = tmp;
 	}
+}
+
+void	split_memfree(t_mini *ms)
+{
+	free_mem(ms->av);
+	free_mem(ms->ap);
 }

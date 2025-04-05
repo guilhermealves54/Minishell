@@ -35,7 +35,7 @@ int	main(int argc, char *argv[], char **envp)
 			ms.ap = ft_split_quotes(ms.input, '|', 0);
 			if (parsing(&ms))
 				print_echo(ms.av);
-			mem_clean(&ms);
+			split_memfree(&ms);
 		}
 		free(ms.input);
 	}
@@ -56,9 +56,3 @@ static void	eof_exit(t_mini *ms)
 	clean_list(&ms);
 	exit(0);
 }
-
-/* static void	mem_clean(t_mini *ms)
-{
-	free_mem(ms->av);
-	free_mem(ms->ap);
-} */

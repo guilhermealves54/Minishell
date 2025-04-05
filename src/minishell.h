@@ -98,5 +98,6 @@ void	update_i(char *s, int *i, char c);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);
+void	split_memfree(t_mini *ms);
 
 #endif
