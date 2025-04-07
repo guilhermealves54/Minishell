@@ -33,10 +33,10 @@ int	main(int argc, char *argv[], char **envp)
 			if (check_closed_quotes(ms.input))
 			{
 				ms.input = expand(ms.input, &ms);
-				ms.av = ft_split_quotes(ms.input, ' ', 0);
-				ms.ap = ft_split_quotes(ms.input, '|', 0);
+				ms.av = ft_split_quotes(ms.input, ' ');
+				ms.ap = ft_split_quotes(ms.input, '|');
 				if (parsing(&ms))
-					print_echo(ms.av);
+					execute_cmd(&ms);
 				split_memfree(&ms);
 			}
 		}

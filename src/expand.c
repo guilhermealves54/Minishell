@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 17:42:50 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:06:10 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	expand_quotes(char **s, int *a, t_mini *ms)
 static char	*expand_dollar(char *s, int i, t_mini *ms)
 {
 	ms->expand.content = NULL;
-	ms->expand.first = get_str(s, 0, i, 0);
+	ms->expand.first = get_str(s, 0, i);
 	if (ft_isdigit(s[++i]))
 	{
 		if (s[i++] == '0')
@@ -72,7 +72,7 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 		ms->expand.start = i;
 		while (ft_isalnum(s[i]))
 			i++;
-		ms->expand.var = get_str(s, ms->expand.start, i, 0);
+		ms->expand.var = get_str(s, ms->expand.start, i);
 		ms->expand.content = ft_strdup(ft_getenv(ms->expand.var, ms));
 		free(ms->expand.var);
 	}

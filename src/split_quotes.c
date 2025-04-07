@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:08:44 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 16:38:25 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:04:37 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 static void	skip_slash(char *s, int *i);
 static int	count_strings(char *s, char c);
-char		*get_str(char *s, int start, int end, int option);
+char		*get_str(char *s, int start, int end);
 void		update_i(char *s, int *i, char c);
 
 // split with quotes
-// option 1 removes quotes 0 not
-char	**ft_split_quotes(char *s, char c, int option)
+char	**ft_split_quotes(char *s, char c)
 {
 	int		i;
 	int		j;
@@ -40,7 +39,7 @@ char	**ft_split_quotes(char *s, char c, int option)
 		start = i;
 		while (s[i] && s[i] != c)
 			skip_slash(s, &i);
-		av[j++] = get_str(s, start, i, option);
+		av[j++] = get_str(s, start, i);
 		if (!av[j - 1])
 			return (free_mem(av), NULL);
 	}
@@ -81,8 +80,7 @@ static int	count_strings(char *s, char c)
 }
 
 // get string between 2 ends
-// 1 removes quotes 0 not
-char	*get_str(char *s, int start, int end, int option)
+char	*get_str(char *s, int start, int end)
 {
 	int		i;
 	char	*str;
@@ -92,16 +90,7 @@ char	*get_str(char *s, int start, int end, int option)
 	if (!str)
 		return (NULL);
 	while (start < end)
-	{
-		if (option && (s[start] == '\'' || s[start] == '\"'))
-		{
-			start++;
-		}
-		else
-		{
-			str[i++] = s[start++];
-		}
-	}
+		str[i++] = s[start++];
 	str[i] = '\0';
 	return (str);
 }

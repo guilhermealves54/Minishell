@@ -88,12 +88,15 @@ char	*expand(char *s, t_mini *ms);
 //	Parsing
 int		parsing(t_mini *mini);
 
+//	Execute CMD
+int	execute_cmd(t_mini *ms);
+
 //	Builtins
 void	print_echo(char **av);
 
 //	Helper functions
-char	**ft_split_quotes(char *s, char c, int option);
-char	*get_str(char *s, int start, int end, int option);
+char	**ft_split_quotes(char *s, char c);
+char	*get_str(char *s, int start, int end);
 void	update_i(char *s, int *i, char c);
 int		check_closed_quotes(char *input);
 int		char_quotes(char c);
