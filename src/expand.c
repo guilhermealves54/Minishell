@@ -6,15 +6,16 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/05 14:50:31 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:42:50 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expand_quotes(char **s, int *a, t_mini *ms);
-char	*expand_dollar(char *s, int i, t_mini *ms);
-char	*ft_join_3(char *first, char *content, char *last);
+static void	expand_quotes(char **s, int *a, t_mini *ms);
+static char	*expand_dollar(char *s, int i, t_mini *ms);
+static char	*ft_join_3(char *first, char *content, char *last);
+static char	*ft_getenv(char *var, t_mini *ms);
 
 char	*expand(char *s, t_mini *ms)
 {
@@ -62,7 +63,7 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 	if (ft_isdigit(s[++i]))
 	{
 		if (s[i++] == '0')
-			ms->expand.content = "minishell";
+			ms->expand.content = ft_strdup("minishell");
 	}
 	else if (s[i] == '$')
 		ms->expand.content = ft_itoa(ms->ppid);
@@ -71,8 +72,8 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 		ms->expand.start = i;
 		while (ft_isalnum(s[i]))
 			i++;
-		ms->expand.var = get_str(s, ms.expand.start, i, 0);
-		ms->expand.content = getenv(ms->expand.var);
+		ms->expand.var = get_str(s, ms->expand.start, i, 0);
+		ms->expand.content = ft_strdup(ft_getenv(ms->expand.var, ms));
 		free(ms->expand.var);
 	}
 	ms->expand.last = ft_join_3(ms->expand.first, ms->expand.content, s + i);
@@ -87,11 +88,10 @@ static char	*ft_join_3(char *first, char *content, char *last)
 	if (content)
 	{
 		temp = ft_strjoin(first, content);
+		free_2strings(first, content);
 		final = ft_strjoin(temp, last);
-		if (s)
-			free(s);
-		if (s1)
-			free(s1);
+		if (temp)
+			free(temp);
 	}
 	else
 	{
@@ -99,4 +99,18 @@ static char	*ft_join_3(char *first, char *content, char *last)
 		free(first);
 	}
 	return (final);
+}
+
+static char	*ft_getenv(char *var, t_mini *ms)
+{
+	t_env	*temp;
+
+	temp = ms->export;
+	while (temp)
+	{
+		if (ft_strcmp(var, temp->var) == 0)
+			return (temp->content);
+		temp = temp->next;
+	}
+	return (NULL);
 }

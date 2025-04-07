@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 15:55:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/07 17:01:49 by gribeiro         ###   ########.fr       */
+/*   Created: 2025/04/07 15:54:13 by gribeiro          #+#    #+#             */
+/*   Updated: 2025/04/07 16:06:31 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+int	check_closed_quotes(char *input)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			update_i(input, &i, input[i]);
+			if (!input[i])
+			{
+				printf("Not closed quotes\n");
+				return (0);
+			}
+		}
 		i++;
-	return (i);
+	}
+	return (1);
 }
-/*
-int main()
+
+int	char_quotes(char c)
 {
-	char c[] = "Rui ";
-	printf("%li\n", ft_strlen(c));
+	if (c == '\'' || c == '\"')
+		return (1);
+	return (0);
 }
-*/

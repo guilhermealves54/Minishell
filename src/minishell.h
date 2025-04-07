@@ -95,9 +95,13 @@ void	print_echo(char **av);
 char	**ft_split_quotes(char *s, char c, int option);
 char	*get_str(char *s, int start, int end, int option);
 void	update_i(char *s, int *i, char c);
+int		check_closed_quotes(char *input);
+int		char_quotes(char c);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);
+void	free_mem(char **av);
 void	split_memfree(t_mini *ms);
+void	free_2strings(char *s1, char *s2);
 
 #endif

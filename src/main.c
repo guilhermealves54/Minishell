@@ -28,14 +28,17 @@ int	main(int argc, char *argv[], char **envp)
 		ms.input = get_input(ms.prompt);
 		if (!ms.input)
 			eof_exit(&ms);
-		if (check_closed_quotes(ms.input))
+		if (ms.input[0])
 		{
-			ms.input = expand(ms.input, &ms);
-			ms.av = ft_split_quotes(ms.input, ' ', 0);
-			ms.ap = ft_split_quotes(ms.input, '|', 0);
-			if (parsing(&ms))
-				print_echo(ms.av);
-			split_memfree(&ms);
+			if (check_closed_quotes(ms.input))
+			{
+				ms.input = expand(ms.input, &ms);
+				ms.av = ft_split_quotes(ms.input, ' ', 0);
+				ms.ap = ft_split_quotes(ms.input, '|', 0);
+				if (parsing(&ms))
+					print_echo(ms.av);
+				split_memfree(&ms);
+			}
 		}
 		free(ms.input);
 	}
@@ -53,6 +56,6 @@ static void	check_argc(int argc, char **argv)
 static void	eof_exit(t_mini *ms)
 {
 	printf("exit\n");
-	clean_list(&ms);
+	clean_list(ms);
 	exit(0);
 }

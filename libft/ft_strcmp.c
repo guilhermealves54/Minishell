@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/18 15:55:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/07 17:01:49 by gribeiro         ###   ########.fr       */
+/*   Created: 2025/04/07 17:22:21 by gribeiro          #+#    #+#             */
+/*   Updated: 2025/04/07 17:27:40 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_strcmp(char *s1, char *s2)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
-	return (i);
+	if (!s1[i] && !s2[i])
+		return (0);
+	return (1);
 }
-/*
-int main()
-{
-	char c[] = "Rui ";
-	printf("%li\n", ft_strlen(c));
-}
-*/

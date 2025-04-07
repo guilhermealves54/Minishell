@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:32 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/04 18:28:38 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/07 17:42:12 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static void	create_node(t_env **head, char *s)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return ;
-	node->content = s;
 	node->var = get_var(s);
+	node->content = ft_strdup(s + ft_strlen(node->var) + 1);
 	node->next = NULL;
 	if (!(*head))
 	{

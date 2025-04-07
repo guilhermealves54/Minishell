@@ -6,13 +6,13 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:08:44 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/05 14:56:08 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:38:25 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	skip_slash(char *s, int *i);
+static void	skip_slash(char *s, int *i);
 static int	count_strings(char *s, char c);
 char		*get_str(char *s, int start, int end, int option);
 void		update_i(char *s, int *i, char c);
@@ -48,11 +48,11 @@ char	**ft_split_quotes(char *s, char c, int option)
 	return (av);
 }
 
-static int	skip_slash(char *s, int *i)
+static void	skip_slash(char *s, int *i)
 {
-	if (s[i] == '\'' || s[i] == '\"')
-		update_i(s, &i, s[i]);
-	i++;
+	if (s[*i] == '\'' || s[*i] == '\"')
+		update_i(s, i, s[*i]);
+	(*i)++;
 }
 
 // count strings - ft_split with quotes

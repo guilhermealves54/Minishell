@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:07:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/05 14:57:22 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/07 16:12:27 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,18 @@ static int	redir_err2(char c, char a, int i, t_mini *mini)
 	d = get_last_char(mini);
 	if (i > 2)
 	{
-		ft_printf("minishell: syntax error near unexpected token `%c'\n", c);
+		ft_printf_fd("minishell: syntax error near unexpected token `%c'\n", c);
 		return (1);
 	}
 	if (char_redir(a))
 	{
-		ft_printf("minishell: syntax error near unexpected token `%c'\n", a);
+		ft_printf_fd("minishell: syntax error near unexpected token `%c'\n", a);
 		return (1);
 	}
 	if (!a || char_redir(d))
 	{
-		ft_printf("minishell: syntax error near unexpected token `newline'\n");
+		ft_printf_fd(
+			"minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);
