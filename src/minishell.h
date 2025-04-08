@@ -72,7 +72,7 @@ typedef struct s_mini
 }	t_mini;
 
 //	Global Variables
-extern volatile sig_atomic_t	g_childrun;
+extern int	g_childrun;
 
 //	Funcs
 

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_childrun;
+int	g_childrun;
 
 static void	check_argc(int argc, char **argv);
 static void	eof_exit(t_mini *ms);
