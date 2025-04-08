@@ -65,10 +65,14 @@ typedef struct s_mini
 	char	**av;
 	char	**envp;
 	int		ppid;
+	int		input_rec;
 	t_env	*export;
 	t_exp	expand;
 	int		exit_status;
 }	t_mini;
+
+//	Global Variables
+extern volatile sig_atomic_t	g_childrun;
 
 //	Funcs
 

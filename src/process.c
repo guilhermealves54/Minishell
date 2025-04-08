@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/08 15:44:21 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:46:40 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	fork_proc(t_mini *ms)
 {
 	int	pid;
 	int	sts;
+	int	sig;
 
 	pid = fork();
 	if (pid < 0)
@@ -27,9 +28,17 @@ int	fork_proc(t_mini *ms)
 		exit(1);
 	}
 	sts = 0;
+	g_childrun = 1;
 	if (pid == 0)
 		child_proc(ms);
 	waitpid(pid, &sts, 0);
+	if (WIFSIGNALED(sts))
+	{
+		sig = WTERMSIG(sts);
+		if (sig == SIGQUIT)
+			write(1, "Quit (core dumped)\n", 20);
+	}
+	g_childrun = 0;
 	return (WEXITSTATUS(sts));
 }
 
@@ -62,6 +71,8 @@ static void	child_proc(t_mini *ms)
 {
 	char	*path;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (access (ms->av[0], X_OK) == 0)
 		path = ms->av[0];
 	else

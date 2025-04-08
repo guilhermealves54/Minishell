@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_childrun;
+
 static void	check_argc(int argc, char **argv);
 static void	eof_exit(t_mini *ms);
-//static void	mem_clean(t_mini *ms);
 
 int	main(int argc, char *argv[], char **envp)
 {
@@ -22,6 +23,7 @@ int	main(int argc, char *argv[], char **envp)
 
 	check_argc(argc, argv);
 	ms = init(envp);
+	g_childrun = 0;
 	setup_signals();
 	while (1)
 	{
