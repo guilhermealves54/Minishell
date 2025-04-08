@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 18:06:10 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:42:45 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	expand_quotes(char **s, int *a, t_mini *ms);
 static char	*expand_dollar(char *s, int i, t_mini *ms);
 static char	*ft_join_3(char *first, char *content, char *last);
-static char	*ft_getenv(char *var, t_mini *ms);
+char		*ft_getenv(char *var, t_mini *ms);
 
 char	*expand(char *s, t_mini *ms)
 {
@@ -67,6 +67,11 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 	}
 	else if (s[i] == '$')
 		ms->expand.content = ft_itoa(ms->ppid);
+	else if (s[i] == '?')
+	{
+		ms->expand.content = ft_itoa(ms->exit_status);
+		i++;
+	}
 	else
 	{
 		ms->expand.start = i;
@@ -101,7 +106,7 @@ static char	*ft_join_3(char *first, char *content, char *last)
 	return (final);
 }
 
-static char	*ft_getenv(char *var, t_mini *ms)
+char	*ft_getenv(char *var, t_mini *ms)
 {
 	t_env	*temp;
 
