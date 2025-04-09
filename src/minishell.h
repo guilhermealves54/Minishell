@@ -69,7 +69,7 @@ typedef struct s_mini
 	int		exit_status;
 }	t_mini;
 
-//	Funcs
+//----- FUNCS -----
 
 //	Printf_fd
 int		ft_printf_fd(const char *format, ...);
@@ -91,8 +91,15 @@ int		parsing(t_mini *mini);
 //	Execute CMD
 int	execute_cmd(t_mini *ms);
 
-//	Builtins
+//	------ Builtins ----------
 void	print_echo(char **av);
+
+// Export Funcs
+void    exec_export(t_mini *ms);
+void	order_envp(t_mini *mini);
+char	*check_content(char *content);
+int		syntax_export(char *var, char *content, char *s);
+void	create_export(char *var, char *content, t_mini *mini, char c);
 
 //	Helper functions
 char	**ft_split_quotes(char *s, char c);
@@ -100,6 +107,7 @@ char	*get_str(char *s, int start, int end);
 void	update_i(char *s, int *i, char c);
 int		check_closed_quotes(char *input);
 int		char_quotes(char c);
+char	*get_new_str(char *s);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:22:21 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 19:18:37 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:11:33 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	if (!s1[i] && !s2[i])
 		return (0);
-	return (1);
+	return (s1[i] - s2[i]);
 }
