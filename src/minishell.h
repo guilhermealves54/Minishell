@@ -113,6 +113,9 @@ void    exec_unset(t_mini *ms);
 // Pwd
 void	exec_pwd();
 
+// Env
+void	exec_env(t_mini *ms);
+
 //	Helper functions
 char	**ft_split_quotes(char *s, char c);
 char	*get_str(char *s, int start, int end);
