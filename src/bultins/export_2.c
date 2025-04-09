@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:13:54 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/08 17:09:45 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:40:52 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*check_content(char *content)
 	{
 		if (temp[i] == '$' || temp[i] == '\"' || temp[i] == '\\')
 			j++;
-		i++;							
+		i++;
 	}
 	if (j > 0)
 		temp = add_slash(temp, j);
@@ -39,7 +39,7 @@ static char	*add_slash(char *s, int j)
 {
 	int		i;
 	char	*str;
-	
+
 	i = ft_strlen(s) + j + 1;
 	str = malloc(i);
 	if (!str)

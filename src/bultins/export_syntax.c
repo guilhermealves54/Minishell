@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 17:52:52 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/08 19:14:45 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:14:28 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ int	syntax_export(char *var, char *content, char *s)
 	{
 		if (!ft_isalnum(var[i]))
 		{
-			ft_printf_fd("minishell: export: `%s': not a valid identifier\n", str);
+			ft_printf_fd(
+				"minishell: export: `%s': not a valid identifier\n", str);
 			free_2strings(var, content);
 			free(str);
 			return (0);
 		}
 		i++;
 	}
-	free(str);
-	return (1);
+	return (free(str), 1);
 }

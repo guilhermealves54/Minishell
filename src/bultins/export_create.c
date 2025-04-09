@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:44:33 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/08 20:39:08 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:15:22 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ static void	update_content(char *var, char *content, t_env *export, char c)
 		{
 			export->content = content;
 			free(temp);
-		}			
+		}
 		free(var);
-		return ;		
+		return ;
 	}
 	free_2strings(var, content);
-	return ;	
+	return ;
 }
 
 static void	append_node(char *var, char *content, t_env *head)

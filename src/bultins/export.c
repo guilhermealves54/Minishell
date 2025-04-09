@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/08 20:40:57 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:13:01 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	extract_export(char *s, t_mini *ms)
 	while (s[i] && s[i] != '=' && ft_strncmp(s + i, "+=", 2) != 0)
 		i++;
 	var = get_str(s, 0, i);
-	if (!s[i])		
+	if (!s[i])
 		content = NULL;
 	else
 		content = get_content(s, i);
@@ -64,7 +64,7 @@ static void	extract_export(char *s, t_mini *ms)
 static char	*get_content(char *s, int i)
 {
 	char	*content;
-	
+
 	if (s[i] == '+')
 		content = get_str(s, i + 2, ft_strlen(s));
 	else
