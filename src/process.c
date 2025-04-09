@@ -6,36 +6,68 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/08 18:13:22 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:24:03 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ex_builtin(t_mini *ms, int n);
 static int	signal_sts(int sts);
 static char	*get_path(t_mini *ms);
-static void	child_proc(t_mini *ms);
+static void	child_proc(t_mini *ms, int n);
 
-int	fork_proc(t_mini *ms)
+void	fork_proc(t_mini *ms, int *pid, int proc)
 {
-	int	pid;
-	int	sts;
-
-	pid = fork();
-	if (pid < 0)
+	int	n;
+	int	i;
+	
+	n = 0;
+	i = 0;
+	while (n < proc)
 	{
-		perror("Could not fork process");
-		exit(1);
+		if (ms->cmd[n].builtin == 1)
+			ms->exit_status = ex_builtin(ms, n);
+		else
+		{
+			g_childrun = 1;
+			pid[i] = fork();
+			if (pid < 0)
+			{
+				perror("Could not fork process");
+				//FREE MEMORY
+				exit(1);
+			}
+			if (pid[i] == 0)
+				child_proc(ms, n);
+			waitpid(pid[i], &ms->cmd[n].sts, 0);
+			g_childrun = 0;
+			if (WIFSIGNALED(ms->cmd[n].sts))
+				ms->exit_status = (signal_sts(ms->cmd[n].sts));
+			ms->exit_status = WEXITSTATUS(ms->cmd[n].sts);
+			pid[i] += 1;
+		}
+		n++;
 	}
-	sts = 0;
-	g_childrun = 1;
-	if (pid == 0)
-		child_proc(ms);
-	waitpid(pid, &sts, 0);
-	g_childrun = 0;
-	if (WIFSIGNALED(sts))
-		return (signal_sts(sts));
-	return (WEXITSTATUS(sts));
+}
+
+static int	ex_builtin(t_mini *ms, int n)
+{
+	if (ft_strcmp("echo", ms->cmd[n].cmd[0]) == 0)
+		return (print_echo(ms->cmd[n].cmd), 0);//remove force ret
+	else if (ft_strcmp("export", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("unset", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("pwd", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("cd", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("env", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("exit", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	return (1);
 }
 
 static int	signal_sts(int sts)
@@ -78,7 +110,7 @@ static char	*get_path(t_mini *ms)
 	return (free_mem(path), NULL);
 }
 
-static void	child_proc(t_mini *ms)
+static void	child_proc(t_mini *ms, int n)
 {
 	char	*path;
 
@@ -94,11 +126,15 @@ static void	child_proc(t_mini *ms)
 		clean_list(ms);
 		split_memfree(ms);
 		free(ms->input);
+		//CLEAN REMAIN MEMORY
 		exit (127);
 	}
+	dup2(STDIN_FILENO, ms->cmd[n].input_fd);
+	dup2(STDOUT_FILENO, ms->cmd[n].output_fd);
 	execve (path, ms->av, ms->envp);
 	clean_list(ms);
 	split_memfree(ms);
+	//CLEAN REMAIN MEMORY
 	free(ms->input);
 	exit (1);
 }

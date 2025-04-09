@@ -65,6 +65,7 @@ typedef struct s_cmd
 	int		input_fd;
 	int		output_fd;
 	int		sts;
+	int		builtin;
 }	t_cmd;
 
 // Main Struct
@@ -79,7 +80,7 @@ typedef struct s_mini
 	int		input_rec;
 	t_env	*export;
 	t_exp	expand;
-	t_cmd	**cmd;
+	t_cmd	*cmd;
 	int		exit_status;
 }	t_mini;
 
@@ -107,7 +108,7 @@ int		parsing(t_mini *mini);
 
 //	Execute CMD
 int		execute_cmd(t_mini *ms);
-int		fork_proc(t_mini *ms);
+void	fork_proc(t_mini *ms, int *pid, int proc);
 
 //	Builtins
 void	print_echo(char **av);
