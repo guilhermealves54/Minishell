@@ -107,6 +107,9 @@ char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s);
 void	create_export(char *var, char *content, t_mini *mini, char c);
 
+// Unset
+void    exec_unset(t_mini *ms);
+
 //	Helper functions
 char	**ft_split_quotes(char *s, char c);
 char	*get_str(char *s, int start, int end);
