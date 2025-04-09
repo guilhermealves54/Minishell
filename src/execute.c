@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 16:33:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:49:16 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_cmd(t_mini *ms);
 static int	*crt_pipes(int pipes, t_mini *ms);
-static int	cnt_strings(char **av);
+int	cnt_strings(char **av);
 
 int	execute_cmd(t_mini *ms)
 {
@@ -50,15 +50,15 @@ static int	check_cmd(t_mini *ms)
 	if (ft_strcmp("echo", ms->av[0]) == 0)
 		return (print_echo(ms->av), 0);
 	else if (ft_strcmp("export", ms->av[0]) == 0)
-		return(exec_export(ms), 0);
+		return(exec_export(ms));
 	else if (ft_strcmp("unset", ms->av[0]) == 0)
 		return(exec_unset(ms), 0);
 	else if (ft_strcmp("pwd", ms->av[0]) == 0)
-		return(exec_pwd(), 0);
+		return(exec_pwd());
 	else if (ft_strcmp("cd", ms->av[0]) == 0)
-		return (0);
+		return(exec_cd(ms));
 	else if (ft_strcmp("env", ms->av[0]) == 0)
-		return(exec_env(ms), 0);
+		return(exec_env(ms));
 	else if (ft_strcmp("exit", ms->av[0]) == 0)
 		return (0);
 	else
@@ -66,7 +66,7 @@ static int	check_cmd(t_mini *ms)
 	return (0);
 }
 
-static int	cnt_strings(char **av)
+int	cnt_strings(char **av)
 {
 	int	i;
 

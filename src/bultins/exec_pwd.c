@@ -6,13 +6,13 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:17:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/09 16:24:51 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:20:21 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exec_pwd()
+int	exec_pwd(void)
 {
 	char	*s;
 
@@ -20,9 +20,9 @@ void	exec_pwd()
 	if (!s)
 	{
 		perror("Pwd error");
-		return ;
+		return (127);
 	}
 	printf("%s\n", s);
 	free(s);
-	return ;
+	return (0);
 }

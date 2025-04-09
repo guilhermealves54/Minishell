@@ -16,6 +16,7 @@ int	g_childrun;
 
 static void	check_argc(int argc, char **argv);
 static void	eof_exit(t_mini *ms);
+static char	*get_prompt(void);
 
 int	main(int argc, char *argv[], char **envp)
 {
@@ -27,6 +28,7 @@ int	main(int argc, char *argv[], char **envp)
 	setup_signals();
 	while (1)
 	{
+		ms.prompt = get_prompt();
 		ms.input = get_input(ms.prompt);
 		if (!ms.input)
 			eof_exit(&ms);
@@ -42,7 +44,7 @@ int	main(int argc, char *argv[], char **envp)
 				split_memfree(&ms);
 			}
 		}
-		free(ms.input);
+		free_2strings(ms.input, ms.prompt);
 	}
 }
 
@@ -59,5 +61,17 @@ static void	eof_exit(t_mini *ms)
 {
 	printf("exit\n");
 	clean_list(ms);
+	free(ms->prompt);
 	exit(0);
+}
+
+static char	*get_prompt(void)
+{
+	char	*cwd;
+	char	*prompt;
+
+	cwd = getcwd(NULL, 0);
+	prompt = ft_strjoin_3(cwd, "Minishell$ ", '@');
+	free(cwd);
+	return (prompt);
 }

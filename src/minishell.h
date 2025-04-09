@@ -101,20 +101,19 @@ int		fork_proc(t_mini *ms);
 void	print_echo(char **av);
 
 // Export Funcs
-void    exec_export(t_mini *ms);
+int		exec_export(t_mini *ms);
 void	order_envp(t_mini *mini);
 char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s);
 void	create_export(char *var, char *content, t_mini *mini, char c);
 
-// Unset
-void    exec_unset(t_mini *ms);
+int		exec_unset(t_mini *ms);
+int		exec_pwd();
+int		exec_env(t_mini *ms);
 
-// Pwd
-void	exec_pwd();
-
-// Env
-void	exec_env(t_mini *ms);
+// CD
+int	exec_cd(t_mini *ms);
+void	update_var(char *oldpwd, char *pwd, t_mini *mini);
 
 //	Helper functions
 char	**ft_split_quotes(char *s, char c);
@@ -125,6 +124,7 @@ int		char_quotes(char c);
 char	*ft_getenv(char *var, t_mini *ms);
 char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
+int		cnt_strings(char **av);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

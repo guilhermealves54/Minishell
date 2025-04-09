@@ -6,29 +6,35 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/09 13:13:01 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:17:03 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	print_export(t_env	*head);
-static void	extract_export(char *s, t_mini *ms);
+static int	extract_export(char *s, t_mini *ms);
 static char	*get_content(char *s, int i);
 
-void	exec_export(t_mini *ms)
+int	exec_export(t_mini *ms)
 {
 	int	i;
+	int	n;
+	int	a;
 
 	i = 1;
+	n = 0;
 	order_envp(ms);
 	if (!ms->av[1])
 		print_export(ms->export);
 	while (ms->av[i])
 	{
-		extract_export(ms->av[i], ms);
+		a = extract_export(ms->av[i], ms);
+		if (a == 1)
+			n = 1;
 		i++;
 	}
+	return (n);
 }
 
 static void	print_export(t_env	*head)
@@ -43,7 +49,7 @@ static void	print_export(t_env	*head)
 	}
 }
 
-static void	extract_export(char *s, t_mini *ms)
+static int	extract_export(char *s, t_mini *ms)
 {
 	char	*var;
 	char	*content;
@@ -58,7 +64,12 @@ static void	extract_export(char *s, t_mini *ms)
 	else
 		content = get_content(s, i);
 	if (syntax_export(var, content, s))
+	{
 		create_export(var, content, ms, s[i]);
+		return (0);
+	}
+	else
+		return (1);
 }
 
 static char	*get_content(char *s, int i)

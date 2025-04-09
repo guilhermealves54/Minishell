@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:32 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/08 13:27:59 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/09 20:20:28 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_mini	init(char **envp)
 	ms.input = NULL;
 	ms.export = get_envp(envp);
 	ms.envp = envp;
-	ms.prompt = "Minishell$ ";
 	ms.exit_status = 0;
 	return (ms);
 }

@@ -17,7 +17,7 @@ SRCS = src/main.c src/init.c src/init2.c src/memclean.c src/signals.c src/input.
 	src/echo.c src/expand.c src/parsing.c src/split_quotes.c src/utils.c src/execute.c \
 	src/bultins/export.c src/bultins/order_export.c src/bultins/export_2.c src/bultins/unset.c \
 	src/bultins/export_syntax.c src/bultins/export_create.c \
-	src/bultins/exec_pwd.c src/bultins/exec_env.c \
+	src/bultins/exec_pwd.c src/bultins/exec_env.c src/bultins/exec_cd.c src/bultins/cd_utils.c \
 	src/process.c 
 OBJS = $(SRCS:.c=.o)
 

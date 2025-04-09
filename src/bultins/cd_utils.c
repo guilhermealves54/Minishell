@@ -1,23 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/07 17:22:21 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 18:30:36 by ruida-si         ###   ########.fr       */
+/*   Created: 2025/04/09 20:01:58 by ruida-si          #+#    #+#             */
+/*   Updated: 2025/04/09 20:02:28 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+void	update_var(char *oldpwd, char *pwd, t_mini *mini)
 {
-	int	i;
+	t_env	*ev;
+	char	*temp;
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
+	ev = mini->export;
+	while (ev)
+	{
+		if (ft_strcmp(ev->var, "OLDPWD") == 0)
+		{
+			temp = ev->content;
+			ev->content = oldpwd;
+			free(temp);
+		}
+		else if (ft_strcmp(ev->var, "PWD") == 0)
+		{
+			temp = ev->content;
+			ev->content = pwd;
+			free(temp);
+		}
+		ev = ev->next;
+	}
 }

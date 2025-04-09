@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:46:06 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/09 16:01:24 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:23:55 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,17 @@ static void	unset(char *s, t_mini *ms);
 static void	delete_node(t_env *prev, t_env *next);
 static void	free_node(t_env *temp);
 
-void    exec_unset(t_mini *ms)
+int	exec_unset(t_mini *ms)
 {
-    int i;
-    
-    i = 1;
-    if (!ms->av[1])
-        return ;
-    while (ms->av[i])
-    {
-        unset(ms->av[i], ms);
-        i++;
-    }
+	int	i;
+
+	i = 1;
+	while (ms->av[i])
+	{
+		unset(ms->av[i], ms);
+		i++;
+	}
+	return (0);
 }
 
 static void	unset(char *s, t_mini *ms)
