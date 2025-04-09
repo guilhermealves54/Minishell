@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 17:29:04 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:25:17 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	cnt_strings(char **av);
-static void	crt_pipes(int pipes, int **fds);
+static void	crt_pipes(int pipes, int ***fds);
 static void	init_cmd(t_mini *ms, int childs, int **fds);
 static int	check_cmd(char *cmd);
 
@@ -34,7 +34,7 @@ int	execute_cmd(t_mini *ms)
 		exit(1);
 	}
 	if (pipes > 0)
-		crt_pipes(pipes, fds);
+		crt_pipes(pipes, &fds);
 	init_cmd(ms, proc, fds);
 	//CREATE FUNCTION TO CLOSE ALL FDS
 
@@ -69,7 +69,7 @@ int	execute_cmd(t_mini *ms)
 	return (0);
 }
 
-static void	crt_pipes(int pipes, int **fds)
+static void	crt_pipes(int pipes, int ***fds)
 {
 	int	n;
 

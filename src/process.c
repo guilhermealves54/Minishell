@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 17:24:03 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:22:29 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	fork_proc(t_mini *ms, int *pid, int proc)
 			if (WIFSIGNALED(ms->cmd[n].sts))
 				ms->exit_status = (signal_sts(ms->cmd[n].sts));
 			ms->exit_status = WEXITSTATUS(ms->cmd[n].sts);
-			pid[i] += 1;
+			i++;
 		}
 		n++;
 	}
