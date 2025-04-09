@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:32 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 17:42:12 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:27:59 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_mini	init(char **envp)
 	ms.ppid = ft_getpid();
 	ms.input = NULL;
 	ms.export = get_envp(envp);
+	ms.envp = envp;
 	ms.prompt = "Minishell$ ";
 	ms.exit_status = 0;
 	return (ms);

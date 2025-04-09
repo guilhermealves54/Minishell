@@ -63,13 +63,18 @@ typedef struct s_mini
 	char	*prompt;
 	char	**ap;
 	char	**av;
+	char	**envp;
 	int		ppid;
+	int		input_rec;
 	t_env	*export;
 	t_exp	expand;
 	int		exit_status;
 }	t_mini;
 
-//----- FUNCS -----
+//	Global Variables
+extern int	g_childrun;
+
+//	Funcs
 
 //	Printf_fd
 int		ft_printf_fd(const char *format, ...);
@@ -89,7 +94,8 @@ char	*expand(char *s, t_mini *ms);
 int		parsing(t_mini *mini);
 
 //	Execute CMD
-int	execute_cmd(t_mini *ms);
+int		execute_cmd(t_mini *ms);
+int		fork_proc(t_mini *ms);
 
 //	------ Builtins ----------
 void	print_echo(char **av);
@@ -107,6 +113,8 @@ char	*get_str(char *s, int start, int end);
 void	update_i(char *s, int *i, char c);
 int		check_closed_quotes(char *input);
 int		char_quotes(char c);
+char	*ft_getenv(char *var, t_mini *ms);
+char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
 
 //	Memory Clean

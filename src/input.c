@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:39 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/04 18:30:57 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:55:32 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_input(char *prompt)
 	char	*input;
 
 	input = readline(prompt);
-	if (input)
+	if (input && input[0])
 		add_history(input);
 	return (input);
 }
