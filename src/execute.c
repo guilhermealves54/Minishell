@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/08 14:44:45 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/09 02:27:57 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,76 @@ static int	cnt_strings(char **av);
 int	execute_cmd(t_mini *ms)
 {
 	int		i;
-	int		*pipes;
 	int		childs;
-	//	char	**av;
+	int		pipes;
+	int		**fds;
 
-	i = 0;
 	childs = cnt_strings(ms->ap);
-	pipes = crt_pipes(childs -1, ms);
-	/* while (ms->ap[i])
+	pipes = childs - 1;
+	printf("Number of processes: %i\n", childs);
+
+	//ALLOCATE MEMORY TO ARRAY OF STRUCTS
+	ms->cmd = malloc(childs * sizeof(t_cmd));
+	if (!ms->cmd)
 	{
-		av = ft_split_quotes(ms->ap[i], ' ');
-		if (!av)
-			return (1);		
-	} */
+		ft_printf_fd("Error allocating memory\n");
+		//FREE MEMORY
+		exit(1);
+	}
+
+	//ALLOCATE MEMORY TO FDS AND CREATE PIPES
+	int	n;
+
+	if (pipes > 0)
+	{
+		fds = malloc(pipes * sizeof(int *));
+		if (!fds)
+			ft_printf_fd("Error allocating memory\n");
+			//FREE MEMORY
+			exit(1);
+		while (n <= pipes)
+		{
+			fds[n] = malloc(2 * sizeof(int));
+			if (!fds[n])
+			ft_printf_fd("Error allocating memory\n");
+			///FREE MEMORY
+			exit(1);
+			n++;
+			if (pipe(fds[n]) == -1)
+			{
+				ft_printf_fd("Error creating pipes\n");
+				//FREE MEMORY
+				exit(1);
+			}
+		}
+	}
+
+	//LOOP TO INIT CMD STRUCT
+	int		n;
+
+	n = 0;
+	while (n < childs)
+	{
+		ms->cmd[n]->index = n;
+		ms->cmd[n]->cmd = ft_split_quotes(ms->ap[n], ' ');
+		ms->cmd[n]->path = ms->cmd[n]->cmd[0];
+		if (n == 0)
+			ms->cmd[n]->input_fd = STDIN_FILENO;
+		else
+			ms->cmd[n]->input_fd = fds[n - 1][0];
+		if (n == childs - 1)
+			ms->cmd[n]->output_fd = STDOUT_FILENO;
+		else
+			ms->cmd[n]->output_fd = fds[n][1];
+		ms->cmd[n]->sts = 0;
+		n++;
+	}
+	//CREATE FUNCTION TO CLOSE ALL FDS
+
 	return (0);
 }
 
+// Function to be deleted
 static int	*crt_pipes(int pipes, t_mini *ms)
 {
 	if (pipes == 0)
@@ -45,6 +99,7 @@ static int	*crt_pipes(int pipes, t_mini *ms)
 	return (NULL);
 }
 
+// Update function. Builtins will read from command struct too.
 static int	check_cmd(t_mini *ms)
 {
 	if (ft_strcmp("echo", ms->av[0]) == 0)

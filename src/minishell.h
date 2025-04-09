@@ -56,6 +56,17 @@ typedef struct s_exp
 	char	*content;
 }	t_exp;
 
+//	Command struct
+typedef struct s_cmd
+{
+	int		index;
+	char	**cmd;
+	char	*path;
+	int		input_fd;
+	int		output_fd;
+	int		sts;
+}	t_cmd;
+
 // Main Struct
 typedef struct s_mini
 {
@@ -68,6 +79,7 @@ typedef struct s_mini
 	int		input_rec;
 	t_env	*export;
 	t_exp	expand;
+	t_cmd	**cmd;
 	int		exit_status;
 }	t_mini;
 
