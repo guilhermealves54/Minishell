@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/10 17:58:43 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:00:45 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	check_cmd(t_mini *ms)
 	else if (ft_strcmp("export", ms->av[0]) == 0)
 		return(exec_export(ms));
 	else if (ft_strcmp("unset", ms->av[0]) == 0)
-		return(exec_unset(ms), 0);
+		return(exec_unset(ms));
 	else if (ft_strcmp("pwd", ms->av[0]) == 0)
 		return(exec_pwd());
 	else if (ft_strcmp("cd", ms->av[0]) == 0)

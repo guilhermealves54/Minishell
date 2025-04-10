@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/08 15:55:13 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:55:54 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*expand(char *s, t_mini *ms)
 			i++;
 			while (s[i] != '\"')
 			{
-				if (s[i] == '$')
+				if (s[i] == '$' && ft_isalnum(s[i +1]))
 				{
 					expand_quotes(&s, &i, ms);
 					break ;
@@ -39,7 +39,7 @@ char	*expand(char *s, t_mini *ms)
 				i++;
 			}
 		}
-		else if (s[i] == '$')
+		else if (s[i] == '$' && ft_isalnum(s[i +1]))
 			expand_quotes(&s, &i, ms);
 		i++;
 	}
