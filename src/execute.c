@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 19:49:16 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:58:43 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	check_cmd(t_mini *ms)
 	else if (ft_strcmp("env", ms->av[0]) == 0)
 		return(exec_env(ms));
 	else if (ft_strcmp("exit", ms->av[0]) == 0)
-		return (0);
+		return(exec_exit(ms), 0);
 	else
 		ms->exit_status = fork_proc(ms);
 	return (0);

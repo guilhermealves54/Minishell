@@ -111,6 +111,7 @@ void	create_export(char *var, char *content, t_mini *mini, char c);
 int		exec_unset(t_mini *ms);
 int		exec_pwd();
 int		exec_env(t_mini *ms);
+void	exec_exit(t_mini *ms);
 
 // CD
 int	exec_cd(t_mini *ms);
