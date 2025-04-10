@@ -114,6 +114,7 @@ int		exec_env(t_mini *ms);
 // CD
 int	exec_cd(t_mini *ms);
 void	update_var(char *oldpwd, char *pwd, t_mini *mini);
+char	*get_new_cwd(char *buffer);
 
 //	Helper functions
 char	**ft_split_quotes(char *s, char c);
