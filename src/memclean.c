@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memclean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 17:19:16 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/10 00:34:55 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	free_mem(char **av);
 void	split_memfree(t_mini *ms);
 void	free_2strings(char *s1, char *s2);
 
-//	Used to clean the t_env list.
 void	clean_list(t_mini *ms)
 {
 	t_env	*tmp;
@@ -44,7 +43,6 @@ void	free_mem(char **av)
 	free(av);
 }
 
-//	Possible combine with free_mem() to save space
 void	split_memfree(t_mini *ms)
 {
 	free_mem(ms->av);

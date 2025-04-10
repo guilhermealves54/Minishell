@@ -6,70 +6,87 @@
 /*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 18:25:17 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:27:44 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	cnt_strings(char **av);
-static void	crt_pipes(int pipes, int ***fds);
-static void	init_cmd(t_mini *ms, int childs, int **fds);
+static void	crt_pipes(t_mini *ms, int pipes, int ***fds);
+static void	init_cmd(t_mini *ms, int childs, int **fds, int pipes);
 static int	check_cmd(char *cmd);
 
-int	execute_cmd(t_mini *ms)
+//COUNT HOW MANY PROCESSES ARE NOT BUILTINS
+int	pidnbr_cnt(t_mini *ms, int proc)
 {
-	int		proc;
-	int		pipes;
-	int		**fds;
-
-	proc = cnt_strings(ms->ap);
-	pipes = proc - 1;
-	fds = NULL;
-	ms->cmd = malloc(proc * sizeof(t_cmd));
-	if (!ms->cmd)
-	{
-		ft_printf_fd("Error allocating memory\n");
-		//FREE MEMORY
-		exit(1);
-	}
-	if (pipes > 0)
-		crt_pipes(pipes, &fds);
-	init_cmd(ms, proc, fds);
-	//CREATE FUNCTION TO CLOSE ALL FDS
-
-	//COUNT HOW MANY PROCESSES ARE NOT BUILTINS
 	int		n;
 	int		pid_n;
-	int		*pid;
 
 	n = 0;
 	pid_n = 0;
-	pid = NULL;
 	while (n <= proc)
 	{
 		if (ms->cmd[n].builtin == 0)
 			pid_n++;
 		n++;
 	}
+}
 
-	//CREATE PID ARRAY
+//CREATE PID ARRAY
+int	*crt_pid_arr(t_mini *ms, int pid_n, int pipes)
+{
+	int	*pid;
+
 	if (pid_n > 0)
 	{
 		pid = malloc(pid_n * sizeof(int));
 		if (!pid)
 		{
 			ft_printf_fd("Error allocating memory for PIDs\n");
-			//FREE MEMORY
+			split_memfree(&ms);
+			free(ms->input);
+			//function to free struct - opt (DONT FREE CMD)
+			clean_list(ms);
+			if (pipes > 0)
+				//function to free fds array
+				//close all pipes
 			exit(1);
 		}
 	}
-	//FORK PROCESSES OR EXECUTE BUILTINS
-	fork_proc(ms, pid, proc);
-	return (0);
+	return (pid);
 }
 
-static void	crt_pipes(int pipes, int ***fds)
+void	execute_cmd(t_mini *ms)
+{
+	int		proc;
+	int		pipes;
+	int		**fds;
+	int		*pid;
+
+	proc = cnt_strings(ms->ap);
+	pipes = proc - 1;
+	fds = NULL;
+	pid = NULL;
+	ms->cmd = malloc(proc * sizeof(t_cmd));
+	if (!ms->cmd)
+	{
+		ft_printf_fd("Error allocating memory\n");
+		split_memfree(&ms);
+		free(ms->input);
+		clean_list(ms);
+		exit(1);
+	}
+	if (pipes > 0)
+		crt_pipes(ms, pipes, &fds);
+	init_cmd(ms, proc, fds, pipes);
+	//free fds array
+	if (pidnbr_cnt(ms, proc) > 0)
+		pid = crt_pid_arr(ms, pidnbr_cnt(ms, proc), pipes);
+	fork_proc(ms, pid, proc, pipes);
+}
+
+static void	crt_pipes(t_mini *ms, int pipes, int ***fds)
 {
 	int	n;
 
@@ -77,7 +94,10 @@ static void	crt_pipes(int pipes, int ***fds)
 	if (!fds)
 	{
 		ft_printf_fd("Error allocating memory\n");
-		//FREE MEMORY
+		split_memfree(&ms);
+		free(ms->input);
+		//function to free struct - opt (DONT FREE CMD)
+		clean_list(ms);
 		exit(1);
 	}
 	n = 0;
@@ -87,20 +107,28 @@ static void	crt_pipes(int pipes, int ***fds)
 		if (!fds[n])
 		{
 			ft_printf_fd("Error allocating memory\n");
-			///FREE MEMORY
+			split_memfree(&ms);
+			free(ms->input);
+			//function to free struct - opt (DONT FREE CMD)
+			//function to free fds array
+			clean_list(ms);
 			exit(1);
 		}
 		if (pipe(fds[n]) == -1)
 		{
 			ft_printf_fd("Error creating pipes\n");
-			//FREE MEMORY
+			split_memfree(&ms);
+			free(ms->input);
+			//function to free struct - opt (DONT FREE CMD)
+			//function to free fds array
+			clean_list(ms);
 			exit(1);
 		}
 		n++;
 	}
 }
 
-static void	init_cmd(t_mini *ms, int proc, int **fds)
+static void	init_cmd(t_mini *ms, int proc, int **fds, int pipes)
 {
 	int		n;
 
@@ -109,15 +137,36 @@ static void	init_cmd(t_mini *ms, int proc, int **fds)
 	{
 		ms->cmd[n].index = n;
 		ms->cmd[n].cmd = ft_split_quotes(ms->ap[n], ' ');
+		if (!ms->cmd[n].cmd)
+		{
+			split_memfree(&ms);
+			free(ms->input);
+			//function to free struct - opt (DONT FREE CMD)
+			clean_list(ms);
+			if (pipes > 0)
+			{
+				//close all pipes
+				//function to free fds array
+			}
+			exit(1);
+		}
 		ms->cmd[n].path = ms->cmd[n].cmd[0];
-		if (n == 0)
+		if (pipes > 0)
+		{
+			if (n == 0)
+				ms->cmd[n].input_fd = STDIN_FILENO;
+			else
+				ms->cmd[n].input_fd = fds[n - 1][0];
+			if (n == proc - 1)
+				ms->cmd[n].output_fd = STDOUT_FILENO;
+			else
+				ms->cmd[n].output_fd = fds[n][1];
+		}
+		else
+		{
 			ms->cmd[n].input_fd = STDIN_FILENO;
-		else
-			ms->cmd[n].input_fd = fds[n - 1][0];
-		if (n == proc - 1)
 			ms->cmd[n].output_fd = STDOUT_FILENO;
-		else
-			ms->cmd[n].output_fd = fds[n][1];
+		}
 		ms->cmd[n].sts = 0;
 		ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
 		n++;

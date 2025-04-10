@@ -107,8 +107,8 @@ char	*expand(char *s, t_mini *ms);
 int		parsing(t_mini *mini);
 
 //	Execute CMD
-int		execute_cmd(t_mini *ms);
-void	fork_proc(t_mini *ms, int *pid, int proc);
+void	execute_cmd(t_mini *ms);
+void	fork_proc(t_mini *ms, int *pid, int proc, int pipes);
 
 //	Builtins
 void	print_echo(char **av);

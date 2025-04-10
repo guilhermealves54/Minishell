@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 18:22:29 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/10 01:24:32 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int	ex_builtin(t_mini *ms, int n);
 static int	signal_sts(int sts);
 static char	*get_path(t_mini *ms);
-static void	child_proc(t_mini *ms, int n);
+static void	child_proc(t_mini *ms, int n, int pipes);
 
-void	fork_proc(t_mini *ms, int *pid, int proc)
+void	fork_proc(t_mini *ms, int *pid, int proc, int pipes)
 {
 	int	n;
 	int	i;
@@ -35,11 +35,19 @@ void	fork_proc(t_mini *ms, int *pid, int proc)
 			if (pid < 0)
 			{
 				perror("Could not fork process");
-				//FREE MEMORY
+				split_memfree(&ms);
+				free(ms->input);
+				//free struct OPT - FREE CMD
+				clean_list(ms);
+				//free pid array
+				if (pipes > 0)
+				{
+					//close all pipes
+				}
 				exit(1);
 			}
 			if (pid[i] == 0)
-				child_proc(ms, n);
+				child_proc(ms, n, pipes);
 			waitpid(pid[i], &ms->cmd[n].sts, 0);
 			g_childrun = 0;
 			if (WIFSIGNALED(ms->cmd[n].sts))
@@ -49,6 +57,10 @@ void	fork_proc(t_mini *ms, int *pid, int proc)
 		}
 		n++;
 	}
+	//free struct OPT - FREE CMD
+	//free path
+	//if pipes > 0 - close pipes
+	//if pid - free pid array
 }
 
 static int	ex_builtin(t_mini *ms, int n)
@@ -110,31 +122,38 @@ static char	*get_path(t_mini *ms)
 	return (free_mem(path), NULL);
 }
 
-static void	child_proc(t_mini *ms, int n)
+static void	child_proc(t_mini *ms, int n, int pipes)
 {
-	char	*path;
-
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (access (ms->av[0], X_OK) == 0)
-		path = ms->av[0];
-	else
-		path = get_path(ms);
-	if (!path)
+	if (access (ms->cmd[n].path, X_OK) != 0)
+		ms->cmd[n].path = get_path(ms);
+	if (!ms->cmd[n].path)
 	{
 		ft_printf_fd ("Command not found: %s\n", ms->av[0]);
 		clean_list(ms);
-		split_memfree(ms);
+		split_memfree(&ms);
 		free(ms->input);
-		//CLEAN REMAIN MEMORY
+		//free struct OPT - FREE CMD
+		//free pid array
+		if (pipes > 0)
+		{
+			//close pipes
+		}
 		exit (127);
 	}
 	dup2(STDIN_FILENO, ms->cmd[n].input_fd);
 	dup2(STDOUT_FILENO, ms->cmd[n].output_fd);
-	execve (path, ms->av, ms->envp);
-	clean_list(ms);
+	execve (ms->cmd[n].path, ms->av, ms->envp);
 	split_memfree(ms);
-	//CLEAN REMAIN MEMORY
 	free(ms->input);
+	//free path
+	//free struct OPT - FREE CMD
+	//free pid array
+	clean_list(ms);
+	if (pipes > 0)
+	{
+		//close pipes
+	}
 	exit (1);
 }
