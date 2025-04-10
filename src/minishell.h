@@ -107,6 +107,7 @@ char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s);
 void	create_export(char *var, char *content, t_mini *mini, char c);
 
+// Other bultins
 int		exec_unset(t_mini *ms);
 int		exec_pwd();
 int		exec_env(t_mini *ms);
@@ -115,6 +116,7 @@ int		exec_env(t_mini *ms);
 int	exec_cd(t_mini *ms);
 void	update_var(char *oldpwd, char *pwd, t_mini *mini);
 char	*get_new_cwd(char *buffer);
+int		cd_5(t_mini *ms);
 
 //	Helper functions
 char	**ft_split_quotes(char *s, char c);

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/10 15:31:42 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:15:42 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	exec_cd(t_mini *ms)
 		return (cd_3(ms));
 	else if (ft_strcmp(ms->av[1], "-") == 0)
 		return (cd_4(ms));
-	return (0);
+	else
+		return (cd_5(ms));
 }
 
 static int	cd_1(t_mini *ms)
@@ -122,6 +123,7 @@ static int	cd_4(t_mini *ms)
 		free(oldpwd);
 		return (1);
 	}
+	printf("%s\n", pwd);
 	update_var(oldpwd, ft_strdup(pwd), ms);
 	return (0);
 }
