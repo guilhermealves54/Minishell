@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/11 13:45:13 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:15:06 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	cnt_strings(char **av);
 static int	**crt_pipes(t_mini *ms, int pipes);
-static void	init_cmd(t_mini *ms, int childs, int **fds, int pipes);
+static void	init_cmd(t_mini *ms, int childs, int pipes);
 static int	check_cmd(char *cmd);
 char		**get_cmd(char	*ap);
 
@@ -26,7 +26,7 @@ int	pidnbr_cnt(t_mini *ms, int proc)
 
 	n = 0;
 	pid_n = 0;
-	while (n <= proc)
+	while (n < proc)
 	{
 		if (ms->cmd[n].builtin == 0)
 			pid_n++;
@@ -43,18 +43,12 @@ int	*crt_pid_arr(t_mini *ms, int pid_n, int pipes)
 	pid = NULL;
 	if (pid_n > 0)
 	{
-		pid = malloc(pid_n * sizeof(int));
+		pid = malloc((pid_n) * sizeof(int));
 		if (!pid)
 		{
-			ft_printf_fd("Error allocating memory for PIDs\n");
-			split_memfree(ms);
-			free(ms->input);
-			//function to free struct - opt (DONT FREE CMD)
-			clean_list(ms);
-			if (pipes > 0)
-				//function to free fds array
-				//close all pipes
-			exit(1);
+			ft_printf_fd("minishell: error allocating memory\n");	
+			exit(exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD
+				| FREE_FDS | FREE_PIPES, 1));
 		}
 	}
 	return (pid);
@@ -64,72 +58,53 @@ void	execute_cmd(t_mini *ms)
 {
 	int		proc;
 	int		pipes;
-	int		**fds;
-	int		*pid;
 
 	proc = cnt_strings(ms->ap);
 	pipes = proc - 1;
-	fds = NULL;
-	pid = NULL;
+	ms->fds = NULL;
+	ms->pid = NULL;
 	ms->cmd = malloc(proc * sizeof(t_cmd));
 	if (!ms->cmd)
 	{
-		ft_printf_fd("Error allocating memory\n");
-		split_memfree(ms);
-		free(ms->input);
-		clean_list(ms);
-		exit(1);
+		ft_printf_fd("minishell: error allocating memory\n");	
+		exit(exec_free(ms, pipes, FREE_BASE, 1));
 	}
 	if (pipes > 0)
-		fds = crt_pipes(ms, pipes);
-	init_cmd(ms, proc, fds, pipes);
+		ms->fds = crt_pipes(ms, pipes);
+	init_cmd(ms, proc, pipes);
 	if (pidnbr_cnt(ms, proc) > 0)
-		pid = crt_pid_arr(ms, pidnbr_cnt(ms, proc), pipes);
-	fork_proc(ms, pid, proc, pipes, fds);
+		ms->pid = crt_pid_arr(ms, pidnbr_cnt(ms, proc), pipes);
+	fork_proc(ms, proc, pipes);
 }
 
 static int	**crt_pipes(t_mini *ms, int pipes)
 {
 	int	n;
-	int	**fds;
 
-	fds = malloc(pipes * sizeof(int *));
-	if (!fds)
+	ms->fds = malloc(pipes * sizeof(int *));
+	if (!ms->fds)
 	{
-		ft_printf_fd("Error allocating memory\n");
-		split_memfree(ms);
-		free(ms->input);
-		//function to free struct - opt (DONT FREE CMD)
-		clean_list(ms);
-		exit(1);
+		ft_printf_fd("minishell: error allocating memory\n");	
+		exit(exec_free(ms, pipes, FREE_BASE | FREE_STRUCT, 1));
 	}
 	n = 0;
 	while (n < pipes)
 	{
-		fds[n] = malloc(2 * sizeof(int));
-		if (!fds[n])
+		ms->fds[n] = malloc(2 * sizeof(int));
+		if (!ms->fds[n])
 		{
-			ft_printf_fd("Error allocating memory\n");
-			split_memfree(ms);
-			free(ms->input);
-			//function to free struct - opt (DONT FREE CMD)
-			//function to free fds array
-			clean_list(ms);
-			exit(1);
+			ft_printf_fd("minishell: error allocating memory\n");	
+			exit(exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS, 1));
 		}
-		if (pipe(fds[n]) == -1)
+		if (pipe(ms->fds[n]) == -1)
 		{
-			ft_printf_fd("Error creating pipes\n");
-			split_memfree(ms);
-			free(ms->input);
-			//function to free struct - opt (DONT FREE CMD)
-			//function to free fds array
-			clean_list(ms);
-			exit(1);
+			ft_printf_fd("minishell: error allocating memory\n");
+			exec_free(ms, n, FREE_PIPES, 1);
+			exit(exec_free(ms, n + 1, FREE_BASE | FREE_STRUCT | FREE_FDS, 1));
 		}
 		n++;
 	}
-	return (fds);
+	return (ms->fds);
 }
 
 char	**get_cmd(char	*ap)
@@ -150,7 +125,7 @@ char	**get_cmd(char	*ap)
 	return (cmd);
 }
 
-static void	init_cmd(t_mini *ms, int proc, int **fds, int pipes)
+static void	init_cmd(t_mini *ms, int proc, int pipes)
 {
 	int		n;
 
@@ -161,16 +136,9 @@ static void	init_cmd(t_mini *ms, int proc, int **fds, int pipes)
 		ms->cmd[n].cmd = get_cmd(ms->ap[n]);
 		if (!ms->cmd[n].cmd)
 		{
-			split_memfree(ms);
-			free(ms->input);
-			//function to free struct - opt (DONT FREE CMD)
-			clean_list(ms);
-			if (pipes > 0)
-			{
-				//close all pipes
-				//function to free fds array
-			}
-			exit(1);
+			ft_printf_fd("minishell: error allocating memory\n");	
+			exit(exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS
+				| FREE_PIPES, 1));
 		}
 		ms->cmd[n].path = ms->cmd[n].cmd[0];
 		if (pipes > 0)
@@ -178,11 +146,11 @@ static void	init_cmd(t_mini *ms, int proc, int **fds, int pipes)
 			if (n == 0)
 				ms->cmd[n].input_fd = STDIN_FILENO;
 			else
-				ms->cmd[n].input_fd = fds[n - 1][0];
+				ms->cmd[n].input_fd = ms->fds[n - 1][0];
 			if (n == proc - 1)
 				ms->cmd[n].output_fd = STDOUT_FILENO;
 			else
-				ms->cmd[n].output_fd = fds[n][1];
+				ms->cmd[n].output_fd = ms->fds[n][1];
 		}
 		else
 		{

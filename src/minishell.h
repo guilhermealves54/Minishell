@@ -13,6 +13,13 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define FREE_BASE		1
+# define FREE_STRUCT	2
+# define FREE_CMD		4
+# define FREE_PIPES		8
+# define FREE_FDS		16
+# define FREE_PIDS		32
+
 // Includes
 # include <fcntl.h>
 # include <readline/history.h>
@@ -78,6 +85,8 @@ typedef struct s_mini
 	char	**envp;
 	int		ppid;
 	int		input_rec;
+	int		**fds;
+	int		*pid;
 	t_env	*export;
 	t_exp	expand;
 	t_cmd	*cmd;
@@ -108,7 +117,7 @@ int		parsing(t_mini *mini);
 
 //	Execute CMD
 void	execute_cmd(t_mini *ms);
-void	fork_proc(t_mini *ms, int *pid, int proc, int pipes, int **fds);
+void	fork_proc(t_mini *ms, int proc, int pipes);
 
 //	Builtins
 void	print_echo(char **av);
@@ -128,5 +137,6 @@ void	clean_list(t_mini *ms);
 void	free_mem(char **av);
 void	split_memfree(t_mini *ms);
 void	free_2strings(char *s1, char *s2);
+int		exec_free(t_mini *ms, int pipes, int opt, int ret);
 
 #endif
