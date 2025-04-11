@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/10 14:00:01 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:45:13 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	cnt_strings(char **av);
 static int	**crt_pipes(t_mini *ms, int pipes);
 static void	init_cmd(t_mini *ms, int childs, int **fds, int pipes);
 static int	check_cmd(char *cmd);
+char		**get_cmd(char	*ap);
 
 //COUNT HOW MANY PROCESSES ARE NOT BUILTINS
 int	pidnbr_cnt(t_mini *ms, int proc)
@@ -131,6 +132,24 @@ static int	**crt_pipes(t_mini *ms, int pipes)
 	return (fds);
 }
 
+char	**get_cmd(char	*ap)
+{
+	char	*temp;
+	char	**cmd;
+	int		i;
+
+	i = 0;
+	cmd = ft_split_quotes(ap, ' ');
+	while (cmd[i])
+	{
+		temp = cmd[i];
+		cmd[i] = get_new_str(cmd[i]);
+		free(temp);
+		i++;
+	}
+	return (cmd);
+}
+
 static void	init_cmd(t_mini *ms, int proc, int **fds, int pipes)
 {
 	int		n;
@@ -139,7 +158,7 @@ static void	init_cmd(t_mini *ms, int proc, int **fds, int pipes)
 	while (n < proc)
 	{
 		ms->cmd[n].index = n;
-		ms->cmd[n].cmd = ft_split_quotes(ms->ap[n], ' ');
+		ms->cmd[n].cmd = get_cmd(ms->ap[n]);
 		if (!ms->cmd[n].cmd)
 		{
 			split_memfree(ms);

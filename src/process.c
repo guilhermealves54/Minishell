@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/10 14:40:39 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:57:32 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	fork_proc(t_mini *ms, int *pid, int proc, int pipes, int **fds)
 		{
 			g_childrun = 1;
 			pid[i] = fork();
-			if (pid < 0)
+			if (pid[i] < 0)
 			{
 				perror("Could not fork process");
 				split_memfree(ms);
@@ -47,12 +47,30 @@ void	fork_proc(t_mini *ms, int *pid, int proc, int pipes, int **fds)
 				exit(1);
 			}
 			if (pid[i] == 0)
+			{
 				child_proc(ms, n, pipes, fds);
+			}
+			i++;
+		}
+		n++;
+	}
+	while (pipes > 0)
+	{
+		close(fds[pipes - 1][0]);
+		close(fds[pipes - 1][1]);
+		pipes--;
+	}
+	i = 0;
+	n = 0;
+	while (n < proc)
+	{
+		if (ms->cmd[n].builtin == 0)
+		{
 			waitpid(pid[i], &ms->cmd[n].sts, 0);
-			g_childrun = 0;
 			if (WIFSIGNALED(ms->cmd[n].sts))
-				ms->exit_status = (signal_sts(ms->cmd[n].sts));
-			ms->exit_status = WEXITSTATUS(ms->cmd[n].sts);
+				ms->exit_status = signal_sts(ms->cmd[n].sts);
+			else
+				ms->exit_status = WEXITSTATUS(ms->cmd[n].sts);
 			i++;
 		}
 		n++;
@@ -130,7 +148,7 @@ static void	child_proc(t_mini *ms, int n, int pipes, int **fds)
 		ms->cmd[n].path = get_path(ms, n);
 	if (!ms->cmd[n].path)
 	{
-		ft_printf_fd ("Command not found: %s\n", ms->av[0]);
+		ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
 		clean_list(ms);
 		split_memfree(ms);
 		free(ms->input);

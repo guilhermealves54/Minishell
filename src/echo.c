@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/07 16:05:46 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:38:36 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	multiple_nl(char **av, int *a);
 static void	print_quotes(char *s);
 static int	check_new_line(char *s, int	*a);
-static char	*get_new_str(char *s);
+char		*get_new_str(char *s);
 
 void	print_echo(char **av)
 {
@@ -105,7 +105,7 @@ static int	check_new_line(char *s, int	*a)
 }
 
 // extract quotes from string
-static char	*get_new_str(char *s)
+char	*get_new_str(char *s)
 {
 	char	*str;
 	int		i;

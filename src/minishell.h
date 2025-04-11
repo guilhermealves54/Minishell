@@ -121,6 +121,7 @@ int		check_closed_quotes(char *input);
 int		char_quotes(char c);
 char	*ft_getenv(char *var, t_mini *ms);
 char	*ft_strjoin_3(char *path, char *cmd, char c);
+char	*get_new_str(char *s);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);
