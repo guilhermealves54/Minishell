@@ -89,6 +89,8 @@ void	setup_signals(void);
 
 //	Expand
 char	*expand(char *s, t_mini *ms);
+int		expand_ok(char c);
+void	expand_others(char c, t_mini *ms, int *i);
 
 //	Parsing
 int		parsing(t_mini *mini);
@@ -97,7 +99,7 @@ int		parsing(t_mini *mini);
 int		execute_cmd(t_mini *ms);
 int		fork_proc(t_mini *ms);
 
-//	------ Builtins ----------
+//  ------ Builtins ----------
 void	print_echo(char **av);
 
 // Export Funcs
@@ -114,7 +116,7 @@ int		exec_env(t_mini *ms);
 void	exec_exit(t_mini *ms);
 
 // CD
-int	exec_cd(t_mini *ms);
+int		exec_cd(t_mini *ms);
 void	update_var(char *oldpwd, char *pwd, t_mini *mini);
 char	*get_new_cwd(char *buffer);
 int		cd_5(t_mini *ms);
@@ -129,6 +131,8 @@ char	*ft_getenv(char *var, t_mini *ms);
 char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
 int		cnt_strings(char **av);
+char	*extract_slash(char *s);
+
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

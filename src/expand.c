@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/10 18:55:54 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:12:06 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*expand(char *s, t_mini *ms)
 	int	i;
 
 	i = 0;
+	s = extract_slash(s);
 	while (s[i])
 	{
 		if (s[i] == '\'')
@@ -31,7 +32,7 @@ char	*expand(char *s, t_mini *ms)
 			i++;
 			while (s[i] != '\"')
 			{
-				if (s[i] == '$' && ft_isalnum(s[i +1]))
+				if (s[i] == '$' && expand_ok(s[i +1]))
 				{
 					expand_quotes(&s, &i, ms);
 					break ;
@@ -39,7 +40,7 @@ char	*expand(char *s, t_mini *ms)
 				i++;
 			}
 		}
-		else if (s[i] == '$' && ft_isalnum(s[i +1]))
+		else if (s[i] == '$' && expand_ok(s[i +1]))
 			expand_quotes(&s, &i, ms);
 		i++;
 	}
@@ -51,7 +52,7 @@ static void	expand_quotes(char **s, int *a, t_mini *ms)
 	char	*temp;
 
 	temp = *s;
-	*s = expand_dollar(*s, *a, ms);
+	*s = expand_dollar(*s, *a, ms);	
 	free(temp);
 	*a = -1;
 }
@@ -65,13 +66,8 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 		if (s[i++] == '0')
 			ms->expand.content = ft_strdup("minishell");
 	}
-	else if (s[i] == '$')
-		ms->expand.content = ft_itoa(ms->ppid);
-	else if (s[i] == '?')
-	{
-		ms->expand.content = ft_itoa(ms->exit_status);
-		i++;
-	}
+	else if (!ft_isalpha(s[i]))
+		expand_others(s[i], ms, &i);
 	else
 	{
 		ms->expand.start = i;
