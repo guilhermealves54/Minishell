@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/10 16:15:42 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:19:27 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exec_cd(t_mini *ms)
 	else if (!ms->av[1] || ft_strcmp(ms->av[1], "~") == 0)
 		return (cd_1(ms));
 	else if (ft_strcmp(ms->av[1], "..") == 0)
-		return (cd_2(ms));	
+		return (cd_2(ms));
 	else if (ft_strcmp(ms->av[1], ".") == 0)
 		return (cd_3(ms));
 	else if (ft_strcmp(ms->av[1], "-") == 0)
@@ -40,11 +40,11 @@ static int	cd_1(t_mini *ms)
 {
 	char	*oldpwd;
 	char	*home;
-	
+
 	if (!ms->av[1] && !ft_getenv("HOME", ms))
 	{
 		ft_printf_fd("minishell: cd: HOME not set\n");
-		return (1);		
+		return (1);
 	}
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
@@ -96,7 +96,7 @@ static int	cd_3(t_mini *ms)
 		return (1);
 	}
 	update_var(oldpwd, ft_strdup(oldpwd), ms);
-	return (0);	
+	return (0);
 }
 
 static int	cd_4(t_mini *ms)

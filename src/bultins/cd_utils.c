@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:01:58 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/10 15:07:15 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:18:49 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	update_var(char *oldpwd, char *pwd, t_mini *mini)
 		ev = ev->next;
 	}
 }
+
 char	*get_new_cwd(char *buffer)
 {
 	int		i;

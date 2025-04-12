@@ -37,14 +37,15 @@ typedef struct s_env
 	struct s_env	*prev;
 }	t_env;
 
-// Var Structs
-typedef struct s_iter
+// Split Structs
+typedef struct s_split
 {
+	char	**av;
+	char	*s;
+	char	c;
 	int		i;
 	int		j;
-	int		start;
-	char	**av;
-}	t_iter;
+}	t_split;
 
 //	Used in expand.c
 typedef struct s_exp
@@ -111,7 +112,7 @@ void	create_export(char *var, char *content, t_mini *mini, char c);
 
 // Other bultins
 int		exec_unset(t_mini *ms);
-int		exec_pwd();
+int		exec_pwd(void);
 int		exec_env(t_mini *ms);
 void	exec_exit(t_mini *ms);
 
@@ -122,7 +123,12 @@ char	*get_new_cwd(char *buffer);
 int		cd_5(t_mini *ms);
 
 //	Helper functions
+
+// -- Split --
 char	**ft_split_quotes(char *s, char c);
+char	**ft_split_redir(char *s, char c);
+
+// -- Others --
 char	*get_str(char *s, int start, int end);
 void	update_i(char *s, int *i, char c);
 int		check_closed_quotes(char *input);
@@ -132,7 +138,6 @@ char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
 int		cnt_strings(char **av);
 char	*extract_slash(char *s);
-
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

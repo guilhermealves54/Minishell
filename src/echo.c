@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/08 16:20:21 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/12 18:28:51 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static int	multiple_nl(char **av, int *a);
 static void	print_quotes(char *s);
 static int	check_new_line(char *s, int	*a);
-
-// MINISHELL
-char	*get_new_str(char *s);
+char		*get_new_str(char *s);
 
 void	print_echo(char **av)
 {

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/11 15:12:06 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:15:37 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	expand_quotes(char **s, int *a, t_mini *ms)
 	char	*temp;
 
 	temp = *s;
-	*s = expand_dollar(*s, *a, ms);	
+	*s = expand_dollar(*s, *a, ms);
 	free(temp);
 	*a = -1;
 }

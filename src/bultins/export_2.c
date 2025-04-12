@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:13:54 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/11 15:33:10 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:19:40 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*add_slash(char *s, int j)
 	while (s[i])
 	{
 		if (s[i] == '$')
-			str[j++] = '\\';		
+			str[j++] = '\\';
 		str[j++] = s[i++];
 	}
 	str[j] = '\0';
