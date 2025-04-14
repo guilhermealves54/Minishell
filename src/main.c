@@ -15,8 +15,6 @@
 int	g_childrun;
 
 static void	check_argc(int argc, char **argv);
-static void	eof_exit(t_mini *ms);
-static char	*get_prompt(void);
 
 int	main(int argc, char *argv[], char **envp)
 {
@@ -28,16 +26,13 @@ int	main(int argc, char *argv[], char **envp)
 	setup_signals();
 	while (1)
 	{
-		ms.prompt = get_prompt();
-		ms.input = get_input(ms.prompt);
-		if (!ms.input)
-			eof_exit(&ms);
+		ms.input = get_input(&ms);
 		if (ms.input[0])
 		{
 			if (check_closed_quotes(ms.input))
 			{
 				ms.input = expand(ms.input, &ms);
-				ms.av = ft_split_quotes(ms.input, ' ');			
+				ms.av = ft_split_quotes(ms.input, ' ');
 				ms.ap = ft_split_quotes(ms.input, '|');
 				if (parsing(&ms))
 					execute_cmd(&ms);
@@ -55,23 +50,4 @@ static void	check_argc(int argc, char **argv)
 		ft_printf_fd("minishell: %s: No such file or directory\n", argv[1]);
 		exit(127);
 	}
-}
-
-static void	eof_exit(t_mini *ms)
-{
-	printf("exit\n");
-	clean_list(ms);
-	free(ms->prompt);
-	exit(0);
-}
-
-static char	*get_prompt(void)
-{
-	char	*cwd;
-	char	*prompt;
-
-	cwd = getcwd(NULL, 0);
-	prompt = ft_strjoin_3(cwd, "Minishell$ ", '@');
-	free(cwd);
-	return (prompt);
 }

@@ -83,7 +83,7 @@ int		ft_printf_fd(const char *format, ...);
 //	Initialization
 t_mini	init(char **envp);
 int		ft_getpid(void);
-char	*get_input(char *prompt);
+char	*get_input(t_mini *ms);
 
 //	Signals
 void	setup_signals(void);
