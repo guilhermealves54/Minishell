@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/11 17:27:55 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:35:57 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	expand_others(char c, t_mini *ms, int *i)
 	}
 }
 
+// extract one slash if not inside quotes
 char	*extract_slash(char *s)
 {
 	int		i;

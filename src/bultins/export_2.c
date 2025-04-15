@@ -6,13 +6,15 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:13:54 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/12 17:19:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:09:11 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static char	*add_slash(char *s, int j);
+static void	count_spec_char(const char *content, int *i, int *j);
+static void	add_slash_2(const char *s, char *str, int *i, int *j);
 
 char	*check_content(char *content)
 {
@@ -22,17 +24,32 @@ char	*check_content(char *content)
 
 	i = 0;
 	j = 0;
-	temp = get_new_str(content);
-	free(content);
-	while (temp[i])
+	while (content[i])
 	{
-		if (temp[i] == '$')
+		if (char_quotes(content[i]))
+			count_spec_char(content, &i, &j);
+		else if (content[i] == '$')
 			j++;
 		i++;
 	}
 	if (j > 0)
-		temp = add_slash(temp, j);
+		content = add_slash(content, j);
+	temp = get_new_str(content);
+	free(content);
 	return (temp);
+}
+
+static void	count_spec_char(const char *content, int *i, int *j)
+{
+	char	c;
+
+	c = content[(*i)++];
+	while (content[*i] && content[*i] != c)
+	{
+		if (content[*i] == '\\' || content[*i] == '\"' || content[*i] == '$')
+			(*j)++;
+		(*i)++;
+	}
 }
 
 static char	*add_slash(char *s, int j)
@@ -48,11 +65,41 @@ static char	*add_slash(char *s, int j)
 	j = 0;
 	while (s[i])
 	{
+		if (char_quotes(s[i]))
+			add_slash_2(s, str, &i, &j);
 		if (s[i] == '$')
 			str[j++] = '\\';
-		str[j++] = s[i++];
+		if (s[i])
+			str[j++] = s[i++];
 	}
 	str[j] = '\0';
 	free(s);
 	return (str);
+}
+
+static void	add_slash_2(const char *s, char *str, int *i, int *j)
+{
+	char	c;
+
+	c = s[*i];
+	str[*j] = s[*i];
+	(*j)++;
+	(*i)++;
+	while (s[*i] && s[*i] != c)
+	{
+		if (s[*i] == '\\' || s[*i] == '\"' || s[*i] == '$')
+		{
+			str[*j] = '\\';
+			(*j)++;
+		}
+		str[*j] = s[*i];
+		(*j)++;
+		(*i)++;
+	}
+	if (s[*i])
+	{
+		str[*j] = s[*i];
+		(*j)++;
+		(*i)++;
+	}
 }
