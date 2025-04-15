@@ -3,75 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/10 18:00:45 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:47:13 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_cmd(t_mini *ms);
-static int	*crt_pipes(int pipes, t_mini *ms);
-int	cnt_strings(char **av);
+static void	init_cmd(t_mini *ms, int childs, int pipes);
+static char	**get_cmd(char	*ap);
+static void	input_assign(t_mini *ms, int n, int proc);
+static int	check_cmd(char *cmd);
 
-int	execute_cmd(t_mini *ms)
+void	execute_cmd(t_mini *ms)
 {
-	int		i;
-	int		*pipes;
-	int		childs;
-	//	char	**av;
+	int		proc;
+	int		pipes;
 
-	i = 0;
-	childs = cnt_strings(ms->ap);
-	pipes = crt_pipes(childs -1, ms);
-	/* while (ms->ap[i])
+	proc = cnt_strings(ms->ap);
+	pipes = proc - 1;
+	ms->fds = NULL;
+	ms->pid = NULL;
+	ms->cmd = malloc(proc * sizeof(t_cmd));
+	if (!ms->cmd)
 	{
-		av = ft_split_quotes(ms->ap[i], ' ');
-		if (!av)
-			return (1);		
-	} */
-	return (0);
-}
-
-static int	*crt_pipes(int pipes, t_mini *ms)
-{
-	if (pipes == 0)
-	{
-		check_cmd(ms);
-		return (NULL);
+		ft_printf_fd("minishell: error allocating memory\n");
+		exit(exec_free(ms, pipes, FREE_BASE, 1));
 	}
-	return (NULL);
+	if (pipes > 0)
+		ms->fds = crt_pipes(ms, pipes);
+	init_cmd(ms, proc, pipes);
+	if (pidnbr_cnt(ms, proc) > 0)
+		ms->pid = crt_pid_arr(ms, pidnbr_cnt(ms, proc), pipes);
+	fork_proc(ms, proc, pipes);
 }
 
-static int	check_cmd(t_mini *ms)
+static void	init_cmd(t_mini *ms, int proc, int pipes)
 {
-	if (ft_strcmp("echo", ms->av[0]) == 0)
-		return (print_echo(ms->av), 0);
-	else if (ft_strcmp("export", ms->av[0]) == 0)
-		return(exec_export(ms));
-	else if (ft_strcmp("unset", ms->av[0]) == 0)
-		return(exec_unset(ms));
-	else if (ft_strcmp("pwd", ms->av[0]) == 0)
-		return(exec_pwd());
-	else if (ft_strcmp("cd", ms->av[0]) == 0)
-		return(exec_cd(ms));
-	else if (ft_strcmp("env", ms->av[0]) == 0)
-		return(exec_env(ms));
-	else if (ft_strcmp("exit", ms->av[0]) == 0)
-		return(exec_exit(ms), 0);
-	else
-		ms->exit_status = fork_proc(ms);
-	return (0);
+	int		n;
+
+	n = 0;
+	while (n < proc)
+	{
+		ms->cmd[n].index = n;
+		ms->cmd[n].cmd = get_cmd(ms->ap[n]);
+		if (!ms->cmd[n].cmd)
+		{
+			ft_printf_fd("minishell: error allocating memory\n");
+			exit(exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS
+					| FREE_PIPES, 1));
+		}
+		ms->cmd[n].path = ms->cmd[n].cmd[0];
+		if (pipes > 0)
+			input_assign(ms, n, proc);
+		else
+		{
+			ms->cmd[n].input_fd = STDIN_FILENO;
+			ms->cmd[n].output_fd = STDOUT_FILENO;
+		}
+		ms->cmd[n].sts = 0;
+		ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
+		n++;
+	}
 }
 
-int	cnt_strings(char **av)
+static char	**get_cmd(char	*ap)
 {
-	int	i;
+	char	*temp;
+	char	**cmd;
+	int		i;
 
 	i = 0;
-	while (av[i])
+	cmd = ft_split_quotes(ap, ' ');
+	while (cmd[i])
+	{
+		temp = cmd[i];
+		cmd[i] = get_new_str(cmd[i]);
+		free(temp);
 		i++;
-	return (i);
+	}
+	return (cmd);
+}
+
+static void	input_assign(t_mini *ms, int n, int proc)
+{
+	if (n == 0)
+		ms->cmd[n].input_fd = STDIN_FILENO;
+	else
+		ms->cmd[n].input_fd = ms->fds[n - 1][0];
+	if (n == proc - 1)
+		ms->cmd[n].output_fd = STDOUT_FILENO;
+	else
+		ms->cmd[n].output_fd = ms->fds[n][1];
+}
+
+static int	check_cmd(char *cmd)
+{
+	if (ft_strcmp("echo", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("export", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("unset", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("pwd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("cd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("env", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("exit", cmd) == 0)
+		return (1);
+	else
+		return (0);
 }

@@ -3,39 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/09 14:41:19 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:48:34 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	ex_builtin(t_mini *ms, int n);
+static void	run_child(t_mini *ms, int pipes, int n, int i);
+static void	get_exit_code(t_mini *ms, int proc);
 static int	signal_sts(int sts);
-static char	*get_path(t_mini *ms);
-static void	child_proc(t_mini *ms);
 
-int	fork_proc(t_mini *ms)
+void	fork_proc(t_mini *ms, int proc, int pipes)
 {
-	int	pid;
-	int	sts;
+	int	n;
+	int	i;
 
-	pid = fork();
-	if (pid < 0)
+	n = 0;
+	i = 0;
+	while (n < proc)
 	{
-		perror("Could not fork process");
-		exit(1);
+		if (ms->cmd[n].builtin == 1)
+			ms->exit_status = ex_builtin(ms, n);
+		else
+		{
+			run_child(ms, pipes, n, i);
+			i++;
+		}
+		n++;
 	}
-	sts = 0;
+	close_pipes(ms, pipes);
+	get_exit_code(ms, proc);
+	exec_free(ms, pipes, FREE_STRUCT | FREE_CMD | FREE_FDS
+		| FREE_PIDS, 1);
+}
+
+static int	ex_builtin(t_mini *ms, int n)
+{
+	if (ft_strcmp("echo", ms->cmd[n].cmd[0]) == 0)
+		return (print_echo(ms->cmd[n].cmd), 0);
+	else if (ft_strcmp("export", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("unset", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("pwd", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("cd", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("env", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	else if (ft_strcmp("exit", ms->cmd[n].cmd[0]) == 0)
+		return (1);
+	return (1);
+}
+
+static void	run_child(t_mini *ms, int pipes, int n, int i)
+{
 	g_childrun = 1;
-	if (pid == 0)
-		child_proc(ms);
-	waitpid(pid, &sts, 0);
+	ms->pid[i] = fork();
+	if (ms->pid[i] < 0)
+	{
+		perror("Error: ");
+		exit(exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD
+				| FREE_FDS | FREE_PIPES | FREE_PIDS, 1));
+	}
+	if (ms->pid[i] == 0)
+	{
+		child_proc(ms, n, pipes);
+	}
 	g_childrun = 0;
-	if (WIFSIGNALED(sts))
-		return (signal_sts(sts));
-	return (WEXITSTATUS(sts));
+}
+
+static void	get_exit_code(t_mini *ms, int proc)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 0;
+	while (n < proc)
+	{
+		if (ms->cmd[n].builtin == 0)
+		{
+			waitpid(ms->pid[i], &ms->cmd[n].sts, 0);
+			if (WIFSIGNALED(ms->cmd[n].sts))
+				ms->exit_status = signal_sts(ms->cmd[n].sts);
+			else
+				ms->exit_status = WEXITSTATUS(ms->cmd[n].sts);
+			i++;
+		}
+		n++;
+	}
 }
 
 static int	signal_sts(int sts)
@@ -51,54 +112,4 @@ static int	signal_sts(int sts)
 	if (sig == SIGINT)
 		return (130);
 	return (WEXITSTATUS(sts));
-}
-
-static char	*get_path(t_mini *ms)
-{
-	char	*home;
-	char	**path;
-	char	*temp;
-	int		i;
-
-	i = 0;
-	home = ft_getenv("PATH", ms);
-	if (!home)
-		return (NULL);
-	path = ft_split(home, ':');
-	if (!path)
-		return (NULL);
-	while (path[i])
-	{
-		temp = ft_strjoin_3(path[i], ms->av[0], '/');
-		if (access(temp, X_OK) == 0)
-			return (free_mem(path), temp);
-		free(temp);
-		i++;
-	}
-	return (free_mem(path), NULL);
-}
-
-static void	child_proc(t_mini *ms)
-{
-	char	*path;
-
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (access (ms->av[0], X_OK) == 0)
-		path = ms->av[0];
-	else
-		path = get_path(ms);
-	if (!path)
-	{
-		ft_printf_fd ("Command not found: %s\n", ms->av[0]);
-		clean_list(ms);
-		split_memfree(ms);
-		free(ms->input);
-		exit (127);
-	}
-	execve (path, ms->av, ms->envp);
-	clean_list(ms);
-	split_memfree(ms);
-	free(ms->input);
-	exit (1);
 }

@@ -13,6 +13,13 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define FREE_BASE		1
+# define FREE_STRUCT	2
+# define FREE_CMD		4
+# define FREE_PIPES		8
+# define FREE_FDS		16
+# define FREE_PIDS		32
+
 // Includes
 # include <fcntl.h>
 # include <readline/history.h>
@@ -57,6 +64,18 @@ typedef struct s_exp
 	char	*content;
 }	t_exp;
 
+//	Command struct
+typedef struct s_cmd
+{
+	int		index;
+	char	**cmd;
+	char	*path;
+	int		input_fd;
+	int		output_fd;
+	int		sts;
+	int		builtin;
+}	t_cmd;
+
 // Main Struct
 typedef struct s_mini
 {
@@ -67,8 +86,11 @@ typedef struct s_mini
 	char	**envp;
 	int		ppid;
 	int		input_rec;
+	int		**fds;
+	int		*pid;
 	t_env	*export;
 	t_exp	expand;
+	t_cmd	*cmd;
 	int		exit_status;
 }	t_mini;
 
@@ -97,8 +119,11 @@ void	expand_others(char c, t_mini *ms, int *i);
 int		parsing(t_mini *mini);
 
 //	Execute CMD
-int		execute_cmd(t_mini *ms);
-int		fork_proc(t_mini *ms);
+void	execute_cmd(t_mini *ms);
+void	fork_proc(t_mini *ms, int proc, int pipes);
+int		**crt_pipes(t_mini *ms, int pipes);
+int		*crt_pid_arr(t_mini *ms, int pid_n, int pipes);
+void	child_proc(t_mini *ms, int n, int pipes);
 
 //  ------ Builtins ----------
 void	print_echo(char **av);
@@ -137,6 +162,7 @@ char	*ft_getenv(char *var, t_mini *ms);
 char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
 int		cnt_strings(char **av);
+int		pidnbr_cnt(t_mini *ms, int proc);
 char	*extract_slash(char *s);
 
 //	Memory Clean
@@ -144,5 +170,8 @@ void	clean_list(t_mini *ms);
 void	free_mem(char **av);
 void	split_memfree(t_mini *ms);
 void	free_2strings(char *s1, char *s2);
+void	close_pipes(t_mini *ms, int pipes);
+int		exec_free(t_mini *ms, int pipes, int opt, int ret);
+void	free_intarray(t_mini *ms, int pipes);
 
 #endif
