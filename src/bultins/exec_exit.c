@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:40:10 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/14 14:19:46 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:24:24 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	exec_exit(t_mini *ms)
 	clean_list(ms);
 	free_2strings(ms->prompt, ms->input);
 	split_memfree(ms);
-	exit(0); 
+	exit(exec_free(ms, 0, FREE_STRUCT | FREE_CMD, 0));
 }

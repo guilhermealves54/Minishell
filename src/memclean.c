@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 16:51:06 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:57:47 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 	if (opt & 32)
 		if (ms->pid)
 			free(ms->pid);
-	if (opt & 16)
-		free_intarray(ms, pipes);
 	if (opt & 8)
 		close_pipes(ms, pipes);
+	if (opt & 16)
+		free_intarray(ms, pipes);
 	if (opt & 4)
 	{
 		while ((pipes + 1) > i)
@@ -40,7 +40,7 @@ int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 	if (opt & 1)
 	{
 		split_memfree(ms);
-		free(ms->input);
+		free_2strings(ms->prompt, ms->input);
 		clean_list(ms);
 	}
 	return (ret);

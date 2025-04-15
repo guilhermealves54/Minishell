@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 17:47:13 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:21:50 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	**get_cmd(char	*ap)
 
 	i = 0;
 	cmd = ft_split_quotes(ap, ' ');
-	while (cmd[i])
+	while (cmd[i] && ft_strcmp(cmd[0], "echo"))
 	{
 		temp = cmd[i];
 		cmd[i] = get_new_str(cmd[i]);

@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 17:48:34 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:35:59 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 static int	ex_builtin(t_mini *ms, int n)
 {
 	if (ft_strcmp("echo", ms->cmd[n].cmd[0]) == 0)
-		return (print_echo(ms->cmd[n].cmd), 0);
+		return (print_echo(ms, ms->cmd[n].cmd, n));
 	else if (ft_strcmp("export", ms->cmd[n].cmd[0]) == 0)
-		return (1);
+		return (exec_export(ms));
 	else if (ft_strcmp("unset", ms->cmd[n].cmd[0]) == 0)
-		return (1);
+		return (exec_unset(ms));
 	else if (ft_strcmp("pwd", ms->cmd[n].cmd[0]) == 0)
-		return (1);
+		return (exec_pwd());
 	else if (ft_strcmp("cd", ms->cmd[n].cmd[0]) == 0)
-		return (1);
+		return (exec_cd(ms));
 	else if (ft_strcmp("env", ms->cmd[n].cmd[0]) == 0)
-		return (1);
+		return (exec_env(ms));
 	else if (ft_strcmp("exit", ms->cmd[n].cmd[0]) == 0)
-		return (1);
+		return (exec_exit(ms), 0);
 	return (1);
 }
 

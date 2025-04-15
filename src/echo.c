@@ -6,18 +6,18 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/15 17:43:33 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:36:58 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	multiple_nl(char **av, int *a);
-static void	print_quotes(char *s);
+static void	print_quotes(t_mini *ms, int n, char *s);
 static int	check_new_line(char *s, int	*a);
 char		*get_new_str(char *s);
 
-void	print_echo(char **av)
+int	print_echo(t_mini *ms, char **av, int n)
 {
 	int	i;
 	int	a;
@@ -26,13 +26,14 @@ void	print_echo(char **av)
 	a = multiple_nl(av, &i);
 	while (av[i])
 	{
-		print_quotes(av[i]);
+		print_quotes(ms, n, av[i]);
 		i++;
 		if (av[i])
-			write(1, " ", 1);
+			write(ms->cmd[n].output_fd, " ", 1);
 	}
 	if (a)
-		write(1, "\n", 1);
+		write(ms->cmd[n].output_fd, "\n", 1);
+	return (0);
 }
 
 static int	multiple_nl(char **av, int *a)
@@ -52,7 +53,7 @@ static int	multiple_nl(char **av, int *a)
 		return (0);
 }
 
-static void	print_quotes(char *s)
+static void	print_quotes(t_mini *ms, int n, char *s)
 {
 	int		i;
 	char	c;
@@ -65,12 +66,12 @@ static void	print_quotes(char *s)
 			c = s[i++];
 			while (s[i] != c)
 			{
-				write(1, &s[i], 1);
+				write(ms->cmd[n].output_fd, &s[i], 1);
 				i++;
 			}
 		}
 		else
-			write(1, &s[i], 1);
+			write(ms->cmd[n].output_fd, &s[i], 1);
 		i++;
 	}
 }
@@ -120,7 +121,7 @@ char	*get_new_str(char *s)
 		if (char_quotes(s[i]))
 		{
 			c = s[i++];
-			while (s[i] != c)
+			while (s[i] && s[i] != c)
 			{
 				str[j++] = s[i++];
 			}

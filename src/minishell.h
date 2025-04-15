@@ -126,7 +126,7 @@ int		*crt_pid_arr(t_mini *ms, int pid_n, int pipes);
 void	child_proc(t_mini *ms, int n, int pipes);
 
 //  ------ Builtins ----------
-void	print_echo(char **av);
+int		print_echo(t_mini *ms, char **av, int n);
 
 // Export Funcs
 int		exec_export(t_mini *ms);
