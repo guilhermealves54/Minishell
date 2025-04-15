@@ -6,11 +6,16 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:54:13 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/08 14:21:48 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:42:06 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		char_quotes(char c);
+char	*ft_strjoin_3(char *path, char *cmd, char c);
+int		pidnbr_cnt(t_mini *ms, int proc);
+int		cnt_strings(char **av);
 
 int	check_closed_quotes(char *input)
 {
@@ -66,4 +71,30 @@ char	*ft_strjoin_3(char *path, char *cmd, char c)
 	}
 	s[i] = '\0';
 	return (s);
+}
+
+int	pidnbr_cnt(t_mini *ms, int proc)
+{
+	int		n;
+	int		pid_n;
+
+	n = 0;
+	pid_n = 0;
+	while (n < proc)
+	{
+		if (ms->cmd[n].builtin == 0)
+			pid_n++;
+		n++;
+	}
+	return (pid_n);
+}
+
+int	cnt_strings(char **av)
+{
+	int	i;
+
+	i = 0;
+	while (av[i])
+		i++;
+	return (i);
 }

@@ -118,6 +118,9 @@ int		parsing(t_mini *mini);
 //	Execute CMD
 void	execute_cmd(t_mini *ms);
 void	fork_proc(t_mini *ms, int proc, int pipes);
+int		**crt_pipes(t_mini *ms, int pipes);
+int		*crt_pid_arr(t_mini *ms, int pid_n, int pipes);
+void	child_proc(t_mini *ms, int n, int pipes);
 
 //	Builtins
 void	print_echo(char **av);
@@ -131,12 +134,16 @@ int		char_quotes(char c);
 char	*ft_getenv(char *var, t_mini *ms);
 char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
+int		cnt_strings(char **av);
+int		pidnbr_cnt(t_mini *ms, int proc);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);
 void	free_mem(char **av);
 void	split_memfree(t_mini *ms);
 void	free_2strings(char *s1, char *s2);
+void	close_pipes(t_mini *ms, int pipes);
 int		exec_free(t_mini *ms, int pipes, int opt, int ret);
+void	free_intarray(t_mini *ms, int pipes);
 
 #endif

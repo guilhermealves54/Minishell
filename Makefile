@@ -14,7 +14,8 @@ NAME = minishell
 
 # Srcs
 SRCS = src/main.c src/init.c src/init2.c src/memclean.c src/signals.c src/input.c src/ft_printf_fd.c \
-	src/echo.c src/expand.c src/parsing.c src/split_quotes.c src/utils.c src/execute.c src/process.c
+	src/echo.c src/expand.c src/parsing.c src/split_quotes.c src/utils.c src/execute.c src/process.c \
+	src/execute2.c src/memclean2.c src/child.c
 OBJS = $(SRCS:.c=.o)
 
 # Compiler

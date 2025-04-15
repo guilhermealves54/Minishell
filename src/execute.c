@@ -6,53 +6,16 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/11 17:15:06 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:48:41 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	cnt_strings(char **av);
-static int	**crt_pipes(t_mini *ms, int pipes);
 static void	init_cmd(t_mini *ms, int childs, int pipes);
+static char	**get_cmd(char	*ap);
+static void	input_assign(t_mini *ms, int n, int proc);
 static int	check_cmd(char *cmd);
-char		**get_cmd(char	*ap);
-
-//COUNT HOW MANY PROCESSES ARE NOT BUILTINS
-int	pidnbr_cnt(t_mini *ms, int proc)
-{
-	int		n;
-	int		pid_n;
-
-	n = 0;
-	pid_n = 0;
-	while (n < proc)
-	{
-		if (ms->cmd[n].builtin == 0)
-			pid_n++;
-		n++;
-	}
-	return (pid_n);
-}
-
-//CREATE PID ARRAY
-int	*crt_pid_arr(t_mini *ms, int pid_n, int pipes)
-{
-	int	*pid;
-	
-	pid = NULL;
-	if (pid_n > 0)
-	{
-		pid = malloc((pid_n) * sizeof(int));
-		if (!pid)
-		{
-			ft_printf_fd("minishell: error allocating memory\n");	
-			exit(exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD
-				| FREE_FDS | FREE_PIPES, 1));
-		}
-	}
-	return (pid);
-}
 
 void	execute_cmd(t_mini *ms)
 {
@@ -66,7 +29,7 @@ void	execute_cmd(t_mini *ms)
 	ms->cmd = malloc(proc * sizeof(t_cmd));
 	if (!ms->cmd)
 	{
-		ft_printf_fd("minishell: error allocating memory\n");	
+		ft_printf_fd("minishell: error allocating memory\n");
 		exit(exec_free(ms, pipes, FREE_BASE, 1));
 	}
 	if (pipes > 0)
@@ -77,37 +40,36 @@ void	execute_cmd(t_mini *ms)
 	fork_proc(ms, proc, pipes);
 }
 
-static int	**crt_pipes(t_mini *ms, int pipes)
+static void	init_cmd(t_mini *ms, int proc, int pipes)
 {
-	int	n;
+	int		n;
 
-	ms->fds = malloc(pipes * sizeof(int *));
-	if (!ms->fds)
-	{
-		ft_printf_fd("minishell: error allocating memory\n");	
-		exit(exec_free(ms, pipes, FREE_BASE | FREE_STRUCT, 1));
-	}
 	n = 0;
-	while (n < pipes)
+	while (n < proc)
 	{
-		ms->fds[n] = malloc(2 * sizeof(int));
-		if (!ms->fds[n])
-		{
-			ft_printf_fd("minishell: error allocating memory\n");	
-			exit(exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS, 1));
-		}
-		if (pipe(ms->fds[n]) == -1)
+		ms->cmd[n].index = n;
+		ms->cmd[n].cmd = get_cmd(ms->ap[n]);
+		if (!ms->cmd[n].cmd)
 		{
 			ft_printf_fd("minishell: error allocating memory\n");
-			exec_free(ms, n, FREE_PIPES, 1);
-			exit(exec_free(ms, n + 1, FREE_BASE | FREE_STRUCT | FREE_FDS, 1));
+			exit(exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS
+					| FREE_PIPES, 1));
 		}
+		ms->cmd[n].path = ms->cmd[n].cmd[0];
+		if (pipes > 0)
+			input_assign(ms, n, proc);
+		else
+		{
+			ms->cmd[n].input_fd = STDIN_FILENO;
+			ms->cmd[n].output_fd = STDOUT_FILENO;
+		}
+		ms->cmd[n].sts = 0;
+		ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
 		n++;
 	}
-	return (ms->fds);
 }
 
-char	**get_cmd(char	*ap)
+static char	**get_cmd(char	*ap)
 {
 	char	*temp;
 	char	**cmd;
@@ -125,42 +87,16 @@ char	**get_cmd(char	*ap)
 	return (cmd);
 }
 
-static void	init_cmd(t_mini *ms, int proc, int pipes)
+static void	input_assign(t_mini *ms, int n, int proc)
 {
-	int		n;
-
-	n = 0;
-	while (n < proc)
-	{
-		ms->cmd[n].index = n;
-		ms->cmd[n].cmd = get_cmd(ms->ap[n]);
-		if (!ms->cmd[n].cmd)
-		{
-			ft_printf_fd("minishell: error allocating memory\n");	
-			exit(exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS
-				| FREE_PIPES, 1));
-		}
-		ms->cmd[n].path = ms->cmd[n].cmd[0];
-		if (pipes > 0)
-		{
-			if (n == 0)
-				ms->cmd[n].input_fd = STDIN_FILENO;
-			else
-				ms->cmd[n].input_fd = ms->fds[n - 1][0];
-			if (n == proc - 1)
-				ms->cmd[n].output_fd = STDOUT_FILENO;
-			else
-				ms->cmd[n].output_fd = ms->fds[n][1];
-		}
-		else
-		{
-			ms->cmd[n].input_fd = STDIN_FILENO;
-			ms->cmd[n].output_fd = STDOUT_FILENO;
-		}
-		ms->cmd[n].sts = 0;
-		ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
-		n++;
-	}
+	if (n == 0)
+		ms->cmd[n].input_fd = STDIN_FILENO;
+	else
+		ms->cmd[n].input_fd = ms->fds[n - 1][0];
+	if (n == proc - 1)
+		ms->cmd[n].output_fd = STDOUT_FILENO;
+	else
+		ms->cmd[n].output_fd = ms->fds[n][1];
 }
 
 static int	check_cmd(char *cmd)
@@ -181,14 +117,4 @@ static int	check_cmd(char *cmd)
 		return (1);
 	else
 		return (0);
-}
-
-static int	cnt_strings(char **av)
-{
-	int	i;
-
-	i = 0;
-	while (av[i])
-		i++;
-	return (i);
 }
