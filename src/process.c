@@ -6,15 +6,15 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 17:08:33 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:37:17 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	ex_builtin(t_mini *ms, int n);
-static void	run_child(t_mini *ms, int pipes, int n);
-static void	get_exit_code(t_mini *ms, int proc, int n);
+static void	run_child(t_mini *ms, int pipes, int n, int i);
+static void	get_exit_code(t_mini *ms, int proc);
 static int	signal_sts(int sts);
 
 void	fork_proc(t_mini *ms, int proc, int pipes)
@@ -29,11 +29,14 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 		if (ms->cmd[n].builtin == 1)
 			ms->exit_status = ex_builtin(ms, n);
 		else
-			run_child(ms, pipes, n);
+		{
+			run_child(ms, pipes, n, i);
+			i++;
+		}
 		n++;
 	}
 	close_pipes(ms, pipes);
-	get_exit_code(ms, proc, n);
+	get_exit_code(ms, proc);
 	exec_free(ms, pipes, FREE_STRUCT | FREE_CMD | FREE_FDS
 		| FREE_PIDS, 1);
 }
@@ -57,11 +60,8 @@ static int	ex_builtin(t_mini *ms, int n)
 	return (1);
 }
 
-static void	run_child(t_mini *ms, int pipes, int n)
+static void	run_child(t_mini *ms, int pipes, int n, int i)
 {
-	int	i;
-
-	i = 0;
 	g_childrun = 1;
 	ms->pid[i] = fork();
 	if (ms->pid[i] < 0)
@@ -75,12 +75,12 @@ static void	run_child(t_mini *ms, int pipes, int n)
 		child_proc(ms, n, pipes);
 	}
 	g_childrun = 0;
-	i++;
 }
 
-static void	get_exit_code(t_mini *ms, int proc, int n)
+static void	get_exit_code(t_mini *ms, int proc)
 {
 	int	i;
+	int	n;
 
 	i = 0;
 	n = 0;
