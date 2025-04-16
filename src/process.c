@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 19:35:59 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:24:56 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 			ms->exit_status = ex_builtin(ms, n);
 		else
 		{
+			g_childrun = 1;
 			run_child(ms, pipes, n, i);
 			i++;
 		}
@@ -37,6 +38,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 	}
 	close_pipes(ms, pipes);
 	get_exit_code(ms, proc);
+	g_childrun = 0;
 	exec_free(ms, pipes, FREE_STRUCT | FREE_CMD | FREE_FDS
 		| FREE_PIDS, 1);
 }
@@ -62,7 +64,6 @@ static int	ex_builtin(t_mini *ms, int n)
 
 static void	run_child(t_mini *ms, int pipes, int n, int i)
 {
-	g_childrun = 1;
 	ms->pid[i] = fork();
 	if (ms->pid[i] < 0)
 	{
@@ -74,7 +75,6 @@ static void	run_child(t_mini *ms, int pipes, int n, int i)
 	{
 		child_proc(ms, n, pipes);
 	}
-	g_childrun = 0;
 }
 
 static void	get_exit_code(t_mini *ms, int proc)

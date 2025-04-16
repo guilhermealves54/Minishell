@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 18:57:47 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:46:10 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 void	clean_list(t_mini *ms)
 {
 	t_env	*tmp;
+	t_env	*current;
 
-	while (ms->export)
+	tmp = ms->export;
+	while (tmp)
 	{
-		tmp = ms->export->next;
-		free(ms->export->var);
-		free(ms->export->content);
-		free(ms->export);
-		ms->export = tmp;
+		current = tmp->next;
+		free(tmp->var);
+		free(tmp->content);
+		free(tmp);
+		tmp = current;
 	}
 }
 

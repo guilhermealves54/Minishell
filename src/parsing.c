@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:07:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/07 16:12:27 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:45:05 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	parsing(t_mini *mini)
 {
 	char	c;
 
+	if (!mini->av || !mini->av[0])
+		return (0);
 	c = get_last_char(mini);
 	if (errors_redir(mini))
 		return (0);
@@ -43,6 +45,8 @@ static char	get_last_char(t_mini *mini)
 
 	i = 0;
 	av = mini->av;
+	if (!av || !av[0])
+		return ('\0');
 	while (av[i])
 		i++;
 	j = ft_strlen(av[--i]);
