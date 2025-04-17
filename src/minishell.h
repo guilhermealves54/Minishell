@@ -20,6 +20,12 @@
 # define FREE_FDS		16
 # define FREE_PIDS		32
 
+// colors
+# define BLUE	"\033[44m"
+# define RED	"\033[41m"
+# define GREEN	"\033[42m"
+# define RESET	"\033[0m"
+
 // Includes
 # include <fcntl.h>
 # include <readline/history.h>
@@ -146,6 +152,7 @@ int		exec_cd(t_mini *ms);
 void	update_var(char *oldpwd, char *pwd, t_mini *mini);
 char	*get_new_cwd(char *buffer);
 int		cd_5(t_mini *ms);
+char	*get_home(t_mini *ms);
 
 //	Helper functions
 
