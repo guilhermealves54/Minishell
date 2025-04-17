@@ -105,6 +105,9 @@ extern int	g_childrun;
 
 //	Funcs
 
+// Redirections
+char	**exec_redir(char **av, t_mini *mini);
+
 //	Printf_fd
 int		ft_printf_fd(const char *format, ...);
 

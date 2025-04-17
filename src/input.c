@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:39 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/17 15:47:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:39:36 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	eof_exit(t_mini *ms)
 	exit(0);
 }
 
+// add color to a string
 static char	*add_color(char *cwd, char *color)
 {
 	char	*s;
