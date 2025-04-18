@@ -28,6 +28,7 @@
 # define RESET	"\033[0m"
 
 // Includes
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -179,6 +180,7 @@ char	*get_new_str(char *s);
 int		cnt_strings(char **av);
 int		pidnbr_cnt(t_mini *ms, int proc);
 char	*extract_slash(char *s);
+int		list_size(t_mini *ms);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

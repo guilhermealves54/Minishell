@@ -6,14 +6,14 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:08 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 17:29:45 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:02:23 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	check_dir(t_mini *ms, int n, int pipes);
 static char	*get_path(t_mini *ms, int n);
-static int	list_size(t_mini *ms);
 static char	**new_envp(t_mini *ms);
 static void	aft_execve(t_mini *ms, char **envp, int n, int pipes);
 
@@ -23,6 +23,7 @@ void	child_proc(t_mini *ms, int n, int pipes)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	check_dir(ms, n, pipes);
 	if (ms->cmd[n].path && access (ms->cmd[n].path, X_OK) != 0)
 		ms->cmd[n].path = get_path(ms, n);
 	if (!ms->cmd[n].path)
@@ -40,6 +41,27 @@ void	child_proc(t_mini *ms, int n, int pipes)
 	close_pipes(ms, pipes);
 	execve (ms->cmd[n].path, ms->cmd[n].cmd, envp);
 	aft_execve(ms, envp, n, pipes);
+}
+
+static void	check_dir(t_mini *ms, int n, int pipes)
+{
+	DIR		*dir;
+
+	dir = opendir(ms->cmd[n].path);
+	if (dir && ft_strncmp("./", ms->cmd[n].path, 2) == 0)
+	{
+		ft_printf_fd("minishell: %s: Is a directory\n", ms->cmd[n].path);
+		closedir(dir);
+		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
+				| FREE_PIPES | FREE_PIDS, 126));
+	}
+	if (dir)
+	{
+		closedir(dir);
+		ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
+		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
+				| FREE_PIPES | FREE_PIDS, 127));
+	}
 }
 
 static char	*get_path(t_mini *ms, int n)
@@ -67,23 +89,6 @@ static char	*get_path(t_mini *ms, int n)
 		i++;
 	}
 	return (free_mem(path), NULL);
-}
-
-static int	list_size(t_mini *ms)
-{
-	int		size;
-	t_env	*start;
-
-	size = 0;
-	start = ms->export;
-	while (ms->export)
-	{
-		if (ms->export->content)
-			size++;
-		ms->export = ms->export->next;
-	}
-	ms->export = start;
-	return (size);
 }
 
 static char	**new_envp(t_mini *ms)
