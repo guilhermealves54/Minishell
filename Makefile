@@ -16,10 +16,9 @@ NAME = minishell
 SRCS = src/main.c src/init.c src/init2.c src/memclean.c src/signals.c src/input.c src/ft_printf_fd.c \
 	src/echo.c src/expand.c src/parsing.c src/split_quotes.c src/utils.c src/execute.c src/expand_utils.c\
 	src/bultins/export.c src/bultins/order_export.c src/bultins/export_2.c src/bultins/unset.c \
-	src/bultins/export_syntax.c src/bultins/export_create.c \
-	src/bultins/exec_pwd.c src/bultins/exec_env.c src/bultins/exec_cd.c src/bultins/cd_utils.c \
-	src/bultins/cd_2.c src/bultins/exec_exit.c src/process.c \
-	src/split_redir.c src/execute2.c src/memclean2.c src/child.c
+	src/bultins/export_syntax.c src/bultins/export_create.c src/bultins/exec_pwd.c src/bultins/exec_env.c \
+	src/bultins/exec_cd.c src/bultins/cd_utils.c src/bultins/cd_2.c src/bultins/exec_exit.c src/process.c \
+	src/split_redir.c src/execute2.c src/memclean2.c src/child.c src/utils2.c
 OBJS = $(SRCS:.c=.o)
 
 # Compiler
