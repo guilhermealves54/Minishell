@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:49:25 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 17:02:06 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:14:58 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	close_pipes(t_mini *ms, int pipes);
 void	close_redir(t_mini *ms, int proc);
+void	free_base(t_mini *ms);
 
 void	free_2strings(char *s1, char *s2)
 {
@@ -32,6 +33,7 @@ void	close_pipes(t_mini *ms, int pipes)
 		pipes--;
 	}
 }
+
 void	close_redir(t_mini *ms, int proc)
 {
 	while (proc >= 0)
@@ -42,4 +44,11 @@ void	close_redir(t_mini *ms, int proc)
 			close(ms->cmd[proc].redirout);
 		proc--;
 	}
+}
+
+void	free_base(t_mini *ms)
+{
+	split_memfree(ms);
+	free_2strings(ms->prompt, ms->input);
+	clean_list(ms);
 }

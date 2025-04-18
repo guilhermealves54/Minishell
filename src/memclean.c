@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 16:49:54 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:13:36 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,7 @@ int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 	if (opt & 2)
 		free(ms->cmd);
 	if (opt & 1)
-	{
-		split_memfree(ms);
-		free_2strings(ms->prompt, ms->input);
-		clean_list(ms);
-	}
+		free_base(ms);
 	return (ret);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:43:42 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 16:47:02 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:01:59 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	open_pipe(t_mini *ms, int n);
 int			*crt_pid_arr(t_mini *ms, int pid_n, int pipes);
+int			check_cmd(char *cmd);
 
 int	**crt_pipes(t_mini *ms, int pipes)
 {
@@ -66,4 +67,26 @@ int	*crt_pid_arr(t_mini *ms, int pid_n, int pipes)
 		}
 	}
 	return (pid);
+}
+
+int	check_cmd(char *cmd)
+{
+	if (!cmd)
+		return (-1);
+	else if (ft_strcmp("echo", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("export", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("unset", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("pwd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("cd", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("env", cmd) == 0)
+		return (1);
+	else if (ft_strcmp("exit", cmd) == 0)
+		return (1);
+	else
+		return (0);
 }

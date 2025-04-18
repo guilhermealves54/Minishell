@@ -110,6 +110,7 @@ extern int	g_childrun;
 
 // Redirections
 char	**exec_redir(t_mini *mini, int n);
+int		is_redir(char *s);
 
 //	Printf_fd
 int		ft_printf_fd(const char *format, ...);
@@ -118,6 +119,7 @@ int		ft_printf_fd(const char *format, ...);
 t_mini	init(char **envp);
 int		ft_getpid(void);
 char	*get_input(t_mini *ms);
+int		check_cmd(char *cmd);
 
 //	Signals
 void	setup_signals(void);
@@ -187,5 +189,6 @@ void	close_pipes(t_mini *ms, int pipes);
 int		exec_free(t_mini *ms, int pipes, int opt, int ret);
 void	free_intarray(t_mini *ms, int pipes);
 void	close_redir(t_mini *ms, int proc);
+void	free_base(t_mini *ms);
 
 #endif

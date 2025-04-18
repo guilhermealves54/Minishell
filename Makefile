@@ -20,7 +20,7 @@ SRCS = src/main.c src/init.c src/init2.c src/memclean.c src/signals.c src/input.
 	src/bultins/exec_pwd.c src/bultins/exec_env.c src/bultins/exec_cd.c src/bultins/cd_utils.c \
 	src/bultins/cd_2.c src/bultins/exec_exit.c src/process.c \
 	src/split_redir.c src/execute2.c src/memclean2.c src/child.c \
-	src/redir.c
+	src/redir.c src/redir_utils.c
 OBJS = $(SRCS:.c=.o)
 
 # Compiler

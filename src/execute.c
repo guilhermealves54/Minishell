@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 18:11:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:03:48 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	init_cmd(t_mini *ms, int childs, int pipes);
 static char	**get_cmd(char	*ap);
 static void	input_assign(t_mini *ms, int n, int proc);
-static int	check_cmd(char *cmd);
+static void	init_cmd2(t_mini *ms, int n);
 
 void	execute_cmd(t_mini *ms)
 {
@@ -62,14 +62,19 @@ static void	init_cmd(t_mini *ms, int proc, int pipes)
 			ms->cmd[n].input_fd = STDIN_FILENO;
 			ms->cmd[n].output_fd = STDOUT_FILENO;
 		}
-		ms->cmd[n].sts = 0;
-		ms->cmd[n].redirin = -1;
-		ms->cmd[n].redirout = -1;
-		ms->cmd[n].cmd = exec_redir(ms, n);
-		ms->cmd[n].path = ms->cmd[n].cmd[0];
-		ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
+		init_cmd2(ms, n);
 		n++;
 	}
+}
+
+static void	init_cmd2(t_mini *ms, int n)
+{
+	ms->cmd[n].sts = 0;
+	ms->cmd[n].redirin = -1;
+	ms->cmd[n].redirout = -1;
+	ms->cmd[n].cmd = exec_redir(ms, n);
+	ms->cmd[n].path = ms->cmd[n].cmd[0];
+	ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
 }
 
 static char	**get_cmd(char	*ap)
@@ -100,26 +105,4 @@ static void	input_assign(t_mini *ms, int n, int proc)
 		ms->cmd[n].output_fd = STDOUT_FILENO;
 	else
 		ms->cmd[n].output_fd = ms->fds[n][1];
-}
-
-static int	check_cmd(char *cmd)
-{
-	if (!cmd)
-		return (-1);
-	else if (ft_strcmp("echo", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("export", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("unset", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("pwd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("cd", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("env", cmd) == 0)
-		return (1);
-	else if (ft_strcmp("exit", cmd) == 0)
-		return (1);
-	else
-		return (0);
 }
