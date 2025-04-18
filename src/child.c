@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:08 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/16 18:45:27 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:29:45 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	child_proc(t_mini *ms, int n, int pipes)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (access (ms->cmd[n].path, X_OK) != 0)
+	if (ms->cmd[n].path && access (ms->cmd[n].path, X_OK) != 0)
 		ms->cmd[n].path = get_path(ms, n);
 	if (!ms->cmd[n].path)
 	{
@@ -32,7 +32,7 @@ void	child_proc(t_mini *ms, int n, int pipes)
 		else
 			ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
 		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
-				| FREE_PIPES | FREE_PIDS, 127));
+				| FREE_PIPES | FREE_PIDS | FREE_REDIR, 127));
 	}
 	envp = new_envp(ms);
 	dup2(ms->cmd[n].input_fd, STDIN_FILENO);
@@ -118,5 +118,5 @@ static void	aft_execve(t_mini *ms, char **envp, int n, int pipes)
 	if (envp)
 		free_mem(envp);
 	exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
-			| FREE_PIPES | FREE_PIDS, 1));
+			| FREE_PIPES | FREE_PIDS | FREE_REDIR, 1));
 }

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   memclean2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:49:25 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 18:41:09 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:02:06 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	close_pipes(t_mini *ms, int pipes);
+void	close_redir(t_mini *ms, int proc);
 
 void	free_2strings(char *s1, char *s2)
 {
@@ -29,5 +30,16 @@ void	close_pipes(t_mini *ms, int pipes)
 		close(ms->fds[pipes - 1][0]);
 		close(ms->fds[pipes - 1][1]);
 		pipes--;
+	}
+}
+void	close_redir(t_mini *ms, int proc)
+{
+	while (proc >= 0)
+	{
+		if (ms->cmd[proc].redirin != -1)
+			close(ms->cmd[proc].redirin);
+		if (ms->cmd[proc].redirout != -1)
+			close(ms->cmd[proc].redirout);
+		proc--;
 	}
 }

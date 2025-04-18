@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memclean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/16 18:46:10 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:49:54 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 	int	i;
 
 	i = 0;
+	if (opt & 64)
+		close_redir(ms, pipes);
 	if (opt & 32)
 		if (ms->pid)
 			free(ms->pid);

@@ -19,6 +19,7 @@
 # define FREE_PIPES		8
 # define FREE_FDS		16
 # define FREE_PIDS		32
+# define FREE_REDIR		64
 
 // colors
 # define BLUE	"\033[44m"
@@ -80,6 +81,8 @@ typedef struct s_cmd
 	int		output_fd;
 	int		sts;
 	int		builtin;
+	int		redirin;
+	int		redirout;
 }	t_cmd;
 
 // Main Struct
@@ -106,7 +109,7 @@ extern int	g_childrun;
 //	Funcs
 
 // Redirections
-char	**exec_redir(char **av, t_mini *mini);
+char	**exec_redir(t_mini *mini, int n);
 
 //	Printf_fd
 int		ft_printf_fd(const char *format, ...);
@@ -183,5 +186,6 @@ void	free_2strings(char *s1, char *s2);
 void	close_pipes(t_mini *ms, int pipes);
 int		exec_free(t_mini *ms, int pipes, int opt, int ret);
 void	free_intarray(t_mini *ms, int pipes);
+void	close_redir(t_mini *ms, int proc);
 
 #endif
