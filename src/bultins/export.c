@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/19 14:28:08 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:43:32 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_export(t_mini *ms, char **av)
 	i = 1;
 	n = 0;
 	order_envp(ms);
-	if (!av)
+	if (!av[i])
 		print_export(ms->export);
 	while (av[i])
 	{

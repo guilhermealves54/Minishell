@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:08:44 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/07 18:04:37 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:53:49 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,10 @@ void	update_i(char *s, int *i, char c)
 {
 	(*i)++;
 	while (s[*i] && s[*i] != c)
-		(*i)++;
+	{
+		if (s[*i] == '\\' && s[*i + 1] == '\"')
+			*i += 2;
+		else
+			(*i)++;		
+	}		
 }

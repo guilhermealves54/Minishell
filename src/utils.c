@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:54:13 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/15 17:48:49 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:49:20 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	check_closed_quotes(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
+		if (input[i] == '\\' && input[i + 1] == '\"')
+			i++;
+		else if (input[i] == '\'' || input[i] == '\"')
 		{
 			update_i(input, &i, input[i]);
 			if (!input[i])
