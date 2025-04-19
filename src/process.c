@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 17:59:30 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:37:51 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 	i = 0;
 	while (n < proc)
 	{
-		if (ms->cmd[n].builtin == 1)
-			ms->exit_status = ex_builtin(ms, n);
-		else if (ms->cmd[n].cmd[0])
+		if (ms->cmd[n].cmd)
 		{
-			g_childrun = 1;
-			run_child(ms, pipes, n, i);
-			i++;
+			if (ms->cmd[n].builtin == 1)
+				ms->exit_status = ex_builtin(ms, n);
+			else if (ms->cmd[n].cmd[0])
+			{
+				g_childrun = 1;
+				run_child(ms, pipes, n, i);
+				i++;
+			}
 		}
 		n++;
 	}
@@ -48,7 +51,7 @@ static int	ex_builtin(t_mini *ms, int n)
 	if (ft_strcmp("echo", ms->cmd[n].cmd[0]) == 0)
 		return (print_echo(ms, ms->cmd[n].cmd, n));
 	else if (ft_strcmp("export", ms->cmd[n].cmd[0]) == 0)
-		return (exec_export(ms));
+		return (exec_export(ms, ms->cmd[n].cmd));
 	else if (ft_strcmp("unset", ms->cmd[n].cmd[0]) == 0)
 		return (exec_unset(ms));
 	else if (ft_strcmp("pwd", ms->cmd[n].cmd[0]) == 0)

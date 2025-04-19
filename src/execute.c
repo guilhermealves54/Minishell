@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 19:03:48 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:50:50 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ static void	init_cmd2(t_mini *ms, int n)
 	ms->cmd[n].redirin = -1;
 	ms->cmd[n].redirout = -1;
 	ms->cmd[n].cmd = exec_redir(ms, n);
-	ms->cmd[n].path = ms->cmd[n].cmd[0];
-	ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
+	if (ms->cmd[n].cmd)
+	{
+		ms->cmd[n].path = ms->cmd[n].cmd[0];
+		ms->cmd[n].builtin = check_cmd(ms->cmd[n].cmd[0]);
+	}
 }
 
 static char	**get_cmd(char	*ap)

@@ -144,7 +144,7 @@ void	child_proc(t_mini *ms, int n, int pipes);
 int		print_echo(t_mini *ms, char **av, int n);
 
 // Export Funcs
-int		exec_export(t_mini *ms);
+int		exec_export(t_mini *ms, char **av);
 void	order_envp(t_mini *mini);
 char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s);

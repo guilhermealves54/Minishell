@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/18 19:43:12 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:47:04 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 	int	fd;
 
 	fd = 0;
+	if (!file)
+		return (0);
 	if (ft_strncmp(s, "<<", 2) == 0)
 		fd = openfile(file, 0, mini, n);
 	else if (ft_strncmp(s, "<", 1) == 0)

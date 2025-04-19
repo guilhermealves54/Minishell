@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:07:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/16 18:45:05 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:08:13 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static char	get_last_char(t_mini *mini);
 static int	errors_redir(t_mini *mini);
 static int	char_redir(char c);
 static int	redir_err2(char c, char a, int i, t_mini *mini);
+static int	check_aft_redir(t_mini *ms);
 
 // returns 1 if parsing OK
 int	parsing(t_mini *mini)
@@ -62,6 +63,8 @@ static int	errors_redir(t_mini *mini)
 	char	*s;
 	char	c;
 
+	if (!check_aft_redir(mini))
+		return (1);
 	s = mini->input;
 	i = 0;
 	while (s[i])
@@ -78,6 +81,25 @@ static int	errors_redir(t_mini *mini)
 		i++;
 	}
 	return (0);
+}
+
+static int	check_aft_redir(t_mini *ms)
+{
+	char	**av;
+	int		i;
+
+	i = 0;
+	av = ms->av;
+	while (av[i])
+	{
+		if (is_redir(av[i]) && av[i +1][0] == '|')
+		{
+			ft_printf_fd("minishell: syntax error near unexpected token `|'\n");
+			return (0);
+		}		
+		i++;		
+	}
+	return (1);
 }
 
 // checks if is a redirection char

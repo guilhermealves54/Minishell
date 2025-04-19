@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/09 18:17:03 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:28:08 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	print_export(t_env	*head);
 static int	extract_export(char *s, t_mini *ms);
 static char	*get_content(char *s, int i);
 
-int	exec_export(t_mini *ms)
+int	exec_export(t_mini *ms, char **av)
 {
 	int	i;
 	int	n;
@@ -25,11 +25,11 @@ int	exec_export(t_mini *ms)
 	i = 1;
 	n = 0;
 	order_envp(ms);
-	if (!ms->av[1])
+	if (!av)
 		print_export(ms->export);
-	while (ms->av[i])
+	while (av[i])
 	{
-		a = extract_export(ms->av[i], ms);
+		a = extract_export(av[i], ms);
 		if (a == 1)
 			n = 1;
 		i++;
