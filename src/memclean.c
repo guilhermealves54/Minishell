@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 19:13:36 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:48:34 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 	if (opt & 16)
 		free_intarray(ms, pipes);
 	if (opt & 4)
-	{
-		while ((pipes + 1) > i)
-			if (ms->cmd[i].cmd)
-				free_mem(ms->cmd[i++].cmd);
-	}
+		free_cmd(ms, pipes);
 	if (opt & 2)
 		free(ms->cmd);
 	if (opt & 1)

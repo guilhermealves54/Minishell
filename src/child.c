@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:08 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 20:02:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:30:27 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,18 @@ static char	**new_envp(t_mini *ms)
 
 static void	aft_execve(t_mini *ms, char **envp, int n, int pipes)
 {
+	int	status;
+
+	status = 1;
+	if (errno == EACCES || errno == ENOEXEC)
+	{
+		ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
+		status = 127;
+	}
 	if (ms->cmd[n].cmd[0] != ms->cmd[n].path)
 		free(ms->cmd->path);
 	if (envp)
 		free_mem(envp);
 	exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
-			| FREE_PIPES | FREE_PIDS | FREE_REDIR, 1));
+			| FREE_PIPES | FREE_PIDS | FREE_REDIR, status));
 }

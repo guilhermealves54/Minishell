@@ -194,5 +194,6 @@ int		exec_free(t_mini *ms, int pipes, int opt, int ret);
 void	free_intarray(t_mini *ms, int pipes);
 void	close_redir(t_mini *ms, int proc);
 void	free_base(t_mini *ms);
+void	free_cmd(t_mini *ms, int pipes);
 
 #endif

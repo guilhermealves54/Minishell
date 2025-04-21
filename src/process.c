@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 15:58:30 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:31:50 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	get_exit_code(t_mini *ms, int proc)
 	n = 0;
 	while (n < proc)
 	{
-		if (ms->cmd[n].builtin == 0)
+		if (ms->cmd[n].cmd && ms->cmd[n].builtin == 0)
 		{
 			waitpid(ms->pid[i], &ms->cmd[n].sts, 0);
 			if (WIFSIGNALED(ms->cmd[n].sts))
