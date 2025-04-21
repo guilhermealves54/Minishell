@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:54:13 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/19 14:49:20 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:17:13 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	pidnbr_cnt(t_mini *ms, int proc)
 	pid_n = 0;
 	while (n < proc)
 	{
-		if (ms->cmd[n].builtin == 0)
+		if (ms->cmd[n].cmd && ms->cmd[n].builtin == 0)
 			pid_n++;
 		n++;
 	}

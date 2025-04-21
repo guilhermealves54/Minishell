@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:40:10 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 01:58:45 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:00:28 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static int	ft_isdigitsignal(char *str)
 
 static long long	ft_atoll(const char *str, int *overf)
 {
-	int					sign;
-	int					i;
+	int	sign;
+	int	i;
 
 	sign = 1;
 	i = 0;
