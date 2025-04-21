@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:08:44 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/19 14:53:49 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:57:26 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	**ft_split_quotes(char *s, char c)
 
 static void	skip_slash(char *s, int *i)
 {
-	if (s[*i] == '\'' || s[*i] == '\"')
+	if (s[*i] == '\\' && s[*i + 1] == '\"')
+		(*i)++;
+	else if (s[*i] == '\'' || s[*i] == '\"')
 		update_i(s, i, s[*i]);
 	(*i)++;
 }
@@ -71,7 +73,9 @@ static int	count_strings(char *s, char c)
 		j++;
 		while (s[i] && s[i] != c)
 		{
-			if (s[i] == '\'' || s[i] == '\"')
+			if (s[i] == '\\' && s[i + 1] == '\"')
+				i++;
+			else if (s[i] == '\'' || s[i] == '\"')
 				update_i(s, &i, s[i]);
 			i++;
 		}
@@ -103,6 +107,6 @@ void	update_i(char *s, int *i, char c)
 		if (s[*i] == '\\' && s[*i + 1] == '\"')
 			*i += 2;
 		else
-			(*i)++;		
-	}		
+			(*i)++;
+	}
 }

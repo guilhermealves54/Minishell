@@ -181,6 +181,7 @@ int		cnt_strings(char **av);
 int		pidnbr_cnt(t_mini *ms, int proc);
 char	*extract_slash(char *s);
 int		list_size(t_mini *ms);
+int		char_redir(char c);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

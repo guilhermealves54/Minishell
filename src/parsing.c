@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:07:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/19 14:08:13 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 14:54:04 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	get_last_char(t_mini *mini);
 static int	errors_redir(t_mini *mini);
-static int	char_redir(char c);
 static int	redir_err2(char c, char a, int i, t_mini *mini);
 static int	check_aft_redir(t_mini *ms);
 
@@ -96,18 +95,10 @@ static int	check_aft_redir(t_mini *ms)
 		{
 			ft_printf_fd("minishell: syntax error near unexpected token `|'\n");
 			return (0);
-		}		
-		i++;		
+		}
+		i++;
 	}
 	return (1);
-}
-
-// checks if is a redirection char
-static int	char_redir(char c)
-{
-	if (c == '<' || c == '>')
-		return (1);
-	return (0);
 }
 
 // return 1 if errors 0 otherwise
