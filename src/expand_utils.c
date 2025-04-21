@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/19 17:05:12 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:32:23 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*extract_slash(char *s)
 			while (s[i] && s[i] != c)
 				temp[j++] = s[i++];
 		}
-		if (s[i] == '\\')
+		if (s[i] == '\\' && s[i + 1] != '\"')
 			i++;
 		if (s[i])
 			temp[j++] = s[i++];

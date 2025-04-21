@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:46:42 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 14:27:35 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:40:31 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,18 @@ int	char_redir(char c)
 	if (c == '<' || c == '>')
 		return (1);
 	return (0);
+}
+
+char	*ft_getenv(char *var, t_mini *ms)
+{
+	t_env	*temp;
+
+	temp = ms->export;
+	while (temp)
+	{
+		if (ft_strcmp(var, temp->var) == 0)
+			return (temp->content);
+		temp = temp->next;
+	}
+	return (NULL);
 }
