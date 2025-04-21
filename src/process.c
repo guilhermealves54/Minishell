@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/18 17:59:30 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/19 21:14:18 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	ex_builtin(t_mini *ms, int n)
 	else if (ft_strcmp("env", ms->cmd[n].cmd[0]) == 0)
 		return (exec_env(ms));
 	else if (ft_strcmp("exit", ms->cmd[n].cmd[0]) == 0)
-		return (exec_exit(ms), 0);
+		return (exec_exit(ms, n), 0);
 	return (1);
 }
 

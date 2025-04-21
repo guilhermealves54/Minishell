@@ -39,6 +39,7 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <unistd.h>
+# include <limits.h>
 # include "../libft/libft.h"
 
 // Structs -----
@@ -154,7 +155,7 @@ void	create_export(char *var, char *content, t_mini *mini, char c);
 int		exec_unset(t_mini *ms);
 int		exec_pwd(void);
 int		exec_env(t_mini *ms);
-void	exec_exit(t_mini *ms);
+void	exec_exit(t_mini *ms, int n);
 
 // CD
 int		exec_cd(t_mini *ms);
