@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:45:31 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:49:37 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static char	**get_cmd(char	*ap)
 
 	i = 0;
 	cmd = ft_split_redir(ap, ' ');
-	while (cmd[i] && !check_cmd(cmd[i]))
+	while (cmd[i] && !check_cmd(cmd[i]) && !is_redir(cmd[i]))
 	{
 		temp = cmd[i];
 		cmd[i] = get_new_str(cmd[i]);

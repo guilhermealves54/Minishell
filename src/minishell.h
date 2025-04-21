@@ -113,6 +113,7 @@ extern int	g_childrun;
 // Redirections
 char	**exec_redir(t_mini *mini, int n);
 int		is_redir(char *s);
+void	here_doc(t_mini *ms, char *file, int n);
 
 //	Printf_fd
 int		ft_printf_fd(int fd, const char *format, ...);

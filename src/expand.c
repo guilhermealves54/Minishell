@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 15:47:54 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:27:00 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*expand(char *s, t_mini *ms)
 		else if (s[i] == '\"')
 			expand_2(s, &i, ms);
 		else if (s[i] == '$' && expand_ok(s[i +1]))
+			expand_quotes(&s, &i, ms);
+		else if (s[i] == '~')
 			expand_quotes(&s, &i, ms);
 		i++;
 	}
@@ -70,7 +72,12 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 {
 	ms->expand.content = NULL;
 	ms->expand.first = get_str(s, 0, i);
-	if (ft_isdigit(s[++i]))
+	if (s[i] == '~')
+	{
+		ms->expand.content = ft_strdup(ft_getenv("HOME", ms));
+		i++;
+	}
+	else if (ft_isdigit(s[++i]))
 	{
 		if (s[i++] == '0')
 			ms->expand.content = ft_strdup("minishell");
