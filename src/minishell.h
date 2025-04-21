@@ -148,7 +148,7 @@ int		print_echo(t_mini *ms, char **av, int n);
 int		exec_export(t_mini *ms, char **av, int np);
 void	order_envp(t_mini *mini);
 char	*check_content(char *content);
-int		syntax_export(char *var, char *content, char *s);
+int		syntax_export(char *var, char *content, char *s, int i);
 void	create_export(char *var, char *content, t_mini *mini, char c);
 
 // Other bultins

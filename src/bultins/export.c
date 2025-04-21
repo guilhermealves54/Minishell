@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 17:49:39 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:04:05 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	print_export(t_mini *ms, t_env	*head, int n)
 		if (!head->content)
 			ft_printf_fd(fd, "declare -x %s\n", head->var);
 		else
-			ft_printf_fd(fd, "declare -x %s=\"%s\"\n", head->var, head->content);
+			ft_printf_fd(fd,
+				"declare -x %s=\"%s\"\n", head->var, head->content);
 		head = head->next;
 	}
 }
@@ -66,7 +67,7 @@ static int	extract_export(char *s, t_mini *ms)
 		content = NULL;
 	else
 		content = get_content(s, i);
-	if (syntax_export(var, content, s))
+	if (syntax_export(var, content, s, 0))
 	{
 		create_export(var, content, ms, s[i]);
 		return (0);

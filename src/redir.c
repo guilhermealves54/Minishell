@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 17:46:39 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:13:50 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	do_redir(t_mini *ms, int n, int *i, char **ap)
 {
 	if (!execute_redir(ms->cmd[n].cmd[*i], ms->cmd[n].cmd[*i + 1], ms, n))
 	{
-		free(ap);
+		free_mem(ap);
 		free_mem(ms->cmd[n].cmd);
 		return (0);
 	}

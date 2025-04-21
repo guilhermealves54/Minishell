@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:09:40 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 17:44:29 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:20:44 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	pf_print(va_list *ap, char spec, int count, int fd);
 static int	ft_putchar(int c, int fd);
 static int	ft_putstr(char *str, int fd);
-static int	ft_putnbr(long n, int base, int count, int cap, int fd);
+static int	ft_putnbr(long n, int base, int cap, int fd);
 
 int	ft_printf_fd(int fd, const char *format, ...)
 {
@@ -52,13 +52,13 @@ static int	pf_print(va_list *ap, char spec, int count, int fd)
 	else if (spec == 's')
 		count = ft_putstr(va_arg(*ap, char *), fd);
 	else if (spec == 'i' || spec == 'd')
-		count = ft_putnbr(va_arg(*ap, int), 10, 0, 0, fd);
+		count = ft_putnbr(va_arg(*ap, int), 10, 0, fd);
 	else if (spec == 'u')
-		count = ft_putnbr(va_arg(*ap, unsigned int), 10, 0, 0, fd);
+		count = ft_putnbr(va_arg(*ap, unsigned int), 10, 0, fd);
 	else if (spec == 'x')
-		count = ft_putnbr(va_arg(*ap, unsigned int), 16, 0, 0, fd);
+		count = ft_putnbr(va_arg(*ap, unsigned int), 16, 0, fd);
 	else if (spec == 'X')
-		count = ft_putnbr(va_arg(*ap, unsigned int), 16, 0, -32, fd);
+		count = ft_putnbr(va_arg(*ap, unsigned int), 16, -32, fd);
 	return (count);
 }
 
@@ -83,10 +83,12 @@ static int	ft_putstr(char *str, int fd)
 	return (i);
 }
 
-static int	ft_putnbr(long n, int base, int count, int cap, int fd)
+static int	ft_putnbr(long n, int base, int cap, int fd)
 {
 	char	*hexa;
+	int		count;
 
+	count = 0;
 	hexa = "0123456789abcdef";
 	if (n < 0)
 	{
@@ -102,8 +104,8 @@ static int	ft_putnbr(long n, int base, int count, int cap, int fd)
 	}
 	else
 	{
-		count += ft_putnbr(n / base, base, 0, cap, fd);
-		count += ft_putnbr(n % base, base, 0, cap, fd);
+		count += ft_putnbr(n / base, base, cap, fd);
+		count += ft_putnbr(n % base, base, cap, fd);
 	}
 	return (count);
 }
