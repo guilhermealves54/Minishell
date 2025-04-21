@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:08 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:30:27 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:45:23 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	child_proc(t_mini *ms, int n, int pipes)
 	if (!ms->cmd[n].path)
 	{
 		if (!ms->cmd[n].cmd[0][0])
-			ft_printf_fd ("Command '' not found\n");
+			ft_printf_fd (2, "Command '' not found\n");
 		else
-			ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
+			ft_printf_fd (2, "%s: command not found\n", ms->cmd[n].cmd[0]);
 		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
 				| FREE_PIPES | FREE_PIDS | FREE_REDIR, 127));
 	}
@@ -50,7 +50,7 @@ static void	check_dir(t_mini *ms, int n, int pipes)
 	dir = opendir(ms->cmd[n].path);
 	if (dir && ft_strncmp("./", ms->cmd[n].path, 2) == 0)
 	{
-		ft_printf_fd("minishell: %s: Is a directory\n", ms->cmd[n].path);
+		ft_printf_fd(2, "minishell: %s: Is a directory\n", ms->cmd[n].path);
 		closedir(dir);
 		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
 				| FREE_PIPES | FREE_PIDS, 126));
@@ -58,7 +58,7 @@ static void	check_dir(t_mini *ms, int n, int pipes)
 	if (dir)
 	{
 		closedir(dir);
-		ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
+		ft_printf_fd (2, "%s: command not found\n", ms->cmd[n].cmd[0]);
 		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
 				| FREE_PIPES | FREE_PIDS, 127));
 	}
@@ -123,7 +123,7 @@ static void	aft_execve(t_mini *ms, char **envp, int n, int pipes)
 	status = 1;
 	if (errno == EACCES || errno == ENOEXEC)
 	{
-		ft_printf_fd ("%s: command not found\n", ms->cmd[n].cmd[0]);
+		ft_printf_fd (2, "%s: command not found\n", ms->cmd[n].cmd[0]);
 		status = 127;
 	}
 	if (ms->cmd[n].cmd[0] != ms->cmd[n].path)

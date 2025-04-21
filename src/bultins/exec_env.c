@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:29:52 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/09 18:21:03 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:47:08 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	exec_env(t_mini *ms)
 
 	if (ms->av[1])
 	{
-		ft_printf_fd("No options allowed\n");
+		ft_printf_fd(2, "No options allowed\n");
 		return (127);
 	}
 	ev = ms->export;

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/17 13:06:17 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:47:04 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_cd(t_mini *ms)
 {
 	if (cnt_strings(ms->av) > 2)
 	{
-		ft_printf_fd("minishell: cd: too many arguments\n");
+		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 		return (1);
 	}
 	else if (!ms->av[1] || ft_strcmp(ms->av[1], "~") == 0)
@@ -43,7 +43,7 @@ static int	cd_1(t_mini *ms)
 
 	if (!ms->av[1] && !ft_getenv("HOME", ms))
 	{
-		ft_printf_fd("minishell: cd: HOME not set\n");
+		ft_printf_fd(2, "minishell: cd: HOME not set\n");
 		return (1);
 	}
 	oldpwd = getcwd(NULL, 0);
@@ -55,7 +55,7 @@ static int	cd_1(t_mini *ms)
 	home = get_home(ms);
 	if (chdir(home) == -1)
 	{
-		ft_printf_fd("minishell: cd: %s: %s\n", home, strerror(errno));
+		ft_printf_fd(2, "minishell: cd: %s: %s\n", home, strerror(errno));
 		free(oldpwd);
 		return (1);
 	}
@@ -77,7 +77,7 @@ static int	cd_2(t_mini *ms)
 	pwd = get_new_cwd(oldpwd);
 	if (chdir(pwd) == -1)
 	{
-		ft_printf_fd("minishell: cd: %s: %s\n", pwd, strerror(errno));
+		ft_printf_fd(2, "minishell: cd: %s: %s\n", pwd, strerror(errno));
 		free_2strings(oldpwd, pwd);
 		return (1);
 	}
@@ -113,13 +113,13 @@ static int	cd_4(t_mini *ms)
 	pwd = ft_getenv("OLDPWD", ms);
 	if (!pwd)
 	{
-		ft_printf_fd("minishell: cd: OLDPWD not set\n");
+		ft_printf_fd(2, "minishell: cd: OLDPWD not set\n");
 		free(oldpwd);
 		return (1);
 	}
 	if (chdir(pwd) == -1)
 	{
-		ft_printf_fd("minishell: cd: %s: %s\n", pwd, strerror(errno));
+		ft_printf_fd(2, "minishell: cd: %s: %s\n", pwd, strerror(errno));
 		free(oldpwd);
 		return (1);
 	}

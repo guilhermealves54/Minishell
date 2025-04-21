@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:07:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 14:54:04 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:46:31 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	parsing(t_mini *mini)
 		return (0);
 	if (mini->av[0][0] == '|' || c == '|')
 	{
-		ft_printf_fd("minishell: syntax error near unexpected token `|'\n");
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `|'\n");
 		return (0);
 	}
 	return (1);
@@ -93,7 +93,7 @@ static int	check_aft_redir(t_mini *ms)
 	{
 		if (is_redir(av[i]) && av[i +1][0] == '|')
 		{
-			ft_printf_fd("minishell: syntax error near unexpected token `|'\n");
+			ft_printf_fd(2, "minishell: syntax error near unexpected token `|'\n");
 			return (0);
 		}
 		i++;
@@ -109,17 +109,17 @@ static int	redir_err2(char c, char a, int i, t_mini *mini)
 	d = get_last_char(mini);
 	if (i > 2)
 	{
-		ft_printf_fd("minishell: syntax error near unexpected token `%c'\n", c);
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `%c'\n", c);
 		return (1);
 	}
 	if (char_redir(a))
 	{
-		ft_printf_fd("minishell: syntax error near unexpected token `%c'\n", a);
+		ft_printf_fd(2, "minishell: syntax error near unexpected token `%c'\n", a);
 		return (1);
 	}
 	if (!a || char_redir(d))
 	{
-		ft_printf_fd(
+		ft_printf_fd(2,
 			"minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}

@@ -47,7 +47,7 @@ static void	check_argc(int argc, char **argv)
 {
 	if (argc != 1)
 	{
-		ft_printf_fd("minishell: %s: No such file or directory\n", argv[1]);
+		ft_printf_fd(2, "minishell: %s: No such file or directory\n", argv[1]);
 		exit(127);
 	}
 }

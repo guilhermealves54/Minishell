@@ -115,7 +115,7 @@ char	**exec_redir(t_mini *mini, int n);
 int		is_redir(char *s);
 
 //	Printf_fd
-int		ft_printf_fd(const char *format, ...);
+int		ft_printf_fd(int fd, const char *format, ...);
 
 //	Initialization
 t_mini	init(char **envp);
@@ -145,7 +145,7 @@ void	child_proc(t_mini *ms, int n, int pipes);
 int		print_echo(t_mini *ms, char **av, int n);
 
 // Export Funcs
-int		exec_export(t_mini *ms, char **av);
+int		exec_export(t_mini *ms, char **av, int np);
 void	order_envp(t_mini *mini);
 char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s);

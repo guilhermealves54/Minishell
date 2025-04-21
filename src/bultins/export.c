@@ -6,17 +6,17 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/19 15:43:32 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:49:39 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	print_export(t_env	*head);
+static void	print_export(t_mini *ms, t_env	*head, int n);
 static int	extract_export(char *s, t_mini *ms);
 static char	*get_content(char *s, int i);
 
-int	exec_export(t_mini *ms, char **av)
+int	exec_export(t_mini *ms, char **av, int np)
 {
 	int	i;
 	int	n;
@@ -26,7 +26,7 @@ int	exec_export(t_mini *ms, char **av)
 	n = 0;
 	order_envp(ms);
 	if (!av[i])
-		print_export(ms->export);
+		print_export(ms, ms->export, np);
 	while (av[i])
 	{
 		a = extract_export(av[i], ms);
@@ -37,14 +37,17 @@ int	exec_export(t_mini *ms, char **av)
 	return (n);
 }
 
-static void	print_export(t_env	*head)
+static void	print_export(t_mini *ms, t_env	*head, int n)
 {
+	int	fd;
+
+	fd = ms->cmd[n].output_fd;
 	while (head)
 	{
 		if (!head->content)
-			printf("declare -x %s\n", head->var);
+			ft_printf_fd(fd, "declare -x %s\n", head->var);
 		else
-			printf("declare -x %s=\"%s\"\n", head->var, head->content);
+			ft_printf_fd(fd, "declare -x %s=\"%s\"\n", head->var, head->content);
 		head = head->next;
 	}
 }

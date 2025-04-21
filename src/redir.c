@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 16:41:26 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:46:39 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	openfile(char *file, int option, t_mini *ms, int n)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		ft_printf_fd("minishell: %s: %s\n", file, strerror(errno));
+		ft_printf_fd(2, "minishell: %s: %s\n", file, strerror(errno));
 		ms->exit_status = 1;
 		return (0);
 	}
