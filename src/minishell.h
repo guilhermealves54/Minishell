@@ -126,6 +126,7 @@ int		check_cmd(char *cmd);
 
 //	Signals
 void	setup_signals(void);
+void	heredoc_sigint(int sig);
 
 //	Expand
 char	*expand(char *s, t_mini *ms);

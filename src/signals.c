@@ -6,13 +6,14 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:50 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/16 15:25:36 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:32:16 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	sign_sigint(int sig);
+void		heredoc_sigint(int sig);
 
 void	setup_signals(void)
 {
@@ -32,4 +33,11 @@ static void	sign_sigint(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	heredoc_sigint(int sig)
+{
+	(void)sig;
+	g_childrun = 1;
+	close(STDIN_FILENO);
 }
