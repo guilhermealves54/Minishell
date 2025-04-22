@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/22 15:05:26 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:47:36 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,52 @@
 static char	*check_quotes(char *file, int *a);
 static void	update_fds(t_mini *ms, int n, int fd);
 
+void	heredoc_sigint(int sig)
+{
+	(void)sig;
+	printf("\n");
+	g_childrun = 1;
+	close(STDIN_FILENO);
+}
+
 void	here_doc(t_mini *ms, char *file, int n)
 {
 	char	*s;
 	int		fd[2];
 	int		quotes;
+	int		stdin_bk;
 
+	stdin_bk = dup(STDIN_FILENO);
+	signal(SIGINT, heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	file = check_quotes(file, &quotes);
 	pipe(fd);
 	while (1)
 	{
 		s = readline("> ");
 		if (!s)
-			break ;
+		{
+			if (g_childrun)
+			{
+				ms->exit_status = 130;
+				close(fd[0]);
+				close(fd[1]);
+				free(file);
+				setup_signals();
+				g_childrun = 2;
+				dup2(stdin_bk, STDIN_FILENO);
+				close(stdin_bk);
+				return ;
+			}
+			ft_printf_fd(2, 
+				"minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", file);
+			close(fd[0]);
+			close(fd[1]);
+			close(stdin_bk);
+			free(file);
+			setup_signals();
+			return ;
+		}
 		if (ft_strcmp(file, s) == 0)
 		{
 			free(s);
@@ -42,6 +75,7 @@ void	here_doc(t_mini *ms, char *file, int n)
 	free(file);
 	close(fd[1]);
 	update_fds(ms, n, fd[0]);
+	setup_signals();
 }
 
 static void	update_fds(t_mini *ms, int n, int fd)
