@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/22 14:54:16 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:29:38 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ char	*expand(char *s, t_mini *ms)
 	s = extract_slash(s);
 	while (s[i])
 	{
-		if (s[i] == '\'')
+		if (ft_strncmp(s + i, "<<$", 3) == 0)
+			i += 2;
+		else if (ft_strncmp(s + i, "<< $", 4) == 0)
+			i += 3;
+		else if (s[i] == '\'')
 			update_i(s, &i, s[i]);
 		else if (s[i] == '\\' && s[i + 1] == '\"')
 			i++;

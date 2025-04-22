@@ -6,20 +6,21 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 20:42:25 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:05:26 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*check_quotes(char *file, int *a);
+static void	update_fds(t_mini *ms, int n, int fd);
 
 void	here_doc(t_mini *ms, char *file, int n)
 {
 	char	*s;
 	int		fd[2];
 	int		quotes;
-	
+
 	file = check_quotes(file, &quotes);
 	pipe(fd);
 	while (1)
@@ -40,10 +41,15 @@ void	here_doc(t_mini *ms, char *file, int n)
 	}
 	free(file);
 	close(fd[1]);
-	ms->cmd[n].input_fd = fd[0];
+	update_fds(ms, n, fd[0]);
+}
+
+static void	update_fds(t_mini *ms, int n, int fd)
+{
+	ms->cmd[n].input_fd = fd;
 	if (ms->cmd[n].redirin != -1)
 		close(ms->cmd[n].redirin);
-	ms->cmd[n].redirin = fd[0];
+	ms->cmd[n].redirin = fd;
 }
 
 static char	*check_quotes(char *file, int *quotes)
@@ -54,7 +60,7 @@ static char	*check_quotes(char *file, int *quotes)
 	{
 		*quotes = 1;
 		s = get_new_str(file);
-		return (s);		
+		return (s);
 	}
 	*quotes = 0;
 	return (ft_strdup(file));
