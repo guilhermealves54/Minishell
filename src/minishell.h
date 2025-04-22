@@ -114,6 +114,7 @@ extern int	g_childrun;
 char	**exec_redir(t_mini *mini, int n);
 int		is_redir(char *s);
 void	here_doc(t_mini *ms, char *file, int n);
+char	*check_dollar(t_mini *ms);
 
 //	Printf_fd
 int		ft_printf_fd(int fd, const char *format, ...);
