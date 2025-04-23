@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:46:42 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/23 18:53:38 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:09:24 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	*ft_getenv(char *var, t_mini *ms)
 	t_env	*temp;
 
 	temp = ms->export;
-	if (ft_strcmp(var, "PWD") == 0)
-		return (get_home(ms, "PWD"));
 	while (temp)
 	{
 		if (ft_strcmp(var, temp->var) == 0)

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:40:10 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 16:00:28 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:43:36 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	exitcode(t_mini *ms, int n)
 	int			i;
 	int			overf;
 	long long	ret;
+	char		*s;
 
 	i = 0;
 	while (ms->cmd[n].cmd[i])
@@ -41,11 +42,13 @@ static int	exitcode(t_mini *ms, int n)
 		return (printf("Minishell: exit: too many arguments\n"), 1);
 	i = 0;
 	overf = 0;
-	ret = ft_atoll(ms->cmd[n].cmd[1], &overf);
-	if (!ft_isdigitsignal(ms->cmd[n].cmd[1]) || overf)
+	s = get_new_str(ms->cmd[n].cmd[1]);
+	ret = ft_atoll(s, &overf);
+	if (!ft_isdigitsignal(s) || overf)
 		return (printf(
 				"Minishell: exit: %s: numeric argument required\n",
-				ms->cmd[n].cmd[1]), 2);
+				s), free(s), 2);
+	free(s);
 	return (ret % 256);
 }
 

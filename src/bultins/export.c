@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 18:04:05 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:21:45 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	exec_export(t_mini *ms, char **av, int np)
 
 	i = 1;
 	n = 0;
+	if (cnt_strings(ms->ap) > 1)
+		return (1);
 	order_envp(ms);
 	if (!av[i])
 		print_export(ms, ms->export, np);
@@ -60,6 +62,12 @@ static int	extract_export(char *s, t_mini *ms)
 	int		i;
 
 	i = 0;
+	if (s[i] == '=')
+	{
+		ft_printf_fd(2,
+			"minishell: export: `=': not a valid identifier\n");
+		return (1);
+	}
 	while (s[i] && s[i] != '=' && ft_strncmp(s + i, "+=", 2) != 0)
 		i++;
 	var = get_str(s, 0, i);
