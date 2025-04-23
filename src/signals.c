@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:50 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/22 19:32:16 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:39:15 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	heredoc_sigint(int sig)
 {
 	(void)sig;
 	g_childrun = 1;
+	printf("\n");
 	close(STDIN_FILENO);
 }
