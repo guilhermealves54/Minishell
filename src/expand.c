@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/22 15:29:38 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:53:08 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 	ms->expand.first = get_str(s, 0, i);
 	if (s[i] == '~')
 	{
-		ms->expand.content = ft_strdup(get_home(ms));
+		ms->expand.content = ft_strdup(get_home(ms, "HOME"));
 		i++;
 	}
 	else if (ft_isdigit(s[++i]))

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 17:47:04 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:54:08 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	cd_1(t_mini *ms)
 		perror("getcwd failed");
 		return (1);
 	}
-	home = get_home(ms);
+	home = get_home(ms, "HOME");
 	if (chdir(home) == -1)
 	{
 		ft_printf_fd(2, "minishell: cd: %s: %s\n", home, strerror(errno));

@@ -154,8 +154,8 @@ void	create_export(char *var, char *content, t_mini *mini, char c);
 
 // Other bultins
 int		exec_unset(t_mini *ms);
-int		exec_pwd(void);
-int		exec_env(t_mini *ms);
+int		exec_pwd(t_mini *ms, int n);
+int		exec_env(t_mini *ms, int n);
 void	exec_exit(t_mini *ms, int n);
 
 // CD
@@ -163,7 +163,7 @@ int		exec_cd(t_mini *ms);
 void	update_var(char *oldpwd, char *pwd, t_mini *mini);
 char	*get_new_cwd(char *buffer);
 int		cd_5(t_mini *ms);
-char	*get_home(t_mini *ms);
+char	*get_home(t_mini *ms, char *home);
 
 //	Helper functions
 

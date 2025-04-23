@@ -6,14 +6,14 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:01:58 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/17 13:06:39 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:58:12 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 char	*get_new_cwd(char *buffer);
-char	*get_home(t_mini *ms);
+char	*get_home(t_mini *ms, char *home);
 
 void	update_var(char *oldpwd, char *pwd, t_mini *mini)
 {
@@ -61,13 +61,13 @@ char	*get_new_cwd(char *buffer)
 	return (new);
 }
 
-char	*get_home(t_mini *ms)
+char	*get_home(t_mini *ms, char *home)
 {
-	char	*home;
+	char	*new;
 
-	home = ft_getenv("HOME", ms);
-	if (home)
-		return (home);
+	new = ft_getenv(home, ms);
+	if (new)
+		return (new);
 	else
-		return (getenv("HOME"));
+		return (getenv(home));
 }

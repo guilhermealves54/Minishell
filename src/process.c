@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:51:15 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:57:28 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ static int	ex_builtin(t_mini *ms, int n)
 	else if (ft_strcmp("unset", ms->cmd[n].cmd[0]) == 0)
 		return (exec_unset(ms));
 	else if (ft_strcmp("pwd", ms->cmd[n].cmd[0]) == 0)
-		return (exec_pwd());
+		return (exec_pwd(ms, n));
 	else if (ft_strcmp("cd", ms->cmd[n].cmd[0]) == 0)
 		return (exec_cd(ms));
 	else if (ft_strcmp("env", ms->cmd[n].cmd[0]) == 0)
-		return (exec_env(ms));
+		return (exec_env(ms, n));
 	else if (ft_strcmp("exit", ms->cmd[n].cmd[0]) == 0)
 		return (exec_exit(ms, n), 0);
 	return (1);
