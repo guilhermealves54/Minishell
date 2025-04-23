@@ -6,13 +6,13 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/22 19:54:23 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:31:38 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void heredoc_init(int *stdin_bk, char **file, int *fd, int *quotes);
+static void	heredoc_init(int *stdin_bk, char **file, int *fd, int *quotes);
 static void	heredoc_signal(t_mini *ms, int *fd, int stdin_bk, char *file);
 static char	*check_quotes(char *file, int **a);
 static void	update_fds(t_mini *ms, int n, int *fd, char *file);
@@ -41,10 +41,11 @@ void	here_doc(t_mini *ms, char *file, int n)
 		write(fd[1], "\n", 1);
 		free(s);
 	}
+	close(stdin_bk);
 	update_fds(ms, n, fd, file);
 }
 
-static void heredoc_init(int *stdin_bk, char **file, int *fd, int *quotes)
+static void	heredoc_init(int *stdin_bk, char **file, int *fd, int *quotes)
 {
 	*stdin_bk = dup(STDIN_FILENO);
 	signal(SIGINT, heredoc_sigint);
@@ -69,7 +70,7 @@ static void	heredoc_signal(t_mini *ms, int *fd, int stdin_bk, char *file)
 	}
 	else
 	{
-		ft_printf_fd(2, 
+		ft_printf_fd(2,
 			"minishell: warning: here-document at line "
 			"1 delimited by end-of-file (wanted `%s')\n", file);
 		close(fd[0]);
