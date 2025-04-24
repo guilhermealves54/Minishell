@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:08:44 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/24 15:45:34 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:16:08 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**ft_split_quotes(char *s, char c)
 		return (NULL);
 	while (s[i])
 	{
-		while (s[i] == c)
+		while (s[i] == c || (s[i] >= 9 && s[i] <= 13))
 			i++;
 		if (!s[i])
 			break ;
@@ -66,7 +66,7 @@ static int	count_strings(char *s, char c)
 	j = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
+		while (s[i] == c || (s[i] >= 9 && s[i] <= 13))
 			i++;
 		if (!s[i])
 			break ;
