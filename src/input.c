@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:39 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/17 17:39:36 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:35:27 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,15 @@ static char	*get_prompt(void)
 	char	*prompt;
 
 	cwd = getcwd(NULL, 0);
-	cwd = add_color(cwd, BLUE);
-	temp = ft_strjoin_3(cwd, GREEN "Minishell$" RESET, '@');
-	prompt = ft_strjoin(temp, " ");
-	free_2strings(cwd, temp);
+	if (cwd)
+	{
+		cwd = add_color(cwd, BLUE);
+		temp = ft_strjoin_3(cwd, GREEN "Minishell$" RESET, '@');
+		prompt = ft_strjoin(temp, " ");
+		free_2strings(cwd, temp);
+	}
+	else
+		prompt = ft_strjoin(GREEN "Minishell$" RESET, " ");
 	return (prompt);
 }
 
@@ -57,6 +62,8 @@ static char	*add_color(char *cwd, char *color)
 	char	*s;
 	char	*s2;
 
+	if (!cwd)
+		return (NULL);
 	s = ft_strjoin(color, cwd);
 	s2 = ft_strjoin(s, RESET);
 	free_2strings(s, cwd);

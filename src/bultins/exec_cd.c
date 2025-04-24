@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/23 18:54:08 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:39:47 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static int	cd_1(t_mini *ms)
 	}
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-	{
-		perror("getcwd failed");
-		return (1);
-	}
+		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
 	home = get_home(ms, "HOME");
 	if (chdir(home) == -1)
 	{
@@ -70,10 +67,7 @@ static int	cd_2(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-	{
-		perror("getcwd failed");
-		return (1);
-	}
+		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
 	pwd = get_new_cwd(oldpwd);
 	if (chdir(pwd) == -1)
 	{
@@ -91,10 +85,7 @@ static int	cd_3(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-	{
-		perror("getcwd failed");
-		return (1);
-	}
+		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
 	update_var(oldpwd, ft_strdup(oldpwd), ms);
 	return (0);
 }
@@ -106,10 +97,7 @@ static int	cd_4(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-	{
-		perror("getcwd failed");
-		return (1);
-	}
+		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
 	pwd = ft_getenv("OLDPWD", ms);
 	if (!pwd)
 	{

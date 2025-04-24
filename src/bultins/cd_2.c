@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:39:58 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/12 17:17:55 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:33:32 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int	cd_5(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-	{
-		perror("getcwd failed");
-		return (1);
-	}
+		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
 	pwd = get_full_path(ms->av[1]);
 	if (pwd)
 		update_var(oldpwd, ft_strdup(pwd), ms);
