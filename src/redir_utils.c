@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:37:36 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/18 19:38:03 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:39:16 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,12 @@ int	is_redir(char *s)
 	{
 		return (1);
 	}
+	return (0);
+}
+
+int	white_spaces(char c)
+{
+	if (c >= 9 && c <= 13)
+		return (1);
 	return (0);
 }

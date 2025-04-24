@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:05:22 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/24 16:04:48 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:38:57 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	get_all(t_split *sp)
 static int	get_all_loop(int start, t_split *sp)
 {
 	while (sp->s[sp->i] && sp->s[sp->i] != sp->c
-		&& !char_redir(sp->s[sp->i]))
+		&& !white_spaces(sp->s[sp->i]) && !char_redir(sp->s[sp->i]))
 	{
 		if (sp->s[sp->i] == '\\' && sp->s[sp->i + 1] == '\"')
 			sp->i++;
@@ -96,7 +96,8 @@ static int	count_strings_redir(char *s, char c, int j, int i)
 			over_redir(s, &i);
 		else
 		{
-			while (s[i] && s[i] != c && !char_redir(s[i]))
+			while (s[i] && s[i] != c && !white_spaces(s[i])
+				&& !char_redir(s[i]))
 			{
 				if (s[i] == '\\' && s[i + 1] == '\"')
 					i++;
