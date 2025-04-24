@@ -6,11 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:05:22 by ruida-si          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/24 15:28:31 by ruida-si         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/23 16:29:25 by ruida-si         ###   ########.fr       */
->>>>>>> ac80bb4d872128273b408868df652832ac9b97ca
+/*   Updated: 2025/04/24 16:04:48 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +33,7 @@ char	**ft_split_redir(char *s, char c)
 		return (NULL);
 	while (s[sp.i])
 	{
-<<<<<<< HEAD
 		while (s[sp.i] == c || (s[sp.i] >= 9 && s[sp.i] <= 13))
-=======
-		while (s[sp.i] == c || s[sp.i] < 14)
->>>>>>> ac80bb4d872128273b408868df652832ac9b97ca
 			sp.i++;
 		if (!s[sp.i])
 			break ;
@@ -95,11 +87,7 @@ static int	count_strings_redir(char *s, char c, int j, int i)
 {
 	while (s[i])
 	{
-<<<<<<< HEAD
 		while (s[i] == c || (s[i] >= 9 && s[i] <= 13))
-=======
-		while (s[i] == c || s[i] < 14)
->>>>>>> ac80bb4d872128273b408868df652832ac9b97ca
 			i++;
 		if (!s[i])
 			break ;
