@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	g_childrun;
+volatile sig_atomic_t	g_signal;
 
 static void	check_argc(int argc, char **argv);
 
@@ -22,11 +22,11 @@ int	main(int argc, char *argv[], char **envp)
 
 	check_argc(argc, argv);
 	ms = init(envp);
-	g_childrun = 0;
-	setup_signals();
 	while (1)
 	{
+		ms_signals();
 		ms.input = get_input(&ms);
+		chk_signal(&ms);
 		if (ms.input[0])
 		{
 			if (check_closed_quotes(ms.input))

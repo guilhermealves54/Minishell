@@ -106,7 +106,7 @@ typedef struct s_mini
 }	t_mini;
 
 //	Global Variables
-extern int	g_childrun;
+extern volatile sig_atomic_t	g_signal;
 
 //	Funcs
 
@@ -125,8 +125,11 @@ char	*get_input(t_mini *ms);
 int		check_cmd(char *cmd);
 
 //	Signals
-void	setup_signals(void);
+void	sighandler(int sig);
+void	chk_signal(t_mini *ms);
+void	heredoc_setsignals(void);
 void	heredoc_sigint(int sig);
+void	ms_signals(void);
 
 //	Expand
 char	*expand(char *s, t_mini *ms);

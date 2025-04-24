@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:51:15 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:34:21 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 				ms->exit_status = ex_builtin(ms, n);
 			else if (ms->cmd[n].cmd[0])
 			{
-				g_childrun = 1;
 				run_child(ms, pipes, n, i);
 				i++;
 			}
@@ -41,7 +40,6 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 	}
 	close_pipes(ms, pipes);
 	get_exit_code(ms, proc);
-	g_childrun = 0;
 	exec_free(ms, pipes, FREE_STRUCT | FREE_CMD | FREE_FDS
 		| FREE_PIDS | FREE_REDIR, 1);
 }
@@ -114,5 +112,5 @@ static int	signal_sts(int sts)
 	}
 	if (sig == SIGINT)
 		return (130);
-	return (WEXITSTATUS(sts));
+	return (128 + sig);
 }
