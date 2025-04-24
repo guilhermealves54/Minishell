@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 20:37:46 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 19:21:45 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 {
 	int	fd;
 
+	file = get_new_str(file);
 	fd = 0;
 	if (!file)
 		return (0);
@@ -74,6 +75,7 @@ static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 		fd = openfile(file, 2, mini, n);
 	else if (ft_strncmp(s, ">", 1) == 0)
 		fd = openfile(file, 1, mini, n);
+	free(file);	
 	return (fd);
 }
 
