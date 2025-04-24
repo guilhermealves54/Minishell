@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/24 15:34:59 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:45:01 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,32 @@ void	expand_others(char c, t_mini *ms, int *i)
 		ms->expand.content = ft_itoa(ms->exit_status);
 		(*i)++;
 	}
+}
+
+char	*check_expand(char *s)
+{
+	char	**av;
+	int		i;
+	char	*temp;
+
+	i = 0;
+	av = ft_split_redir(s, ' ');
+	while (av && av[i])
+	{
+		if (av[i] && av[i + 1])
+		{
+			if (ft_strcmp(av[i], "<<") == 0 && av[i + 1][0] == '$')
+			{
+				temp = ft_strdup(av[i + 1]);
+				free_mem(av);
+				return (temp);
+			}
+		}
+		i++;
+	}
+	if (av)
+		free_mem(av);
+	return (NULL);
 }
 
 // extract one slash if not inside quotes

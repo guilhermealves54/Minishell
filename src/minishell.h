@@ -131,8 +131,13 @@ void	setup_signals(void);
 char	*expand(char *s, t_mini *ms);
 int		expand_ok(char c);
 void	expand_others(char c, t_mini *ms, int *i);
+<<<<<<< HEAD
 char	*extract_slash(char *s);
 char	*check_expand(char *s);
+=======
+char	*check_expand(char *s);
+char	*extract_slash(char *s);
+>>>>>>> ac80bb4d872128273b408868df652832ac9b97ca
 
 //	Parsing
 int		parsing(t_mini *mini);
