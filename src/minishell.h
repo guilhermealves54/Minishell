@@ -131,6 +131,8 @@ void	setup_signals(void);
 char	*expand(char *s, t_mini *ms);
 int		expand_ok(char c);
 void	expand_others(char c, t_mini *ms, int *i);
+char	*extract_slash(char *s);
+char	*check_expand(char *s);
 
 //	Parsing
 int		parsing(t_mini *mini);
@@ -181,7 +183,6 @@ char	*ft_strjoin_3(char *path, char *cmd, char c);
 char	*get_new_str(char *s);
 int		cnt_strings(char **av);
 int		pidnbr_cnt(t_mini *ms, int proc);
-char	*extract_slash(char *s);
 int		list_size(t_mini *ms);
 int		char_redir(char c);
 

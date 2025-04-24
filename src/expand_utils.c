@@ -6,11 +6,15 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 15:32:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:34:59 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expand_others(char c, t_mini *ms, int *i);
+char	*extract_slash(char *s);
+char	*check_expand(char *s);
 
 int	expand_ok(char c)
 {
@@ -61,4 +65,30 @@ char	*extract_slash(char *s)
 	temp[j] = '\0';
 	free(s);
 	return (temp);
+}
+
+char	*check_expand(char *s)
+{
+	char	**av;
+	int		i;
+	char	*temp;
+
+	i = 0;
+	av = ft_split_redir(s, ' ');
+	while (av && av[i])
+	{
+		if (av[i] && av[i + 1])
+		{
+			if (ft_strcmp(av[i], "<<") == 0 && av[i + 1][0] == '$')
+			{
+				temp = ft_strdup(av[i + 1]);
+				free_mem(av);
+				return (temp);
+			}
+		}
+		i++;
+	}
+	if (av)
+		free_mem(av);
+	return (NULL);
 }
