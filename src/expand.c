@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/24 16:07:11 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:43:24 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*expand(char *s, t_mini *ms)
 			expand_quotes(&s, &i, ms);
 		else if (s[i] == '~')
 			expand_quotes(&s, &i, ms);
-		i++;
+		if (s[i])
+			i++;
 	}
 	free(str);
 	return (s);

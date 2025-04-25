@@ -3,52 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/24 18:39:47 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 16:10:59 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	cd_1(t_mini *ms);
+static int	cd_1(t_mini *ms, char **av);
 static int	cd_2(t_mini *ms);
 static int	cd_3(t_mini *ms);
 static int	cd_4(t_mini *ms);
 
-int	exec_cd(t_mini *ms)
+int	exec_cd(t_mini *ms, int n)
 {
-	if (cnt_strings(ms->av) > 2)
+	char	**av;
+
+	av = ms->cmd[n].cmd;
+	if (cnt_strings(av) > 2)
 	{
 		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 		return (1);
 	}
-	else if (!ms->av[1] || ft_strcmp(ms->av[1], "~") == 0)
-		return (cd_1(ms));
-	else if (ft_strcmp(ms->av[1], "..") == 0)
+	if (cnt_strings(ms->ap) > 1)
+		return (0);
+	else if (!av[1] || ft_strcmp(av[1], "~") == 0)
+		return (cd_1(ms, av));
+	else if (ft_strcmp(av[1], "..") == 0)
 		return (cd_2(ms));
-	else if (ft_strcmp(ms->av[1], ".") == 0)
+	else if (ft_strcmp(av[1], ".") == 0)
 		return (cd_3(ms));
-	else if (ft_strcmp(ms->av[1], "-") == 0)
+	else if (ft_strcmp(av[1], "-") == 0)
 		return (cd_4(ms));
 	else
-		return (cd_5(ms));
+		return (cd_5(ms, av));
 }
 
-static int	cd_1(t_mini *ms)
+static int	cd_1(t_mini *ms, char **av)
 {
 	char	*oldpwd;
 	char	*home;
 
-	if (!ms->av[1] && !ft_getenv("HOME", ms))
+	if (!av[1] && !ft_getenv("HOME", ms))
 	{
 		ft_printf_fd(2, "minishell: cd: HOME not set\n");
 		return (1);
 	}
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
+		oldpwd = ft_strdup(ft_getenv("PWD", ms));
 	home = get_home(ms, "HOME");
 	if (chdir(home) == -1)
 	{
@@ -67,7 +72,7 @@ static int	cd_2(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
+		oldpwd = ft_strdup(ft_getenv("PWD", ms));
 	pwd = get_new_cwd(oldpwd);
 	if (chdir(pwd) == -1)
 	{
@@ -85,7 +90,7 @@ static int	cd_3(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
+		oldpwd = ft_strdup(ft_getenv("PWD", ms));
 	update_var(oldpwd, ft_strdup(oldpwd), ms);
 	return (0);
 }
@@ -97,7 +102,7 @@ static int	cd_4(t_mini *ms)
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		oldpwd = ft_strdup(ft_getenv("OLDPWD", ms));
+		oldpwd = ft_strdup(ft_getenv("PWD", ms));
 	pwd = ft_getenv("OLDPWD", ms);
 	if (!pwd)
 	{

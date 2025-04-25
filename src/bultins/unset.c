@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:46:06 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/09 18:23:55 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:26:40 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ static void	unset(char *s, t_mini *ms);
 static void	delete_node(t_env *prev, t_env *next);
 static void	free_node(t_env *temp);
 
-int	exec_unset(t_mini *ms)
+int	exec_unset(t_mini *ms, int n)
 {
-	int	i;
+	int		i;
+	char	**av;
 
+	av = ms->cmd[n].cmd;
 	i = 1;
-	while (ms->av[i])
+	while (av[i])
 	{
-		unset(ms->av[i], ms);
+		unset(av[i], ms);
 		i++;
 	}
 	return (0);
