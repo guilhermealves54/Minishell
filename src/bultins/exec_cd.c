@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 19:12:42 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/25 16:10:59 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:53:44 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	cd_1(t_mini *ms, char **av);
 static int	cd_2(t_mini *ms);
 static int	cd_3(t_mini *ms);
-static int	cd_4(t_mini *ms);
+static int	cd_4(t_mini *ms, char *oldpwd);
 
 int	exec_cd(t_mini *ms, int n)
 {
@@ -36,7 +36,7 @@ int	exec_cd(t_mini *ms, int n)
 	else if (ft_strcmp(av[1], ".") == 0)
 		return (cd_3(ms));
 	else if (ft_strcmp(av[1], "-") == 0)
-		return (cd_4(ms));
+		return (cd_4(ms, NULL));
 	else
 		return (cd_5(ms, av));
 }
@@ -73,15 +73,19 @@ static int	cd_2(t_mini *ms)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		oldpwd = ft_strdup(ft_getenv("PWD", ms));
-	pwd = get_new_cwd(oldpwd);
-	if (chdir(pwd) == -1)
+	if (oldpwd)
 	{
-		ft_printf_fd(2, "minishell: cd: %s: %s\n", pwd, strerror(errno));
-		free_2strings(oldpwd, pwd);
-		return (1);
+		pwd = get_new_cwd(oldpwd);
+		if (chdir(pwd) == -1)
+		{
+			ft_printf_fd(2, "minishell: cd: %s: %s\n", pwd, strerror(errno));
+			free_2strings(oldpwd, pwd);
+			return (1);
+		}
+		update_var(oldpwd, pwd, ms);
+		return (0);
 	}
-	update_var(oldpwd, pwd, ms);
-	return (0);
+	return (1);
 }
 
 static int	cd_3(t_mini *ms)
@@ -95,28 +99,31 @@ static int	cd_3(t_mini *ms)
 	return (0);
 }
 
-static int	cd_4(t_mini *ms)
+static int	cd_4(t_mini *ms, char *oldpwd)
 {
-	char	*oldpwd;
 	char	*pwd;
 
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		oldpwd = ft_strdup(ft_getenv("PWD", ms));
-	pwd = ft_getenv("OLDPWD", ms);
-	if (!pwd)
+	if (oldpwd)
 	{
-		ft_printf_fd(2, "minishell: cd: OLDPWD not set\n");
-		free(oldpwd);
-		return (1);
+		pwd = ft_getenv("OLDPWD", ms);
+		if (!pwd)
+		{
+			ft_printf_fd(2, "minishell: cd: OLDPWD not set\n");
+			free(oldpwd);
+			return (1);
+		}
+		if (chdir(pwd) == -1)
+		{
+			ft_printf_fd(2, "minishell: cd: %s: %s\n", pwd, strerror(errno));
+			free(oldpwd);
+			return (1);
+		}
+		printf("%s\n", pwd);
+		update_var(oldpwd, ft_strdup(pwd), ms);
+		return (0);
 	}
-	if (chdir(pwd) == -1)
-	{
-		ft_printf_fd(2, "minishell: cd: %s: %s\n", pwd, strerror(errno));
-		free(oldpwd);
-		return (1);
-	}
-	printf("%s\n", pwd);
-	update_var(oldpwd, ft_strdup(pwd), ms);
-	return (0);
+	return (1);
 }

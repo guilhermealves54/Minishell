@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:39 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/25 16:50:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:36:44 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ static char	*get_prompt(t_mini *ms)
 	}
 	else
 	{
-		cwd = add_color(ft_strdup(ft_getenv("PWD", ms)), BLUE);
+		cwd = ft_getenv("PWD", ms);
+		if (!cwd)
+			return (ft_strjoin(GREEN "Minishell$" RESET, " "));
+		cwd = add_color(ft_strdup(cwd), BLUE);
 		temp = ft_strjoin_3(cwd, GREEN "Minishell$" RESET, '@');
 		prompt = ft_strjoin(temp, " ");
 		free_2strings(cwd, temp);
