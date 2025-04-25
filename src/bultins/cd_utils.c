@@ -6,14 +6,15 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:01:58 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/25 18:16:02 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:49:59 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_new_cwd(char *buffer);
-char	*get_home(t_mini *ms, char *home);
+char		*get_new_cwd(char *buffer);
+char		*get_home(t_mini *ms, char *home);
+static void	check_pwd(t_mini *ms, char *pwd, char *oldpwd);
 
 void	update_var(char *oldpwd, char *pwd, t_mini *mini)
 {
@@ -21,10 +22,7 @@ void	update_var(char *oldpwd, char *pwd, t_mini *mini)
 	char	*temp;
 
 	ev = mini->export;
-	if (!ft_getenv("OLDPWD", mini))
-		free(oldpwd);
-	if (!ft_getenv("PWD", mini))
-		free(pwd);
+	check_pwd(mini, pwd, oldpwd);
 	while (ev)
 	{
 		if (ft_strcmp(ev->var, "OLDPWD") == 0)
@@ -43,6 +41,14 @@ void	update_var(char *oldpwd, char *pwd, t_mini *mini)
 		}
 		ev = ev->next;
 	}
+}
+
+static void	check_pwd(t_mini *ms, char *pwd, char *oldpwd)
+{
+	if (!ft_getenv("OLDPWD", ms))
+		free(oldpwd);
+	if (!ft_getenv("PWD", ms))
+		free(pwd);
 }
 
 char	*get_new_cwd(char *buffer)

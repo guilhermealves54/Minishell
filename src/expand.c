@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/25 17:22:41 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:51:35 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*expand(char *s, t_mini *ms)
 		else if (s[i] == '$' && expand_ok(s[i +1]))
 			expand_quotes(&s, &i, ms);
 		else if (s[i] == '~')
-			expand_quotes(&s, &i, ms);		
+			expand_quotes(&s, &i, ms);
 		i++;
 	}
 	free(str);
