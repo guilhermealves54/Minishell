@@ -6,30 +6,45 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:50 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/16 15:25:36 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:15:49 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	sign_sigint(int sig);
+void	sighandler(int sig);
+void	sigint_child(int sig);
 
-void	setup_signals(void)
+void	ms_signals(void)
 {
-	signal(SIGINT, sign_sigint);
+	struct sigaction	sa;
+
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = sighandler;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	sign_sigint(int sig)
+void	sighandler(int sig)
 {
-	(void)sig;
-	if (g_childrun)
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		g_exit_status = 130;
+	}
+}
+
+void	sigint_child(int sig)
+{
+	if (sig == SIGINT)
 	{
 		printf("\n");
-		return ;
+		rl_on_new_line();
+		rl_replace_line("", 0);
 	}
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
 }

@@ -3,31 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 16:13:54 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:29:50 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n);
+static int	heredoc_free(t_mini *ms, char *file, int *fd, int exit);
 static char	*check_quotes(char *file, int *a);
 static void	update_fds(t_mini *ms, int n, int fd);
 
 void	here_doc(t_mini *ms, char *file, int n)
 {
-	char	*s;
 	int		fd[2];
 	int		quotes;
-
+	pid_t	pid;
+	int		sts;
+	
 	file = check_quotes(file, &quotes);
 	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+		heredoc_child(ms, file, quotes, fd, n);
+	free(file);
+	close(fd[1]);
+	signal(SIGINT, &sigint_child);
+	waitpid(pid, &sts, 0);
+	if (WIFSIGNALED(sts))
+	{
+		if (WTERMSIG(sts) == SIGINT)
+			ms->exit_status = 130;
+	}
+	else
+		ms->exit_status = WEXITSTATUS(sts);
+	update_fds(ms, n, fd[0]);
+}
+
+static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
+{
+	char	*s;
+	
+	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
 		s = readline("> ");
 		if (!s)
+		{
+			ft_printf_fd(2, 
+			"minishell: warning: here-document at line "
+			"delimited by end-of-file (wanted `%s')\n", file);
 			break ;
+		}
 		if (ft_strcmp(file, s) == 0)
 		{
 			free(s);
@@ -39,9 +69,17 @@ void	here_doc(t_mini *ms, char *file, int n)
 		write(fd[1], "\n", 1);
 		free(s);
 	}
+	exit(heredoc_free(ms, file, fd, n));
+}
+
+static int heredoc_free(t_mini *ms, char *file, int *fd, int n)
+{
 	free(file);
 	close(fd[1]);
-	update_fds(ms, n, fd[0]);
+	close(fd[0]);
+	exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES, 0);
+	//falta libertar ap
+	return (0);
 }
 
 static void	update_fds(t_mini *ms, int n, int fd)

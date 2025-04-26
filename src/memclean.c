@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memclean.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 16:48:34 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:53:35 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ void	free_intarray(t_mini *ms, int pipes);
 
 int	exec_free(t_mini *ms, int pipes, int opt, int ret)
 {
-	int	i;
-
-	i = 0;
 	if (opt & 64)
 		close_redir(ms, pipes);
 	if (opt & 32)

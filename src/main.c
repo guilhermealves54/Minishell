@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	g_childrun;
+int	g_exit_status;
 
 static void	check_argc(int argc, char **argv);
 
@@ -22,10 +22,10 @@ int	main(int argc, char *argv[], char **envp)
 
 	check_argc(argc, argv);
 	ms = init(envp);
-	g_childrun = 0;
-	setup_signals();
+	g_exit_status = 0;
 	while (1)
 	{
+		ms_signals();
 		ms.input = get_input(&ms);
 		if (ms.input[0])
 		{

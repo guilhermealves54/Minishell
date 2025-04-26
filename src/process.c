@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/25 15:25:39 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:06:10 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 				ms->exit_status = ex_builtin(ms, n);
 			else if (ms->cmd[n].cmd[0])
 			{
-				g_childrun = 1;
+				ms->childrun = 1;
 				run_child(ms, pipes, n, i);
 				i++;
 			}
@@ -41,7 +41,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 	}
 	close_pipes(ms, pipes);
 	get_exit_code(ms, proc);
-	g_childrun = 0;
+	ms->childrun = 0;
 	exec_free(ms, pipes, FREE_STRUCT | FREE_CMD | FREE_FDS
 		| FREE_PIDS | FREE_REDIR, 1);
 }
@@ -91,6 +91,7 @@ static void	get_exit_code(t_mini *ms, int proc)
 	{
 		if (ms->cmd[n].cmd && ms->cmd[n].builtin == 0)
 		{
+			signal(SIGINT, &sigint_child);
 			waitpid(ms->pid[i], &ms->cmd[n].sts, 0);
 			if (WIFSIGNALED(ms->cmd[n].sts))
 				ms->exit_status = signal_sts(ms->cmd[n].sts);

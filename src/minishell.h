@@ -99,6 +99,7 @@ typedef struct s_mini
 	int		input_rec;
 	int		**fds;
 	int		*pid;
+	int		childrun;
 	t_env	*export;
 	t_exp	expand;
 	t_cmd	*cmd;
@@ -106,7 +107,7 @@ typedef struct s_mini
 }	t_mini;
 
 //	Global Variables
-extern int	g_childrun;
+extern int	g_exit_status;
 
 //	Funcs
 
@@ -125,7 +126,9 @@ char	*get_input(t_mini *ms);
 int		check_cmd(char *cmd);
 
 //	Signals
-void	setup_signals(void);
+void	ms_signals(void);
+void	sighandler(int sig);
+void	sigint_child(int sig);
 
 //	Expand
 char	*expand(char *s, t_mini *ms, int option);
