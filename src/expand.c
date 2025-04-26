@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 13:59:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:15:02 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,9 @@ char	*expand(char *s, t_mini *ms)
 	while (s[i])
 	{
 		if (ft_strncmp(s + i, "<<", 2) == 0 && check_hdoc(s, &i))
-		{
-			if (s[i + 1])
-				i++;
-		}
+			;
 		else if (s[i] == '\'')
-			update_i(s, &i, s[i]);		
+			update_i(s, &i, s[i]);
 		else if (s[i] == '$' && expand_ok(s[i +1]))
 			expand_quotes(&s, &i, ms);
 		else if (s[i] == '~')
@@ -52,9 +49,9 @@ static int	check_hdoc(char *s, int *i)
 	if (s[j] == '$')
 	{
 		*i = j;
-		return (1);		
+		return (1);
 	}
-	return (0);	
+	return (0);
 }
 
 static void	expand_quotes(char **s, int *a, t_mini *ms)
