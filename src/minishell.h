@@ -132,7 +132,7 @@ char	*expand(char *s, t_mini *ms);
 int		expand_ok(char c);
 void	expand_others(char c, t_mini *ms, int *i);
 char	*extract_slash(char *s);
-char	*check_expand(char *s);
+int		check_hdoc(char *s, int *i);
 
 //	Parsing
 int		parsing(t_mini *mini);

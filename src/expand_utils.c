@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/24 16:05:51 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:44:14 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	expand_others(char c, t_mini *ms, int *i);
 char	*extract_slash(char *s);
-char	*check_expand(char *s);
+int	check_hdoc(char *s, int *i);
 
 int	expand_ok(char c)
 {
@@ -67,28 +67,18 @@ char	*extract_slash(char *s)
 	return (temp);
 }
 
-char	*check_expand(char *s)
+int	check_hdoc(char *s, int *i)
 {
-	char	**av;
-	int		i;
-	char	*temp;
+	int	j;
 
-	i = 0;
-	av = ft_split_redir(s, ' ');
-	while (av && av[i])
+	j = *i;
+	j += 2;
+	while (s[j] == ' ' || (s[j] >= 9 && s[j] <= 13))
+		j++;
+	if (s[j] == '$')
 	{
-		if (av[i] && av[i + 1])
-		{
-			if (ft_strcmp(av[i], "<<") == 0 && av[i + 1][0] == '$')
-			{
-				temp = ft_strdup(av[i + 1]);
-				free_mem(av);
-				return (temp);
-			}
-		}
-		i++;
+		*i = j;
+		return (1);		
 	}
-	if (av)
-		free_mem(av);
-	return (NULL);
+	return (0);	
 }

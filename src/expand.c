@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/25 19:51:35 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:49:43 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,21 @@ static char	*expand_dollar(char *s, int i, t_mini *ms);
 static char	*ft_join_3(char *first, char *content, char *last);
 static void	expand_2(char **s, int *i, t_mini *ms);
 
+int	check_hdoc(char *s, int *i);
+
 char	*expand(char *s, t_mini *ms)
 {
 	int		i;
-	char	*str;
 
 	i = 0;
 	s = extract_slash(s);
-	str = check_expand(s);
 	while (s[i])
 	{
-		if (str && ft_strncmp(s + i, str, ft_strlen(str)) == 0)
-			i++;
+		if (ft_strncmp(s + i, "<<", 2) == 0 && check_hdoc(s, &i))
+		{
+			if (s[i + 1])
+				i++;
+		}
 		else if (s[i] == '\'')
 			update_i(s, &i, s[i]);
 		else if (s[i] == '\\' && s[i + 1] == '\"')
@@ -41,7 +44,6 @@ char	*expand(char *s, t_mini *ms)
 			expand_quotes(&s, &i, ms);
 		i++;
 	}
-	free(str);
 	return (s);
 }
 
