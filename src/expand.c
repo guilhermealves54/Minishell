@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 13:49:43 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:59:40 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static void	expand_quotes(char **s, int *a, t_mini *ms);
 static char	*expand_dollar(char *s, int i, t_mini *ms);
 static char	*ft_join_3(char *first, char *content, char *last);
-static void	expand_2(char **s, int *i, t_mini *ms);
-
-int	check_hdoc(char *s, int *i);
+static int	check_hdoc(char *s, int *i);
 
 char	*expand(char *s, t_mini *ms)
 {
@@ -33,11 +31,7 @@ char	*expand(char *s, t_mini *ms)
 				i++;
 		}
 		else if (s[i] == '\'')
-			update_i(s, &i, s[i]);
-		else if (s[i] == '\\' && s[i + 1] == '\"')
-			i++;
-		else if (s[i] == '\"')
-			expand_2(&s, &i, ms);
+			update_i(s, &i, s[i]);		
 		else if (s[i] == '$' && expand_ok(s[i +1]))
 			expand_quotes(&s, &i, ms);
 		else if (s[i] == '~')
@@ -47,22 +41,20 @@ char	*expand(char *s, t_mini *ms)
 	return (s);
 }
 
-static void	expand_2(char **s, int *i, t_mini *ms)
+static int	check_hdoc(char *s, int *i)
 {
-	(*i)++;
-	while ((*s)[*i] && (*s)[*i] != '\"')
+	int	j;
+
+	j = *i;
+	j += 2;
+	while (s[j] == ' ' || (s[j] >= 9 && s[j] <= 13))
+		j++;
+	if (s[j] == '$')
 	{
-		if ((*s)[*i] == '\\' && (*s)[*i + 1] == '\"')
-		{
-			(*i)++;
-		}
-		else if ((*s)[*i] == '$' && expand_ok((*s)[*i + 1]))
-		{
-			expand_quotes(s, i, ms);
-			break ;
-		}
-		(*i)++;
+		*i = j;
+		return (1);		
 	}
+	return (0);	
 }
 
 static void	expand_quotes(char **s, int *a, t_mini *ms)

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 13:44:14 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 13:59:24 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	expand_others(char c, t_mini *ms, int *i);
 char	*extract_slash(char *s);
-int	check_hdoc(char *s, int *i);
 
 int	expand_ok(char c)
 {
@@ -65,20 +64,4 @@ char	*extract_slash(char *s)
 	temp[j] = '\0';
 	free(s);
 	return (temp);
-}
-
-int	check_hdoc(char *s, int *i)
-{
-	int	j;
-
-	j = *i;
-	j += 2;
-	while (s[j] == ' ' || (s[j] >= 9 && s[j] <= 13))
-		j++;
-	if (s[j] == '$')
-	{
-		*i = j;
-		return (1);		
-	}
-	return (0);	
 }
