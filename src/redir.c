@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/25 14:04:14 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 15:58:23 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ static int	do_redir(t_mini *ms, int n, int *i, char **ap)
 
 static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 {
-	int	fd;
-
-	file = get_new_str(file);
-	fd = 0;
+	int	fd;	
+	
 	if (!file)
 		return (0);
+	if (ft_strcmp(s, "<<"))
+		file = get_new_str(file);
+	else
+		file = ft_strdup(file);		
+	fd = 0;
 	if (ft_strncmp(s, "<<", 2) == 0)
 	{
 		here_doc(mini, file, n);
@@ -75,7 +78,7 @@ static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 	else if (ft_strncmp(s, ">>", 2) == 0)
 		fd = openfile(file, 2, mini, n);
 	else if (ft_strncmp(s, ">", 1) == 0)
-		fd = openfile(file, 1, mini, n);
+		fd = openfile(file, 1, mini, n);	
 	free(file);
 	return (fd);
 }

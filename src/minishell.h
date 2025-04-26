@@ -128,7 +128,7 @@ int		check_cmd(char *cmd);
 void	setup_signals(void);
 
 //	Expand
-char	*expand(char *s, t_mini *ms);
+char	*expand(char *s, t_mini *ms, int option);
 int		expand_ok(char c);
 void	expand_others(char c, t_mini *ms, int *i);
 char	*extract_slash(char *s);

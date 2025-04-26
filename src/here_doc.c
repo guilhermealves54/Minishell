@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/22 15:05:26 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:13:54 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	here_doc(t_mini *ms, char *file, int n)
 			break ;
 		}
 		if (!quotes)
-			s = expand(s, ms);
+			s = expand(s, ms, 0);
 		write(fd[1], s, ft_strlen(s));
 		write(fd[1], "\n", 1);
 		free(s);
