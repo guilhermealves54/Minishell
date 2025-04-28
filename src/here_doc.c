@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/28 01:35:20 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:01:34 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
 		if (!s)
 		{
 			ft_printf_fd(2, 
-			"minishell: warning: here-document at line "
+			"minishell: warning: here-document at line 1"
 			"delimited by end-of-file (wanted `%s')\n", file);
 			break ;
 		}
@@ -77,9 +77,9 @@ static int heredoc_free(t_mini *ms, char *file, int *fd, int n)
 	free(file);
 	close(fd[1]);
 	close(fd[0]);
+	free_mem(ms->redirap);
 	exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES
 			| FREE_CMD, 0);
-	//ap (redir) free
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 20:35:04 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/28 14:37:57 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,40 @@
 
 static int	execute_redir(char *s, char *file, t_mini *ms, int n);
 static int	openfile(char *file, int option, t_mini *ms, int n);
-static int	do_redir(t_mini *ms, int n, int *i, char **ap);
+static int	do_redir(t_mini *ms, int n, int *i);
 static void	update_fds(t_mini *ms, int n, int option, int fd);
 
 char	**exec_redir(t_mini *ms, int n)
 {
-	char	**ap;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	ap = malloc(sizeof(char *) * (cnt_strings(ms->cmd[n].cmd) + 1));
-	if (!ap)
+	ms->redirap = malloc(sizeof(char *) * (cnt_strings(ms->cmd[n].cmd) + 1));
+	if (!ms->redirap)
 		return (NULL);
 	while (ms->cmd[n].cmd[i])
 	{
-		ap[j] = NULL;
+		ms->redirap[j] = NULL;
 		if (is_redir(ms->cmd[n].cmd[i]))
 		{
-			if (!do_redir(ms, n, &i, ap))
+			if (!do_redir(ms, n, &i))
 				return (NULL);
 		}
 		else
-			ap[j++] = ft_strdup(ms->cmd[n].cmd[i++]);
+			ms->redirap[j++] = ft_strdup(ms->cmd[n].cmd[i++]);
 	}
-	ap[j] = NULL;
+	ms->redirap[j] = NULL;
 	free_mem(ms->cmd[n].cmd);
-	return (ap);
+	return (ms->redirap);
 }
 
-static int	do_redir(t_mini *ms, int n, int *i, char **ap)
+static int	do_redir(t_mini *ms, int n, int *i)
 {
 	if (!execute_redir(ms->cmd[n].cmd[*i], ms->cmd[n].cmd[*i + 1], ms, n))
 	{
-		free_mem(ap);
+		free_mem(ms->redirap);
 		free_mem(ms->cmd[n].cmd);
 		return (0);
 	}

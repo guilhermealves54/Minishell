@@ -100,6 +100,7 @@ typedef struct s_mini
 	int		**fds;
 	int		*pid;
 	int		childrun;
+	char	**redirap;
 	t_env	*export;
 	t_exp	expand;
 	t_cmd	*cmd;
