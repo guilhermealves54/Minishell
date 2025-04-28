@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 13:59:24 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:35:04 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	expand_others(char c, t_mini *ms, int *i)
 	}
 	else if (c == '?')
 	{
-		ms->expand.content = ft_itoa(ms->exit_status);
+		ms->expand.content = ft_itoa(g_exit_status);
 		(*i)++;
 	}
 }

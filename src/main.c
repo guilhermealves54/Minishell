@@ -22,7 +22,6 @@ int	main(int argc, char *argv[], char **envp)
 
 	check_argc(argc, argv);
 	ms = init(envp);
-	g_exit_status = 0;
 	while (1)
 	{
 		ms_signals();

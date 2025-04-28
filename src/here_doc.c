@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 20:29:50 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/28 01:35:20 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	here_doc(t_mini *ms, char *file, int n)
 	if (WIFSIGNALED(sts))
 	{
 		if (WTERMSIG(sts) == SIGINT)
-			ms->exit_status = 130;
+			g_exit_status = 130;
 	}
 	else
-		ms->exit_status = WEXITSTATUS(sts);
+		g_exit_status = WEXITSTATUS(sts);
 	update_fds(ms, n, fd[0]);
 }
 
@@ -77,8 +77,9 @@ static int heredoc_free(t_mini *ms, char *file, int *fd, int n)
 	free(file);
 	close(fd[1]);
 	close(fd[0]);
-	exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES, 0);
-	//falta libertar ap
+	exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES
+			| FREE_CMD, 0);
+	//ap (redir) free
 	return (0);
 }
 

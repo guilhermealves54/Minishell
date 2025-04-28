@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 20:06:10 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:35:04 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 		if (ms->cmd[n].cmd)
 		{
 			if (ms->cmd[n].builtin == 1)
-				ms->exit_status = ex_builtin(ms, n);
+				g_exit_status = ex_builtin(ms, n);
 			else if (ms->cmd[n].cmd[0])
 			{
 				ms->childrun = 1;
@@ -94,9 +94,9 @@ static void	get_exit_code(t_mini *ms, int proc)
 			signal(SIGINT, &sigint_child);
 			waitpid(ms->pid[i], &ms->cmd[n].sts, 0);
 			if (WIFSIGNALED(ms->cmd[n].sts))
-				ms->exit_status = signal_sts(ms->cmd[n].sts);
+				g_exit_status = signal_sts(ms->cmd[n].sts);
 			else
-				ms->exit_status = WEXITSTATUS(ms->cmd[n].sts);
+				g_exit_status = WEXITSTATUS(ms->cmd[n].sts);
 			i++;
 		}
 		n++;

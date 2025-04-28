@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 15:58:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:35:04 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	openfile(char *file, int option, t_mini *ms, int n)
 	if (fd == -1)
 	{
 		ft_printf_fd(2, "minishell: %s: %s\n", file, strerror(errno));
-		ms->exit_status = 1;
+		g_exit_status = 1;
 		return (0);
 	}
 	else

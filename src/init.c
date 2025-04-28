@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:32 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 20:05:32 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:37:08 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_mini	init(char **envp)
 	ms.export = get_envp(envp);
 	ms.envp = envp;
 	ms.childrun = 0;
-	ms.exit_status = 0;
+	g_exit_status = 0;
 	return (ms);
 }
 

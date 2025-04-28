@@ -103,7 +103,6 @@ typedef struct s_mini
 	t_env	*export;
 	t_exp	expand;
 	t_cmd	*cmd;
-	int		exit_status;
 }	t_mini;
 
 //	Global Variables
