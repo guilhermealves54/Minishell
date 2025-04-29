@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/29 15:14:23 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:57:59 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ void	here_doc(t_mini *ms, char *file, int n)
 	file = check_quotes(file, &quotes);
 	pipe(fd);
 	pid = fork();
+	ms->childrun = 1;
+	signal(SIGINT, sigint_child);
 	if (pid == 0)
 		heredoc_child(ms, file, quotes, fd, n);
 	free(file);
 	close(fd[1]);
-	signal(SIGINT, &sigint_child);
 	waitpid(pid, &sts, 0);
 	if (WIFSIGNALED(sts))
 	{
@@ -45,29 +46,33 @@ void	here_doc(t_mini *ms, char *file, int n)
 
 static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
 {
+	char	buff[LINE_MAX];
 	char	*s;
-	
+	int		r;
+
+	s = NULL;
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		s = readline("> ");
-		if (!s)
+		ft_putstr_fd("> ", 0);
+		r = read(STDIN_FILENO, buff, LINE_MAX);
+		buff[r] = '\0';
+		if (r == 0)
 		{
 			ft_printf_fd(2, 
 			"minishell: warning: here-document "
 			"delimited by end-of-file (wanted `%s')\n", file);
 			break ;
 		}
-		if (ft_strcmp(file, s) == 0)
-		{
-			free(s);
+		if (r < 0)
+			exit(heredoc_free(ms, file, fd, n));
+		if (ft_strncmp(file, buff, ft_strlen(file)) == 0)
 			break ;
-		}
 		if (!quotes)
-			s = expand(s, ms, 0);
-		write(fd[1], s, ft_strlen(s));
-		write(fd[1], "\n", 1);
-		free(s);
+			s = expand(ft_strdup(buff), ms, 0);
+		write(fd[1], buff, ft_strlen(buff));
+		if (s)
+			free(s);
 	}
 	exit(heredoc_free(ms, file, fd, n));
 }
@@ -85,6 +90,7 @@ static int heredoc_free(t_mini *ms, char *file, int *fd, int n)
 
 static void	update_fds(t_mini *ms, int n, int fd)
 {
+	ms->childrun = 0;
 	ms->cmd[n].input_fd = fd;
 	if (ms->cmd[n].redirin != -1)
 		close(ms->cmd[n].redirin);

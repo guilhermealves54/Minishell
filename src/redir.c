@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/28 14:37:57 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:00:31 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	**exec_redir(t_mini *ms, int n)
 	ms->redirap = malloc(sizeof(char *) * (cnt_strings(ms->cmd[n].cmd) + 1));
 	if (!ms->redirap)
 		return (NULL);
-	while (ms->cmd[n].cmd[i])
+	g_exit_status = 0;
+	while (ms->cmd[n].cmd[i] && g_exit_status != 130)
 	{
 		ms->redirap[j] = NULL;
 		if (is_redir(ms->cmd[n].cmd[i]))
@@ -64,7 +65,7 @@ static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 	if (ft_strcmp(s, "<<"))
 		file = get_new_str(file);
 	else
-		file = ft_strdup(file);		
+		file = ft_strdup(file);
 	fd = 0;
 	if (ft_strncmp(s, "<<", 2) == 0)
 	{
