@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 20:49:37 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:24:56 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	execute_cmd(t_mini *ms)
 
 	proc = cnt_strings(ms->ap);
 	pipes = proc - 1;
+	ms->pipes = pipes;
 	ms->fds = NULL;
 	ms->pid = NULL;
 	ms->cmd = malloc(proc * sizeof(t_cmd));

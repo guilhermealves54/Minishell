@@ -6,14 +6,14 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/29 16:57:59 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:57:25 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n);
-static int	heredoc_free(t_mini *ms, char *file, int *fd, int exit);
+static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd);
+static int	heredoc_free(t_mini *ms, char *file, int *fd);
 static char	*check_quotes(char *file, int *a);
 static void	update_fds(t_mini *ms, int n, int fd);
 
@@ -23,35 +23,28 @@ void	here_doc(t_mini *ms, char *file, int n)
 	int		quotes;
 	pid_t	pid;
 	int		sts;
-	
+
 	file = check_quotes(file, &quotes);
 	pipe(fd);
 	pid = fork();
 	ms->childrun = 1;
 	signal(SIGINT, sigint_child);
 	if (pid == 0)
-		heredoc_child(ms, file, quotes, fd, n);
+		heredoc_child(ms, file, quotes, fd);
 	free(file);
 	close(fd[1]);
 	waitpid(pid, &sts, 0);
-	if (WIFSIGNALED(sts))
-	{
-		if (WTERMSIG(sts) == SIGINT)
-			g_exit_status = 130;
-	}
-	else
-		g_exit_status = WEXITSTATUS(sts);
 	update_fds(ms, n, fd[0]);
 }
 
-static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
+static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd)
 {
 	char	buff[LINE_MAX];
 	char	*s;
 	int		r;
 
 	s = NULL;
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, sigint_heredoc);
 	while (1)
 	{
 		ft_putstr_fd("> ", 0);
@@ -65,7 +58,7 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
 			break ;
 		}
 		if (r < 0)
-			exit(heredoc_free(ms, file, fd, n));
+			exit(heredoc_free(ms, file, fd));
 		if (ft_strncmp(file, buff, ft_strlen(file)) == 0)
 			break ;
 		if (!quotes)
@@ -74,16 +67,16 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
 		if (s)
 			free(s);
 	}
-	exit(heredoc_free(ms, file, fd, n));
+	exit(heredoc_free(ms, file, fd));
 }
 
-static int heredoc_free(t_mini *ms, char *file, int *fd, int n)
+static int heredoc_free(t_mini *ms, char *file, int *fd)
 {
 	free(file);
 	close(fd[1]);
 	close(fd[0]);
 	free_mem(ms->redirap);
-	exec_free(ms, n, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES
+	exec_free(ms, ms->pipes, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES
 			| FREE_CMD, 0);
 	return (0);
 }

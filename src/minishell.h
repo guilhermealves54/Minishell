@@ -100,6 +100,7 @@ typedef struct s_mini
 	int		**fds;
 	int		*pid;
 	int		childrun;
+	int		pipes;
 	char	**redirap;
 	t_env	*export;
 	t_exp	expand;
@@ -129,6 +130,7 @@ int		check_cmd(char *cmd);
 void	ms_signals(void);
 void	sighandler(int sig);
 void	sigint_child(int sig);
+void	sigint_heredoc(int sig);
 
 //	Expand
 char	*expand(char *s, t_mini *ms, int option);

@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:50 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 20:15:49 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:54:37 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	sighandler(int sig);
 void	sigint_child(int sig);
+void	sigint_heredoc(int sig);
 
 void	ms_signals(void)
 {
@@ -43,8 +44,19 @@ void	sigint_child(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		g_exit_status = 130;
+	}
+}
+
+void	sigint_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		g_exit_status = 130;
+		close(STDIN_FILENO);
 	}
 }
