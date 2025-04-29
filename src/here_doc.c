@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/28 15:01:34 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:14:23 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd, int n)
 		if (!s)
 		{
 			ft_printf_fd(2, 
-			"minishell: warning: here-document at line 1"
+			"minishell: warning: here-document "
 			"delimited by end-of-file (wanted `%s')\n", file);
 			break ;
 		}

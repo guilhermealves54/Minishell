@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:40:10 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/23 19:43:36 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:08:08 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ static long long	atolloop(const char *str, int **overf, int *sign, int i);
 void	exec_exit(t_mini *ms, int n)
 {
 	printf("exit\n");
-	clean_list(ms);
-	free_2strings(ms->prompt, ms->input);
-	split_memfree(ms);
-	exit(exec_free(ms, 0, FREE_STRUCT | FREE_CMD, exitcode(ms, n)));
+	if (exitcode(ms, n) != -1)
+	{
+		clean_list(ms);
+		free_2strings(ms->prompt, ms->input);
+		split_memfree(ms);
+		exit(exec_free(ms, 0, FREE_STRUCT | FREE_CMD, exitcode(ms, n)));
+	}
 }
 
 static int	exitcode(t_mini *ms, int n)
@@ -39,7 +42,7 @@ static int	exitcode(t_mini *ms, int n)
 	if (i == 1)
 		return (0);
 	else if (i > 2)
-		return (printf("Minishell: exit: too many arguments\n"), 1);
+		return (printf("Minishell: exit: too many arguments\n"), -1);
 	i = 0;
 	overf = 0;
 	s = get_new_str(ms->cmd[n].cmd[1]);
