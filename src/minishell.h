@@ -135,6 +135,7 @@ char	*extract_slash(char *s);
 
 //	Parsing
 int		parsing(t_mini *mini);
+char	get_last_char(t_mini *mini);
 
 //	Execute CMD
 void	execute_cmd(t_mini *ms);

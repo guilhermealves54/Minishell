@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:07:46 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/23 20:25:35 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:26:32 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	get_last_char(t_mini *mini);
 static int	errors_redir(t_mini *mini);
 static int	redir_err2(char c, char a, int i, t_mini *mini);
 static int	check_aft_redir(t_mini *ms);
+static void	print_error(char c);
 
 // returns 1 if parsing OK
 int	parsing(t_mini *mini)
@@ -34,25 +34,6 @@ int	parsing(t_mini *mini)
 		return (0);
 	}
 	return (1);
-}
-
-// returns the last char of split for spaces
-static char	get_last_char(t_mini *mini)
-{
-	char	**av;
-	int		i;
-	int		j;
-	char	c;
-
-	i = 0;
-	av = mini->av;
-	if (!av || !av[0])
-		return ('\0');
-	while (av[i])
-		i++;
-	j = ft_strlen(av[--i]);
-	c = av[i][--j];
-	return (c);
 }
 
 // return 1 if errors 0 otherwise
@@ -121,14 +102,12 @@ static int	redir_err2(char c, char a, int i, t_mini *mini)
 	d = get_last_char(mini);
 	if (i > 2)
 	{
-		ft_printf_fd(2,
-			"minishell: syntax error near unexpected token `%c'\n", c);
+		print_error(c);
 		j = 1;
 	}
 	else if (char_redir(a))
 	{
-		ft_printf_fd(2,
-			"minishell: syntax error near unexpected token `%c'\n", a);
+		print_error(a);
 		j = 1;
 	}
 	else if (!a || char_redir(d))
@@ -140,4 +119,10 @@ static int	redir_err2(char c, char a, int i, t_mini *mini)
 	if (j == 1)
 		mini->exit_status = 2;
 	return (j);
+}
+
+static void	print_error(char c)
+{
+	ft_printf_fd(2,
+		"minishell: syntax error near unexpected token `%c'\n", c);
 }
