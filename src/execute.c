@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 20:49:37 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:56:48 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static char	**get_cmd(char	*ap)
 		temp = cmd[i];
 		cmd[i] = get_new_str(cmd[i]);
 		free(temp);
+		if (check_cmd(cmd[i]))
+			break ;
 		i++;
 	}
 	return (cmd);
