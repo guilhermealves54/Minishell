@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 20:35:04 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:00 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	ex_builtin(t_mini *ms, int n)
 	else if (ft_strcmp("env", ms->cmd[n].cmd[0]) == 0)
 		return (exec_env(ms, n));
 	else if (ft_strcmp("exit", ms->cmd[n].cmd[0]) == 0)
-		return (exec_exit(ms, n), 0);
+		return (exec_exit(ms, n));
 	return (1);
 }
 

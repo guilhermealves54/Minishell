@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:08 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 17:45:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:19:42 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	check_dir(t_mini *ms, int n, int pipes)
 	if (dir)
 	{
 		closedir(dir);
-		ft_printf_fd (2, "%s: command not found\n", ms->cmd[n].cmd[0]);
+		ft_printf_fd (2, "%s: Is a directory\n", ms->cmd[n].cmd[0]);
 		exit (exec_free(ms, pipes, FREE_BASE | FREE_STRUCT | FREE_CMD | FREE_FDS
-				| FREE_PIPES | FREE_PIDS, 127));
+				| FREE_PIPES | FREE_PIDS, 126));
 	}
 }
 

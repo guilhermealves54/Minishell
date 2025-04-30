@@ -6,30 +6,37 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:40:10 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/29 15:08:08 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:46:10 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int			exitcode(t_mini *ms, int n);
+static int			exitcode(t_mini *ms, int n, int *quit);
 static int			ft_isdigitsignal(char *str);
 static long long	ft_atoll(const char *str, int *overf);
 static long long	atolloop(const char *str, int **overf, int *sign, int i);
 
-void	exec_exit(t_mini *ms, int n)
+int	exec_exit(t_mini *ms, int n)
 {
+	int	quit;
+	int	exit_code;
+
+	quit = 1;
+	exit_code = 0;
 	printf("exit\n");
-	if (exitcode(ms, n) != -1)
+	exit_code = exitcode(ms, n, &quit);
+	if (quit == 1)
 	{
 		clean_list(ms);
 		free_2strings(ms->prompt, ms->input);
 		split_memfree(ms);
-		exit(exec_free(ms, 0, FREE_STRUCT | FREE_CMD, exitcode(ms, n)));
+		exit(exec_free(ms, 0, FREE_STRUCT | FREE_CMD, exit_code));
 	}
+	return (1);
 }
 
-static int	exitcode(t_mini *ms, int n)
+static int	exitcode(t_mini *ms, int n, int *quit)
 {
 	int			i;
 	int			overf;
@@ -42,7 +49,8 @@ static int	exitcode(t_mini *ms, int n)
 	if (i == 1)
 		return (0);
 	else if (i > 2)
-		return (printf("Minishell: exit: too many arguments\n"), -1);
+		return (*quit = 0, printf(
+				"Minishell: exit: too many arguments\n"), 1);
 	i = 0;
 	overf = 0;
 	s = get_new_str(ms->cmd[n].cmd[1]);
