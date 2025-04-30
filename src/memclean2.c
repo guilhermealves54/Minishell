@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memclean2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:49:25 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 16:50:02 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/30 01:58:47 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	close_redir(t_mini *ms, int proc)
 {
 	while (proc >= 0)
 	{
-		if (ms->cmd[proc].redirin != -1)
+		if (ms->cmd[proc].redirin != -1 && ms->cmd[proc].redirin != 0)
 			close(ms->cmd[proc].redirin);
 		if (ms->cmd[proc].redirout != -1)
 			close(ms->cmd[proc].redirout);

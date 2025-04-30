@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/29 19:00:34 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/30 01:11:43 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ char	**exec_redir(t_mini *ms, int n)
 	if (!ms->redirap)
 		return (NULL);
 	g_exit_status = 0;
+	int x = 0;
+	while (ms->cmd[0].cmd[x])
+		printf ("%s\n", ms->cmd[0].cmd[x++]);
 	while (ms->cmd[n].cmd[i] && g_exit_status != 130)
 	{
 		ms->redirap[j] = NULL;

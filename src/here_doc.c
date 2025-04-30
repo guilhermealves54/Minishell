@@ -6,14 +6,14 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/29 18:57:25 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/30 02:15:09 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd);
-static int	heredoc_free(t_mini *ms, char *file, int *fd);
+static int	heredoc_free(t_mini *ms, char *file, int *fd, int sigint);
 static char	*check_quotes(char *file, int *a);
 static void	update_fds(t_mini *ms, int n, int fd);
 
@@ -26,6 +26,7 @@ void	here_doc(t_mini *ms, char *file, int n)
 
 	file = check_quotes(file, &quotes);
 	pipe(fd);
+	printf("fd0: %i, fd[1]: %i\n", fd[0], fd[1]);
 	pid = fork();
 	ms->childrun = 1;
 	signal(SIGINT, sigint_child);
@@ -58,7 +59,7 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd)
 			break ;
 		}
 		if (r < 0)
-			exit(heredoc_free(ms, file, fd));
+			exit(heredoc_free(ms, file, fd, 1));
 		if (ft_strncmp(file, buff, ft_strlen(file)) == 0)
 			break ;
 		if (!quotes)
@@ -67,17 +68,17 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd)
 		if (s)
 			free(s);
 	}
-	exit(heredoc_free(ms, file, fd));
+	exit(heredoc_free(ms, file, fd, 0));
 }
 
-static int heredoc_free(t_mini *ms, char *file, int *fd)
+static int heredoc_free(t_mini *ms, char *file, int *fd, int sigint)
 {
 	free(file);
 	close(fd[1]);
 	close(fd[0]);
 	free_mem(ms->redirap);
-	exec_free(ms, ms->pipes, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES
-			| FREE_CMD, 0);
+	exec_free(ms, ms->pipes, FREE_BASE | FREE_STRUCT | FREE_FDS | FREE_PIPES | FREE_CMD
+			| FREE_REDIR, 0);
 	return (0);
 }
 
