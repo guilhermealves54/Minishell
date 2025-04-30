@@ -190,6 +190,7 @@ int		pidnbr_cnt(t_mini *ms, int proc);
 int		list_size(t_mini *ms);
 int		char_redir(char c);
 int		white_spaces(char c);
+char	*check_quotes(char *file, int *quotes);
 
 //	Memory Clean
 void	clean_list(t_mini *ms);

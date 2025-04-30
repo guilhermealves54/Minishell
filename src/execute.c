@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/30 01:50:49 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:15:25 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,12 @@ void	execute_cmd(t_mini *ms)
 	ms->pipes = pipes;
 	ms->fds = NULL;
 	ms->pid = NULL;
-	ms->cmd = malloc(proc * sizeof(t_cmd));
+	ms->cmd = ft_calloc(proc, sizeof(t_cmd));
 	if (!ms->cmd)
 	{
 		ft_printf_fd(2, "minishell: error allocating memory\n");
 		exit(exec_free(ms, pipes, FREE_BASE, 1));
 	}
-	int x = 0;
-	while (x < proc)
-		ft_bzero(&ms->cmd[x++], sizeof(t_cmd));
 	if (pipes > 0)
 		ms->fds = crt_pipes(ms, pipes);
 	init_cmd(ms, proc, pipes);

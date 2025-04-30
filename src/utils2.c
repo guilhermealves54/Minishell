@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:46:42 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/23 19:09:24 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:35:49 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	char_redir(char c);
+int		char_redir(char c);
+char	*ft_getenv(char *var, t_mini *ms);
+char	*check_quotes(char *file, int *quotes);
 
 int	list_size(t_mini *ms)
 {
@@ -50,4 +52,18 @@ char	*ft_getenv(char *var, t_mini *ms)
 		temp = temp->next;
 	}
 	return (NULL);
+}
+
+char	*check_quotes(char *file, int *quotes)
+{
+	char	*s;
+
+	if (file[0] == '\"' || file[0] == '\'')
+	{
+		*quotes = 1;
+		s = get_new_str(file);
+		return (s);
+	}
+	*quotes = 0;
+	return (ft_strdup(file));
 }
