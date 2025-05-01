@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/30 15:19:27 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:58:50 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static int	execute_redir(char *s, char *file, t_mini *mini, int n)
 		return (0);
 	if (ft_strcmp(s, "<<"))
 		file = get_new_str(file);
+	else
+		file = ft_strdup(file);
 	fd = 0;
 	if (ft_strncmp(s, "<<", 2) == 0)
 	{
