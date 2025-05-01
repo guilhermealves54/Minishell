@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 16:12:23 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:19:08 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	check_hdoc(char *s, int *i);
 static void	expand_quotes(char **s, int *a, t_mini *ms);
 static char	*expand_dollar(char *s, int i, t_mini *ms);
 static char	*ft_join_3(char *first, char *content, char *last);
-static int	check_hdoc(char *s, int *i);
 
 char	*expand(char *s, t_mini *ms, int option)
 {
