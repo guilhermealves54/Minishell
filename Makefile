@@ -34,7 +34,7 @@ OTHER_SRCS = child.c \
 	utils.c utils2.c
 
 SRCS = $(addprefix $(BULTINS), $(BULTINS_SRCS)) \
-       $(addprefix $(SRC), $(OTHER_SRCS))
+	$(addprefix $(SRC), $(OTHER_SRCS))
 
 OBJS = $(SRCS:.c=.o)
 
