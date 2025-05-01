@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/01 16:06:58 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:57:32 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	multiple_nl(char **av, int *a);
 static void	print_quotes(t_mini *ms, int n, char *s, int i);
 static int	check_new_line(char *s, int	*a);
-char		*get_new_str(char *s);
 
 int	print_echo(t_mini *ms, char **av, int n)
 {
