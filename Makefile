@@ -67,6 +67,7 @@ fclean: clean
 re: fclean all
 
 valgrind: all
-	@valgrind --show-below-main=no --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=rl.supp -s -q ./minishell
+	@valgrind --show-below-main=no --leak-check=full --show-leak-kinds=all \
+	--track-fds=yes --track-origins=yes --suppressions=rl.supp -s -q ./minishell
 
 .PHONY: all clean fclean re
