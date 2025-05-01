@@ -6,11 +6,11 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:34:59 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/21 14:53:42 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:07:02 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	new_str(char *str, char *s, int *i, int *j);
 

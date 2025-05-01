@@ -12,14 +12,30 @@
 
 NAME = minishell
 
+BULTINS = src/bultins/
+
+SRC = src/
+
 # Srcs
-SRCS = src/main.c src/init.c src/init2.c src/memclean.c src/signals.c src/input.c src/ft_printf_fd.c \
-	src/bultins/echo.c src/expand.c src/parsing.c src/split_quotes.c src/utils.c src/execute.c src/expand_utils.c\
-	src/bultins/export.c src/bultins/order_export.c src/bultins/export_2.c src/bultins/unset.c \
-	src/bultins/export_syntax.c src/bultins/export_create.c src/bultins/exec_pwd.c src/bultins/exec_env.c \
-	src/bultins/exec_cd.c src/bultins/cd_utils.c src/bultins/cd_2.c src/bultins/exec_exit.c src/process.c \
-	src/split_redir.c src/execute2.c src/memclean2.c src/child.c src/utils2.c \
-	src/redir.c src/redir_utils.c src/bultins/echo2.c src/here_doc.c src/parsing_utils.c
+BULTINS_SRCS = echo.c echo2.c \
+	export.c export_2.c export_create.c export_syntax.c order_export.c \
+	unset.c exec_pwd.c exec_env.c exec_exit.c\
+	exec_cd.c cd_utils.c cd_2.c \
+
+OTHER_SRCS = child.c \
+	expand.c expand_utils.c execute.c execute2.c \
+	ft_printf_fd.c \
+	here_doc.c \
+	init.c init2.c input.c \
+	main.c memclean.c memclean2.c \
+	parsing.c parsing_utils.c process.c \
+	redir.c redir_utils.c \
+	signals.c split_quotes.c split_redir.c \
+	utils.c utils2.c
+
+SRCS = $(addprefix $(BULTINS), $(BULTINS_SRCS)) \
+       $(addprefix $(SRC), $(OTHER_SRCS))
+
 OBJS = $(SRCS:.c=.o)
 
 # Compiler
