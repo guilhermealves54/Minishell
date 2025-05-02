@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:38:21 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/01 14:22:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:09:41 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	**exec_redir(t_mini *ms, int n)
 		else
 			ms->redirap[j++] = ft_strdup(ms->cmd[n].cmd[i++]);
 	}
+	if (g_exit_status == 130)
+		ms->chain_stop = 1;
 	ms->redirap[j] = NULL;
 	free_mem(ms->cmd[n].cmd);
 	return (ms->redirap);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:39 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/25 17:36:44 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:12:37 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_input(t_mini *ms)
 {
 	char	*input;
 
+	ms->chain_stop = 0;
 	ms->prompt = get_prompt(ms);
 	input = readline(ms->prompt);
 	if (!input)

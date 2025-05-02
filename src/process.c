@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/30 16:36:00 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:12:10 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ex_builtin(t_mini *ms, int n);
 static void	run_child(t_mini *ms, int pipes, int n, int i);
 static void	get_exit_code(t_mini *ms, int proc);
-static int	signal_sts(int sts);
+static int	signal_sts(t_mini *ms, int sts);
 
 void	fork_proc(t_mini *ms, int proc, int pipes)
 {
@@ -24,7 +24,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes)
 
 	n = 0;
 	i = 0;
-	while (n < proc)
+	while (n < proc && ms->chain_stop != 1)
 	{
 		if (ms->cmd[n].cmd)
 		{
@@ -94,7 +94,7 @@ static void	get_exit_code(t_mini *ms, int proc)
 			signal(SIGINT, &sigint_child);
 			waitpid(ms->pid[i], &ms->cmd[n].sts, 0);
 			if (WIFSIGNALED(ms->cmd[n].sts))
-				g_exit_status = signal_sts(ms->cmd[n].sts);
+				g_exit_status = signal_sts(ms, ms->cmd[n].sts);
 			else
 				g_exit_status = WEXITSTATUS(ms->cmd[n].sts);
 			i++;
@@ -103,7 +103,7 @@ static void	get_exit_code(t_mini *ms, int proc)
 	}
 }
 
-static int	signal_sts(int sts)
+static int	signal_sts(t_mini *ms, int sts)
 {
 	int	sig;
 
@@ -114,6 +114,6 @@ static int	signal_sts(int sts)
 		return (131);
 	}
 	if (sig == SIGINT)
-		return (130);
+		return (ms->chain_stop = 1, 130);
 	return (WEXITSTATUS(sts));
 }
