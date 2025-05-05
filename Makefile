@@ -40,7 +40,7 @@ OBJS = $(SRCS:.c=.o)
 
 # Compiler
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 # Libs
 INCLUDES = -I./libft

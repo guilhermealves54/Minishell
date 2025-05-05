@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:50 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/29 17:54:37 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:38:28 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	sigint_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
 		g_exit_status = 130;
 		close(STDIN_FILENO);
 	}
