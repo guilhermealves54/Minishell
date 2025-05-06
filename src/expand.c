@@ -6,14 +6,14 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/01 15:19:08 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:18:36 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_hdoc(char *s, int *i);
-static void	expand_quotes(char **s, int *a, t_mini *ms);
+void		expand_quotes(char **s, int *a, t_mini *ms);
 static char	*expand_dollar(char *s, int i, t_mini *ms);
 static char	*ft_join_3(char *first, char *content, char *last);
 
@@ -29,6 +29,10 @@ char	*expand(char *s, t_mini *ms, int option)
 			;
 		else if (option && s[i] == '\'')
 			update_i(s, &i, s[i]);
+		else if (s[i] == '\\' && s[i + 1] == '\"')
+			i++;
+		else if (s[i] == '\"')
+			expand_2(&s, &i, ms);
 		else if (s[i] == '$' && expand_ok(s[i +1]))
 			expand_quotes(&s, &i, ms);
 		else if (s[i] == '~')
@@ -54,7 +58,7 @@ static int	check_hdoc(char *s, int *i)
 	return (0);
 }
 
-static void	expand_quotes(char **s, int *a, t_mini *ms)
+void	expand_quotes(char **s, int *a, t_mini *ms)
 {
 	char	*temp;
 

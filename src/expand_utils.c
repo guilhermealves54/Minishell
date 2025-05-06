@@ -3,17 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/26 20:35:04 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:11:14 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		expand_ok(char c);
 void	expand_others(char c, t_mini *ms, int *i);
 char	*extract_slash(char *s);
+
+void	expand_2(char **s, int *i, t_mini *ms)
+{
+	(*i)++;
+	while ((*s)[*i] && (*s)[*i] != '\"')
+	{
+		if ((*s)[*i] == '\\' && (*s)[*i + 1] == '\"')
+		{
+			(*i)++;
+		}
+		else if ((*s)[*i] == '$' && expand_ok((*s)[*i + 1]))
+		{
+			expand_quotes(s, i, ms);
+			break ;
+		}
+		(*i)++;
+	}
+}
 
 int	expand_ok(char c)
 {

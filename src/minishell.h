@@ -138,6 +138,8 @@ char	*expand(char *s, t_mini *ms, int option);
 int		expand_ok(char c);
 void	expand_others(char c, t_mini *ms, int *i);
 char	*extract_slash(char *s);
+void	expand_2(char **s, int *i, t_mini *ms);
+void	expand_quotes(char **s, int *a, t_mini *ms);
 
 //	Parsing
 int		parsing(t_mini *mini);
