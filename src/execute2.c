@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:43:42 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/02 11:20:58 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:53:07 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	*crt_pid_arr(t_mini *ms, int pid_n, int pipes)
 	pid = NULL;
 	if (pid_n > 0)
 	{
-		pid = calloc((pid_n), sizeof(int));
+		pid = ft_calloc((pid_n), sizeof(int));
 		if (!pid)
 		{
 			ft_printf_fd(2, "minishell: error allocating memory\n");
