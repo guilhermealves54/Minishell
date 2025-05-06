@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/01 12:57:10 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:43:12 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ static char	**get_cmd(char	*ap)
 
 	i = 0;
 	cmd = ft_split_redir(ap, ' ');
-	while (cmd[i] && !check_cmd(cmd[i]) && !is_redir(cmd[i]))
+	while (cmd[i] && !check_cmd(cmd[i]) && !is_redir(cmd[i])
+		&& !is_redir(cmd[i] + 1))
 	{
 		temp = cmd[i];
 		cmd[i] = get_new_str(cmd[i]);
