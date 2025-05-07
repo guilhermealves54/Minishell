@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:05:22 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/07 12:55:39 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:09:45 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	get_all_loop(int start, t_split *sp)
 		if (sp->s[sp->i] == '\\' && sp->s[sp->i + 1] == '\"')
 			sp->i++;
 		else if (sp->s[sp->i] == '\'' || sp->s[sp->i] == '\"')
-			update_i(sp->s, &sp->i, sp->s[sp->i]);		
+			update_i(sp->s, &sp->i, sp->s[sp->i]);
 		sp->i++;
 	}
 	sp->av[sp->j++] = get_str(sp->s, start, sp->i);
