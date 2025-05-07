@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/06 13:18:36 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:42:42 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ char	*expand(char *s, t_mini *ms, int option)
 		if (ft_strncmp(s + i, "<<", 2) == 0 && check_hdoc(s, &i))
 			;
 		else if (option && s[i] == '\'')
+		{
 			update_i(s, &i, s[i]);
+			if (!s[i])
+				i--;
+		}
 		else if (s[i] == '\\' && s[i + 1] == '\"')
 			i++;
 		else if (s[i] == '\"')

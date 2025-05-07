@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:08:44 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/07 12:56:38 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:23:37 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static void	skip_slash(char *s, int *i)
 		(*i)++;
 	else if (s[*i] == '\'' || s[*i] == '\"')
 		update_i(s, i, s[*i]);
-	(*i)++;
+	if (s[*i])
+		(*i)++;
 }
 
 // count strings - ft_split with quotes
@@ -77,7 +78,8 @@ static int	count_strings(char *s, char c)
 				i++;
 			else if (s[i] == '\'' || s[i] == '\"')
 				update_i(s, &i, s[i]);
-			i++;
+			if (s[i])
+				i++;
 		}
 	}
 	return (j);
@@ -109,6 +111,4 @@ void	update_i(char *s, int *i, char c)
 		else
 			(*i)++;
 	}
-	if (!s[*i])
-		(*i)--;
 }

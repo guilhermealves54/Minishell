@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 18:05:22 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/07 13:09:45 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:24:54 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int	get_all_loop(int start, t_split *sp)
 			sp->i++;
 		else if (sp->s[sp->i] == '\'' || sp->s[sp->i] == '\"')
 			update_i(sp->s, &sp->i, sp->s[sp->i]);
-		sp->i++;
+		if (sp->s[sp->i])
+			sp->i++;
 	}
 	sp->av[sp->j++] = get_str(sp->s, start, sp->i);
 	if (!sp->av[sp->j -1])
@@ -103,7 +104,8 @@ static int	count_strings_redir(char *s, char c, int j, int i)
 					i++;
 				else if (s[i] == '\'' || s[i] == '\"')
 					update_i(s, &i, s[i]);
-				i++;
+				if (s[i])
+					i++;
 			}
 		}
 	}
