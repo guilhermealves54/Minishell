@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/01 16:57:32 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:00:29 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static void	print_quotes(t_mini *ms, int n, char *s, int i)
 		}
 		else
 			write(ms->cmd[n].output_fd, &s[i], 1);
-		i++;
+		if (s[i])
+			i++;
 	}
 }
 
