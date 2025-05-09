@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:40:09 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/25 16:27:00 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:11:25 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	exec_export(t_mini *ms, char **av, int np)
 
 	i = 1;
 	n = 0;
+	if (!ms->export)
+		return (1);
 	order_envp(ms);
 	if (!av[i])
 		print_export(ms, ms->export, np);
@@ -62,7 +64,7 @@ static int	extract_export(char *s, t_mini *ms)
 	int		i;
 
 	i = 0;
-	if (s[i] == '=')
+	if (s[i] == '=' || ft_strncmp(s, "+=", 2) == 0)
 	{
 		ft_printf_fd(2,
 			"minishell: export: `%s': not a valid identifier\n", s);

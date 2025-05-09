@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:32 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/30 01:32:48 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:46:47 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_env	*get_envp(char **envp)
 
 	head = NULL;
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		create_node(&head, envp[i]);
 		i++;
