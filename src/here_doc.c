@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/09 19:43:14 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/09 21:00:37 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd)
 		r = read(STDIN_FILENO, buff, LINE_MAX);
 		buff[r] = '\0';
 		if (heredoc_child_read(ms, r, file, fd)
-			|| ft_strncmp(file, buff, ft_strlen(buff) -1) == 0)
+			|| ft_strncmp(file, buff, ft_strlen(buff) - 1) == 0)
 			break ;
 		if (!quotes)
 		{
