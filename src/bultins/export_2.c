@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:13:54 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/15 17:09:11 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:46:40 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ char	*check_content(char *content)
 	j = 0;
 	while (content[i])
 	{
-		if (char_quotes(content[i]))
+		if (content[i] == '\\' && content[i + 1] == '$')
+			i++;
+		else if (char_quotes(content[i]))
 			count_spec_char(content, &i, &j);
 		else if (content[i] == '$')
 			j++;
@@ -46,7 +48,10 @@ static void	count_spec_char(const char *content, int *i, int *j)
 	c = content[(*i)++];
 	while (content[*i] && content[*i] != c)
 	{
-		if (content[*i] == '\\' || content[*i] == '\"' || content[*i] == '$')
+		if (content[*i] == '\\' && content[*i + 1] == '$')
+			*i += 1;
+		else if (content[*i] == '\\' || content[*i] == '\"'
+			|| content[*i] == '$')
 			(*j)++;
 		(*i)++;
 	}
