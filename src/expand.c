@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/07 14:42:42 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:03:34 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_hdoc(char *s, int *i);
 void		expand_quotes(char **s, int *a, t_mini *ms);
-static char	*expand_dollar(char *s, int i, t_mini *ms);
+static char	*expand_dollar(char *s, int i, t_mini *ms, int *b);
 static char	*ft_join_3(char *first, char *content, char *last);
 
 char	*expand(char *s, t_mini *ms, int option)
@@ -65,14 +65,16 @@ static int	check_hdoc(char *s, int *i)
 void	expand_quotes(char **s, int *a, t_mini *ms)
 {
 	char	*temp;
+	int		b;
 
+	b = 0;
 	temp = *s;
-	*s = expand_dollar(*s, *a, ms);
+	*s = expand_dollar(*s, *a, ms, &b);
 	free(temp);
-	*a = -1;
+	*a = ft_strlen(*s) - b - 1;
 }
 
-static char	*expand_dollar(char *s, int i, t_mini *ms)
+static char	*expand_dollar(char *s, int i, t_mini *ms, int *b)
 {
 	ms->expand.content = NULL;
 	ms->expand.first = get_str(s, 0, i);
@@ -98,7 +100,7 @@ static char	*expand_dollar(char *s, int i, t_mini *ms)
 		free(ms->expand.var);
 	}
 	ms->expand.last = ft_join_3(ms->expand.first, ms->expand.content, s + i);
-	return (ms->expand.last);
+	return (*b = ft_strlen(s + i), ms->expand.last);
 }
 
 static char	*ft_join_3(char *first, char *content, char *last)
