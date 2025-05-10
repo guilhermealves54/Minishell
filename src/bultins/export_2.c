@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:13:54 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/10 17:46:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:52:18 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,18 @@ static char	*add_slash(char *s, int j)
 	{
 		if (char_quotes(s[i]))
 			add_slash_2(s, str, &i, &j);
+		if (s[i] == '\\' && s[i + 1] == '$')
+		{
+			str[j++] = s[i++];
+			str[j++] = s[i++];			
+		}
 		if (s[i] == '$')
 			str[j++] = '\\';
 		if (s[i])
 			str[j++] = s[i++];
 	}
 	str[j] = '\0';
-	free(s);
-	return (str);
+	return (free(s), str);
 }
 
 static void	add_slash_2(const char *s, char *str, int *i, int *j)

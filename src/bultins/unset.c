@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:46:06 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/09 20:57:46 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:16:13 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ static void	unset(char *s, t_mini *ms)
 	{
 		if (ft_strcmp(s, ev->var) == 0)
 		{
-			if (ev == ms->export && list_size(ms) > 1)
+			if (ev == ms->export)
 				ms->export = ev->next;
-			else
-				ms->export = NULL;
 			delete_node(ev->prev, ev->next);
 			free_node(ev);
 			break ;
@@ -54,6 +52,8 @@ static void	unset(char *s, t_mini *ms)
 
 static void	delete_node(t_env *prev, t_env *next)
 {
+	if (!prev && !next)
+		return ;
 	if (prev && next)
 	{
 		prev->next = next;
