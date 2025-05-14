@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:39 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/02 11:12:37 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:56:10 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_prompt(t_mini *ms)
 	if (cwd)
 	{
 		cwd = add_color(cwd, BLUE);
-		temp = ft_strjoin_3(cwd, GREEN "Minishell$" RESET, '@');
+		temp = ft_strjoin_3(cwd, GREEN"Minishell$"RESET, '@');
 		prompt = ft_strjoin(temp, " ");
 		free_2strings(cwd, temp);
 	}
@@ -48,9 +48,9 @@ static char	*get_prompt(t_mini *ms)
 	{
 		cwd = ft_getenv("PWD", ms);
 		if (!cwd)
-			return (ft_strjoin(GREEN "Minishell$" RESET, " "));
+			return (ft_strjoin(GREEN"Minishell$"RESET, " "));
 		cwd = add_color(ft_strdup(cwd), BLUE);
-		temp = ft_strjoin_3(cwd, GREEN "Minishell$" RESET, '@');
+		temp = ft_strjoin_3(cwd, GREEN"Minishell$"RESET, '@');
 		prompt = ft_strjoin(temp, " ");
 		free_2strings(cwd, temp);
 	}

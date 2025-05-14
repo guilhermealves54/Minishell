@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/10 17:03:34 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:06:20 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*expand(char *s, t_mini *ms, int option)
 		}
 		else if (s[i] == '\\' && s[i + 1] == '\"')
 			i++;
-		else if (s[i] == '\"')
+		else if (s[i] == '\"' && check_closed_quotes(s + i, 0))
 			expand_2(&s, &i, ms);
 		else if (s[i] == '$' && expand_ok(s[i +1]))
 			expand_quotes(&s, &i, ms);

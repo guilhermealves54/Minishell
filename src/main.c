@@ -28,7 +28,7 @@ int	main(int argc, char *argv[], char **envp)
 		ms.input = get_input(&ms);
 		if (ms.input[0])
 		{
-			if (check_closed_quotes(ms.input))
+			if (check_closed_quotes(ms.input, 1))
 			{
 				ms.input = expand(ms.input, &ms, 1);
 				ms.av = ft_split_redir(ms.input, ' ');
