@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:46:06 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/10 18:37:31 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:21:43 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	exec_unset(t_mini *ms, int n)
 	int		i;
 	char	**av;
 
+	if (cnt_strings(ms->ap) > 1)
+		return (0);
 	av = ms->cmd[n].cmd;
 	i = 1;
 	while (av[i])
