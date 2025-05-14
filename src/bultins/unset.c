@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:46:06 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/25 15:26:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:37:31 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	unset(char *s, t_mini *ms)
 {
 	t_env	*ev;
 
+	s = get_new_str(s);
 	ev = ms->export;
 	while (ev)
 	{
@@ -48,10 +49,13 @@ static void	unset(char *s, t_mini *ms)
 		}
 		ev = ev->next;
 	}
+	free(s);
 }
 
 static void	delete_node(t_env *prev, t_env *next)
 {
+	if (!prev && !next)
+		return ;
 	if (prev && next)
 	{
 		prev->next = next;

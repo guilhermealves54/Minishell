@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 15:54:13 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/21 16:17:13 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:26:22 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*ft_strjoin_3(char *path, char *cmd, char c);
 int		pidnbr_cnt(t_mini *ms, int proc);
 int		cnt_strings(char **av);
 
-int	check_closed_quotes(char *input)
+// 1 prints message 0 not
+int	check_closed_quotes(char *input, int option)
 {
 	int	i;
 
@@ -31,7 +32,8 @@ int	check_closed_quotes(char *input)
 			update_i(input, &i, input[i]);
 			if (!input[i])
 			{
-				printf("Not closed quotes\n");
+				if (option)
+					printf("Not closed quotes\n");
 				return (0);
 			}
 		}

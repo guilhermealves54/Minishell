@@ -22,10 +22,10 @@
 # define FREE_REDIR		64
 
 // colors
-# define BLUE	"\033[44m"
-# define RED	"\033[41m"
-# define GREEN	"\033[42m"
-# define RESET	"\033[0m"
+# define BLUE	"\001\033[44m\002"
+# define RED	"\001\033[41m\002"
+# define GREEN	"\001\033[42m\002"
+# define RESET	"\001\033[0m\002"
 
 // Includes
 # include <dirent.h>
@@ -102,6 +102,7 @@ typedef struct s_mini
 	int		childrun;
 	int		pipes;
 	int		chain_stop;
+	int		ep;
 	char	**redirap;
 	t_env	*export;
 	t_exp	expand;
@@ -185,7 +186,7 @@ char	**ft_split_redir(char *s, char c);
 // -- Others --
 char	*get_str(char *s, int start, int end);
 void	update_i(char *s, int *i, char c);
-int		check_closed_quotes(char *input);
+int		check_closed_quotes(char *input, int option);
 int		char_quotes(char c);
 char	*ft_getenv(char *var, t_mini *ms);
 char	*ft_strjoin_3(char *path, char *cmd, char c);
