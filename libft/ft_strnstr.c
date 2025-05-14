@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 11:36:26 by ruida-si          #+#    #+#             */
-/*   Updated: 2024/10/24 11:36:28 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:26:51 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static char	*get_new_str(char *s);
+static void	new_str(char *str, char *s, int *i, int *j);
 
 char	*ft_strnstr(const char *big, const char *lit, size_t len)
 {
@@ -34,12 +37,3 @@ char	*ft_strnstr(const char *big, const char *lit, size_t len)
 	}
 	return (NULL);
 }
-/*
-int main()
-{
-	char b[] = "42porto";
-	char lit[] = "rt";
-	int len = 5;
-	printf("%s\n", ft_strnstr(b, lit, len));
-}
-*/

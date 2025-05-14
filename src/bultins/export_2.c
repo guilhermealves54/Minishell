@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:13:54 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/10 18:29:29 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:16:22 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	add_slash_2(const char *s, char *str, int *i, int *j);
 
 char	*check_content(char *content)
 {
-	char	*temp;
 	int		i;
 	int		j;
 
@@ -36,9 +35,7 @@ char	*check_content(char *content)
 	}
 	if (j > 0)
 		content = add_slash(content, j);
-	temp = get_new_str(content);
-	free(content);
-	return (temp);
+	return (content);
 }
 
 static void	count_spec_char(const char *content, int *i, int *j)

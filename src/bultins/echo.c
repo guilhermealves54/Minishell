@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/14 18:16:58 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:12:31 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,13 @@ static int	multiple_nl(char **av, int *a)
 
 static void	print_quotes(t_mini *ms, int n, char *s, int i)
 {
-	char	c;
-
 	while (s[i])
 	{
 		if (s[i] == '\\' && (s[i + 1] == '\"' || s[i + 1] == '$'))
 		{
 			i++;
 			write(ms->cmd[n].output_fd, &s[i], 1);
-		}
-		else if (char_quotes(s[i]) && check_closed_quotes(s + i, 0))
-		{
-			c = s[i++];
-			while (s[i] && s[i] != c)
-			{
-				if (s[i] == '\\' && s[i + 1] == '\"')
-					i++;
-				write(ms->cmd[n].output_fd, &s[i], 1);
-				i++;
-			}
-		}
+		}		
 		else
 			write(ms->cmd[n].output_fd, &s[i], 1);
 		if (s[i])

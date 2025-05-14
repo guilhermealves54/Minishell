@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/14 18:16:20 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:34:14 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		expand_quotes(char **s, int *a, t_mini *ms);
 static char	*expand_dollar(char *s, int i, t_mini *ms, int *b);
 static char	*ft_join_3(char *first, char *content, char *last);
 
+// option 1 if not here_doc else 0
 char	*expand(char *s, t_mini *ms, int option)
 {
 	int		i;

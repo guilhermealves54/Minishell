@@ -6,14 +6,14 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 17:47:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/06 14:43:12 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:23:49 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	init_cmd(t_mini *ms, int childs, int pipes);
-static char	**get_cmd(char	*ap);
+static char	**get_cmd(t_mini *ms, int n);
 static void	input_assign(t_mini *ms, int n, int proc);
 static void	init_cmd2(t_mini *ms, int n);
 
@@ -49,7 +49,7 @@ static void	init_cmd(t_mini *ms, int proc, int pipes)
 	while (n < proc)
 	{
 		ms->cmd[n].index = n;
-		ms->cmd[n].cmd = get_cmd(ms->ap[n]);
+		ms->cmd[n].cmd = get_cmd(ms, n);
 		if (!ms->cmd[n].cmd)
 		{
 			ft_printf_fd(2, "minishell: error allocating memory\n");
@@ -83,22 +83,25 @@ static void	init_cmd2(t_mini *ms, int n)
 	}
 }
 
-static char	**get_cmd(char	*ap)
+static char	**get_cmd(t_mini *ms, int n)
 {
 	char	*temp;
 	char	**cmd;
+	char	**cmd2;
 	int		i;
 
 	i = 0;
-	cmd = ft_split_redir(ap, ' ');
-	while (cmd[i] && !check_cmd(cmd[i]) && !is_redir(cmd[i])
+	cmd = ft_split_redir(ms->ap[n], ' ');
+	while (cmd[i] && !is_redir(cmd[i])
 		&& !is_redir(cmd[i] + 1))
 	{
 		temp = cmd[i];
 		cmd[i] = get_new_str(cmd[i]);
-		free(temp);
-		if (check_cmd(cmd[i]))
-			break ;
+		if (ft_strchr(cmd[i], '$'))
+		{
+			cmd[i] = expand(cmd[i], ms, 1);
+		}
+		free(temp);		
 		i++;
 	}
 	return (cmd);
