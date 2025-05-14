@@ -102,6 +102,7 @@ typedef struct s_mini
 	int		childrun;
 	int		pipes;
 	int		chain_stop;
+	int		ep;
 	char	**redirap;
 	t_env	*export;
 	t_exp	expand;

@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/14 14:06:20 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:55:25 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,17 @@ char	*expand(char *s, t_mini *ms, int option)
 	{
 		if (ft_strncmp(s + i, "<<", 2) == 0 && check_hdoc(s, &i))
 			;
-		else if (option && s[i] == '\'')
-		{
+		else if (option && s[i] == '\'' && check_closed_quotes(s + i, 0))
 			update_i(s, &i, s[i]);
-			if (!s[i])
-				i--;
-		}
 		else if (s[i] == '\\' && s[i + 1] == '\"')
 			i++;
 		else if (s[i] == '\"' && check_closed_quotes(s + i, 0))
 			expand_2(&s, &i, ms);
 		else if (s[i] == '$' && expand_ok(s[i +1]))
+		{
 			expand_quotes(&s, &i, ms);
+			ms->ep++;
+		}
 		else if (s[i] == '~')
 			expand_quotes(&s, &i, ms);
 		i++;
