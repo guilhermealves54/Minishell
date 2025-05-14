@@ -151,6 +151,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes);
 int		**crt_pipes(t_mini *ms, int pipes);
 int		*crt_pid_arr(t_mini *ms, int pid_n, int pipes);
 void	child_proc(t_mini *ms, int n, int pipes);
+void	check_access(t_mini *ms, int pipes, int n);
 
 //  ------ Builtins ----------
 int		print_echo(t_mini *ms, char **av, int n);
