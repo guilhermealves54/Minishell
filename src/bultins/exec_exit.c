@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:40:10 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/04/30 16:46:10 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:20:07 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@ int	exec_exit(t_mini *ms, int n)
 	int	quit;
 	int	exit_code;
 
-	quit = 1;
-	exit_code = 0;
-	printf("exit\n");
+	if (ms->cmd[n].input_fd != STDIN_FILENO
+		|| ms->cmd[n].output_fd != STDOUT_FILENO)
+		quit = 0;
+	else
+	{
+		quit = 1;
+		printf("exit\n");
+	}
 	exit_code = exitcode(ms, n, &quit);
 	if (quit == 1)
 	{
@@ -33,7 +38,7 @@ int	exec_exit(t_mini *ms, int n)
 		split_memfree(ms);
 		exit(exec_free(ms, 0, FREE_STRUCT | FREE_CMD, exit_code));
 	}
-	return (1);
+	return (exit_code);
 }
 
 static int	exitcode(t_mini *ms, int n, int *quit)
@@ -48,17 +53,16 @@ static int	exitcode(t_mini *ms, int n, int *quit)
 		i++;
 	if (i == 1)
 		return (0);
-	else if (i > 2)
-		return (*quit = 0, printf(
-				"Minishell: exit: too many arguments\n"), 1);
-	i = 0;
 	overf = 0;
 	s = get_new_str(ms->cmd[n].cmd[1]);
 	ret = ft_atoll(s, &overf);
-	if (!ft_isdigitsignal(s) || overf)
+	if ((!ft_isdigitsignal(s) || overf))
 		return (printf(
 				"Minishell: exit: %s: numeric argument required\n",
 				s), free(s), 2);
+	if (i > 2)
+		return (*quit = 0, printf(
+				"Minishell: exit: too many arguments\n"), free(s), 1);
 	free(s);
 	return (ret % 256);
 }

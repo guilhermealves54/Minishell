@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:42:24 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/02 11:12:10 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 14:20:26 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ static void	get_exit_code(t_mini *ms, int proc)
 {
 	int	i;
 	int	n;
+	int	exit_bkup;
 
 	i = 0;
 	n = 0;
+	exit_bkup = g_exit_status;
 	while (n < proc)
 	{
 		if (ms->cmd[n].cmd && ms->cmd[n].builtin == 0)
@@ -101,6 +103,8 @@ static void	get_exit_code(t_mini *ms, int proc)
 		}
 		n++;
 	}
+	if (n > 0 && ms->cmd[n - 1].builtin == 1)
+		g_exit_status = exit_bkup;
 }
 
 static int	signal_sts(t_mini *ms, int sts)
