@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:32 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/14 15:47:06 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 23:44:25 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	create_node(t_env **head, char *s)
 		return ;
 	node->var = get_var(s);
 	node->content = ft_strdup(s + ft_strlen(node->var) + 1);
+	node->content_qts = ft_strdup(s + ft_strlen(node->var) + 1);
 	node->next = NULL;
 	if (!(*head))
 	{

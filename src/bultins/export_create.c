@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_create.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:44:33 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/09 20:59:40 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/15 00:05:07 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,15 @@ static void	append_node(char *var, char *content, t_env *head, t_mini *ms)
 {
 	t_env	*node;
 	t_env	*last;
+	char	*temp;
 
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return ;
 	node->content = content;
+	temp = ft_strjoin("\"", content);
+	node->content_qts = ft_strjoin(temp, "\"");
+	free(temp);
 	node->var = var;
 	node->next = NULL;
 	last = ft_last(head);

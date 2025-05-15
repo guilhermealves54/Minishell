@@ -49,6 +49,7 @@ typedef struct s_env
 {
 	char			*var;
 	char			*content;
+	char			*content_qts;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;

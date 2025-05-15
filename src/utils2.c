@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:46:42 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/30 15:35:49 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/15 00:21:33 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_getenv(char *var, t_mini *ms)
 	while (temp)
 	{
 		if (ft_strcmp(var, temp->var) == 0)
-			return (temp->content);
+			return (temp->content_qts);
 		temp = temp->next;
 	}
 	return (NULL);
