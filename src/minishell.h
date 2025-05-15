@@ -118,6 +118,7 @@ extern int	g_exit_status;
 char	**exec_redir(t_mini *mini, int n);
 int		is_redir(char *s);
 void	here_doc(t_mini *ms, char *file, int n);
+int		check_eof(char *file, char *buff);
 
 //	Printf_fd
 int		ft_printf_fd(int fd, const char *format, ...);
@@ -163,6 +164,7 @@ void	order_envp(t_mini *mini);
 char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s, int i);
 void	create_export(char *var, char *content, t_mini *mini, char c);
+void	fill_content_qts(t_env *exprt, t_env *node, char *content, int opt);
 
 // Other bultins
 int		exec_unset(t_mini *ms, int n);

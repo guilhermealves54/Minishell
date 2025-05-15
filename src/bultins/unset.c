@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:46:06 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/14 18:21:43 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:00:51 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ static void	free_node(t_env *temp)
 	{
 		free(temp->content);
 		temp->content = NULL;
+	}
+	if (temp->content_qts)
+	{
+		free(temp->content_qts);
+		temp->content_qts = NULL;
 	}
 	free(temp);
 }

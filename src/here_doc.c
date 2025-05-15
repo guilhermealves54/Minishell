@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:22:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/09 21:00:37 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:54:09 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ static void	heredoc_child(t_mini *ms, char *file, int quotes, int *fd)
 		ft_putstr_fd("> ", 0);
 		r = read(STDIN_FILENO, buff, LINE_MAX);
 		buff[r] = '\0';
-		if (heredoc_child_read(ms, r, file, fd)
-			|| ft_strncmp(file, buff, ft_strlen(buff) - 1) == 0)
+		if (heredoc_child_read(ms, r, file, fd) || check_eof(file, buff))
 			break ;
 		if (!quotes)
 		{

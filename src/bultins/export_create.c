@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:44:33 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/15 00:05:07 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:13:20 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	update_content(char *var, char *content, t_env *export, char c)
 			export->content = content;
 			free(temp);
 		}
+		fill_content_qts(export, NULL, content, 2);
 		free(var);
 		return ;
 	}
@@ -57,16 +58,16 @@ static void	update_content(char *var, char *content, t_env *export, char c)
 static void	append_node(char *var, char *content, t_env *head, t_mini *ms)
 {
 	t_env	*node;
-	t_env	*last;
-	char	*temp;
+	t_env	*last;	
 
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return ;
 	node->content = content;
-	temp = ft_strjoin("\"", content);
-	node->content_qts = ft_strjoin(temp, "\"");
-	free(temp);
+	if (content)
+		fill_content_qts(NULL, node, content, 1);
+	else
+		node->content_qts = content;
 	node->var = var;
 	node->next = NULL;
 	last = ft_last(head);
