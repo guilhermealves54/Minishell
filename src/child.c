@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 17:06:08 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/30 16:19:42 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:00:44 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void	child_proc(t_mini *ms, int n, int pipes)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	check_dir(ms, n, pipes);
-	if (ms->cmd[n].path && access (ms->cmd[n].path, X_OK) != 0)
+	if (ft_strchr(ms->cmd[n].cmd[0], '/'))
+		check_access(ms, pipes, n);
+	else
 		ms->cmd[n].path = get_path(ms, n);
 	if (!ms->cmd[n].path)
 	{

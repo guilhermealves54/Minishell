@@ -22,10 +22,10 @@ BULTINS_SRCS = echo.c echo2.c \
 	unset.c exec_pwd.c exec_env.c exec_exit.c\
 	exec_cd.c cd_utils.c cd_2.c \
 
-OTHER_SRCS = child.c \
+OTHER_SRCS = child.c child2.c \
 	expand.c expand_utils.c execute.c execute2.c \
 	ft_printf_fd.c \
-	here_doc.c \
+	here_doc.c here_doc2.c \
 	init.c init2.c input.c \
 	main.c memclean.c memclean2.c \
 	parsing.c parsing_utils.c process.c \

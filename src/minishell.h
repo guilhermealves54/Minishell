@@ -49,6 +49,7 @@ typedef struct s_env
 {
 	char			*var;
 	char			*content;
+	char			*content_qts;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
@@ -102,7 +103,6 @@ typedef struct s_mini
 	int		childrun;
 	int		pipes;
 	int		chain_stop;
-	int		ep;
 	char	**redirap;
 	t_env	*export;
 	t_exp	expand;
@@ -118,6 +118,7 @@ extern int	g_exit_status;
 char	**exec_redir(t_mini *mini, int n);
 int		is_redir(char *s);
 void	here_doc(t_mini *ms, char *file, int n);
+int		check_eof(char *file, char *buff);
 
 //	Printf_fd
 int		ft_printf_fd(int fd, const char *format, ...);
@@ -152,6 +153,7 @@ void	fork_proc(t_mini *ms, int proc, int pipes);
 int		**crt_pipes(t_mini *ms, int pipes);
 int		*crt_pid_arr(t_mini *ms, int pid_n, int pipes);
 void	child_proc(t_mini *ms, int n, int pipes);
+void	check_access(t_mini *ms, int pipes, int n);
 
 //  ------ Builtins ----------
 int		print_echo(t_mini *ms, char **av, int n);
@@ -162,6 +164,7 @@ void	order_envp(t_mini *mini);
 char	*check_content(char *content);
 int		syntax_export(char *var, char *content, char *s, int i);
 void	create_export(char *var, char *content, t_mini *mini, char c);
+void	fill_content_qts(t_env *exprt, t_env *node, char *content, int opt);
 
 // Other bultins
 int		exec_unset(t_mini *ms, int n);

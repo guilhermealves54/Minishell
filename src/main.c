@@ -30,7 +30,6 @@ int	main(int argc, char *argv[], char **envp)
 		{
 			if (check_closed_quotes(ms.input, 1))
 			{
-				ms.ep = 0;
 				ms.input = expand(ms.input, &ms, 1);
 				ms.av = ft_split_redir(ms.input, ' ');
 				ms.ap = ft_split_quotes(ms.input, '|');

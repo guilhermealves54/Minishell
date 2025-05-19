@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:33:38 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/05/14 15:55:25 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/15 00:19:17 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ char	*expand(char *s, t_mini *ms, int option)
 		else if (s[i] == '\"' && check_closed_quotes(s + i, 0))
 			expand_2(&s, &i, ms);
 		else if (s[i] == '$' && expand_ok(s[i +1]))
-		{
 			expand_quotes(&s, &i, ms);
-			ms->ep++;
-		}
 		else if (s[i] == '~')
 			expand_quotes(&s, &i, ms);
 		i++;

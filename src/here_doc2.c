@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   here_doc2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 13:01:35 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/15 12:05:57 by gribeiro         ###   ########.fr       */
+/*   Created: 2025/05/15 12:53:58 by gribeiro          #+#    #+#             */
+/*   Updated: 2025/05/15 12:54:20 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strchr(const char *str, int c)
+int	check_eof(char *file, char *buff)
 {
-	int	i;
-
-	i = 0;
-	if ((char)c == '\0')
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == (char)c)
-			return ((char *)str + i);
-		i++;
-	}
-	return (NULL);
+	if (ft_strncmp(file, buff, ft_strlen(buff) - 1) == 0
+		&& ft_strncmp(file, buff, ft_strlen(file)) == 0)
+		return (1);
+	return (0);
 }
-/*
-int main()
-{
-	char str[] = "Rui Crampos";
-	int c = 'm';
-	printf("%s\n", ft_strchr(str, c));
-	printf("%s\n", strchr(str, c));
-}
-*/

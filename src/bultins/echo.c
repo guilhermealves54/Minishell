@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 17:55:02 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/14 16:00:09 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:16:58 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	print_echo(t_mini *ms, char **av, int n)
 	while (av[i])
 	{
 		print_quotes(ms, n, av[i], 0);
-		if (ms->ep > 0)
-			ms->ep--;
 		i++;
 		if (av[i])
 			write(ms->cmd[n].output_fd, " ", 1);
@@ -65,7 +63,7 @@ static void	print_quotes(t_mini *ms, int n, char *s, int i)
 			i++;
 			write(ms->cmd[n].output_fd, &s[i], 1);
 		}
-		else if (char_quotes(s[i]) && check_closed_quotes(s + i, 0) && !ms->ep)
+		else if (char_quotes(s[i]) && check_closed_quotes(s + i, 0))
 		{
 			c = s[i++];
 			while (s[i] && s[i] != c)

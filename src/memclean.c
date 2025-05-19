@@ -6,7 +6,7 @@
 /*   By: gribeiro <gribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 18:20:43 by gribeiro          #+#    #+#             */
-/*   Updated: 2025/04/26 17:53:35 by gribeiro         ###   ########.fr       */
+/*   Updated: 2025/05/15 00:07:34 by gribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	clean_list(t_mini *ms)
 		current = tmp->next;
 		free(tmp->var);
 		free(tmp->content);
+		free(tmp->content_qts);
 		free(tmp);
 		tmp = current;
 	}
