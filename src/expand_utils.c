@@ -6,7 +6,7 @@
 /*   By: ruida-si <ruida-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 13:00:34 by ruida-si          #+#    #+#             */
-/*   Updated: 2025/05/14 15:27:05 by ruida-si         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:59:14 by ruida-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	expand_2(char **s, int *i, t_mini *ms)
 
 int	expand_ok(char c)
 {
-	if (ft_isalnum(c) || c == '$' || c == '?' || char_quotes(c))
+	if (ft_isalnum(c) || c == '$' || c == '?')
 		return (1);
 	return (0);
 }
